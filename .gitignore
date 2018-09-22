@@ -8,6 +8,7 @@
 # backend node javascript
 
 # latex
+documentation/*.pdf
 documentation/*.aux
 documentation/*.log
 documentation/*.run.xml
