@@ -7,6 +7,7 @@
 * expand development environment by adding dependency-commands for docker-container.
 * minimize backend to just backend-stuff
 * customize react-app/express-backend to match our requirements
+* build a autoload on change for frontend and backend? (maybe this already works...)
 
 ## Infos
 * Frontend was initialized by `create-react-app`
@@ -23,4 +24,14 @@
 * A folder `backend` as server service handling the requests.
 * A folder `data` as mongodb volume.
 
+## Frontend
+After starting the server with `docker-compose up` you can access the frontend on `localhost:3000`
+### Development
+* Adding a new requirement to `package.json` requires a build refresh `docker-compose build && docker-compose up` (maybe should be simplyfied in a `makefile`)
 
+
+## Backend
+After starting `docker-compose up` in the root directory enter `localhost:5001`
+
+### Development
+* Adding a new requirement to `package.json` requires a build refresh `docker-compose build && docker-compose up` (maybe should be simplyfied in a `makefile`)
