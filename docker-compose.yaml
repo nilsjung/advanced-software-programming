@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+    backend:
+        container_name: "nodejs_server"
+        build:
+            context: ./backend
+        volumes:
+            - ./backend/routes:/server/routes
+            - ./backend/bin:/server/bin
+            - ./backend/public:/server/public
+            - ./backend/views:/server/views
+        environment:
+            env_file: .env
+            PORT: 5001
+        depends_on:
+            - mongodb
+        ports:
+            - 5001:5001
+
+    app:
+        container_name: "react_app"
+        build:
+            context: ./app
+        volumes:
+            - ./app/public:/app/public
+            - ./app/src:/app/src
+        environment:
+            env_file: .env
+        ports:
+            - 3000:3000
+
+    mongodb:
+        image: mongo
+        restart: always
+        environment:
+            env_file: .env
+        volumes:
+            - ./data:/data/db
+        ports:
+            - 27017:27017

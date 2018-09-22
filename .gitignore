@@ -1,0 +1,20 @@
+
+# general javascript modules
+**/node_modules
+
+# frontend javascript
+
+
+# backend node javascript
+
+# latex
+documentation/*.aux
+documentation/*.log
+documentation/*.run.xml
+documentation/*.synctex.gz
+documentation/*.fls
+documentation/*.bcf
+documentation/*.*latexmk
+
+# database
+/data

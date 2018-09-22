@@ -1,0 +1,13 @@
+FROM node:10.11-alpine
+
+RUN mkdir -p /server
+
+COPY ./package*.json /server/
+
+
+WORKDIR /server
+COPY . .
+
+RUN npm install -qy
+
+CMD ["npm", "start"]

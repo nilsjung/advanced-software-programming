@@ -1,0 +1,14 @@
+FROM node:10.11-alpine
+
+RUN mkdir -p /app
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install
+
+EXPOSE 5001
+
+CMD npm run build && npm start
+
