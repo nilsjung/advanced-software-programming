@@ -9,7 +9,9 @@ var debug = require('debug')('backend:server');
 var http = require('http');
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://mongodb/main', {
+var dbHost = require('../config/database')
+
+mongoose.connect(dbHost.url, {
     useNewUrlParser: true,
 });
 

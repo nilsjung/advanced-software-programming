@@ -8,6 +8,7 @@ services:
         volumes:
             - ./backend/routes:/server/routes
             - ./backend/bin:/server/bin
+            - ./backend/config:/server/config
             - ./backend/public:/server/public
             - ./backend/views:/server/views
         env_file: .env

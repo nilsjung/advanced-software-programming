@@ -13,6 +13,7 @@
 * Frontend was initialized by `create-react-app`
 * Backend was initialized by `express-generator`
 * MongoDB for database support
+* When adding a new folder you have to add the new folder to the `docker-compose.yaml` and restart docker-compose.
 
 ## Requirements
 * docker
