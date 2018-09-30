@@ -18,7 +18,7 @@
 ## Requirements
 * docker
 * docker-compose
-
+* make (for testing)
 
 ## Content
 * A folder `frontend` as web-app based on ReactJS
@@ -36,3 +36,6 @@ After starting `docker-compose up` in the root directory enter `localhost:5001`
 
 ### Development
 * Adding a new requirement to `package.json` requires a build refresh `docker-compose build && docker-compose up` (maybe should be simplyfied in a `makefile`)
+
+### Testing
+There is already a rudimentary testing possibility. `make test` starts the test routine that is defined in the `package.json` within the docker-container. This has to be improved. 
