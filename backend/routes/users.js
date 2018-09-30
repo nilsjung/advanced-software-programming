@@ -1,62 +1,90 @@
+/**
+ * User Route
+ *
+ * Methods:
+ * GET /users
+ * GET /users/:id
+ * POST /users
+ * PUT /users/:id
+ * DELETE /users
+ * DELETE /users/:id
+ */
+
 var express = require('express');
 var router = express.Router();
 
-var mongoose = require('mongoose');
+var User = require('../model/user');
 
-var UserSchema = new mongoose.Schema({
-    firstname: String,
-    lastname: String,
-    age: Number,
+/**
+ * GET /users
+ */
+router.get('/', (req, res) => {
+    User.find({}, (err, users) => {
+
+        if (err) {
+            res.end(err);
+        }
+
+        res.contentType('application/json');
+        res.json(users);
+    });
 });
 
-var User = mongoose.model('User', UserSchema);
-
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-    User.find({}).exec(function(err, result) {
-        if(!err) {
-            var string = JSON.stringify(result, undefined, 2);
-
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(string);
+router.get('/:id', (req, res) => {
+    User.findById(req.params.id, (err, user) => {
+        if (err) {
+            res.send(err);
         } else {
-            res.writeHead(500, {'Content-Type': 'text/html'})
-            res.end('Error while loading User')
+            res.json(user);
         }
     });
 });
 
-router.post('/', function(req, res) {
-    var firstname = req.body.firstname || '';
-    var lastname = req.body.lastname || '';
-    var age = req.body.age || null;
+/**
+ * POST /users
+ */
+router.post('/', (req, res) => {
 
-    var newUser = new User({
-        firstname: firstname,
-        lastname: lastname,
-        age: age
-    })
+    var newUser = new User(req.body);
 
-    newUser.save(function(err) {
+    newUser.save((err, user) => {
         if (err) {
-            res.writeHead(500, {'Content-Type': 'text/html'});
-            res.end("Error while saving");
+            res.send(err);
+        } else {
+            res.json({message: 'user created', user});
         }
-    })
-    res.writeHead(200, {'Conntent-Type': 'text/html'});
-    res.end('User successfully saved')
+    });
+
 });
 
-router.delete('/', function(req, res){
-    User.remove({}, function(err) {
+/**
+ * DELETE /users
+ */
+router.delete('/', (req, res) => {
+
+    User.remove({}, (err, result) => {
         if (err) {
-            res.writeHead(500, {'Content-Type': 'text/html'});
-            res.end("<h2>Error</h2><div>error while deleting all user data in database.</div>");
+            res.send(err);
         } else {
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.end("<h2>Done</h2><div>all data cleared for model <emph>user</emph></div>");
+            res.json({message: 'deleted all users', user: result});
         }
-    })
+    });
+});
+
+/**
+ * DELETE /users/:id
+ */
+router.delete('/:id', (req, res) => {
+    let id = req.params.id;
+
+    User.findByIdAndRemove({'_id': id}, (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json({message: 'deleted user with id' + id, result});
+        }
+
+    });
 });
 
 module.exports = router;
