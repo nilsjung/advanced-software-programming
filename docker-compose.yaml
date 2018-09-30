@@ -11,6 +11,9 @@ services:
             - ./backend/config:/server/config
             - ./backend/public:/server/public
             - ./backend/views:/server/views
+            - ./backend/model:/server/model
+            - ./backend/mixins:/server/mixins
+            - ./backend/test:/server/test
         env_file: .env
         environment:
             PORT: 5001
