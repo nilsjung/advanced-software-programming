@@ -6,14 +6,8 @@ services:
         build:
             context: ./backend
         volumes:
-            - ./backend/routes:/server/routes
-            - ./backend/bin:/server/bin
-            - ./backend/config:/server/config
-            - ./backend/public:/server/public
-            - ./backend/views:/server/views
-            - ./backend/model:/server/model
-            - ./backend/mixins:/server/mixins
-            - ./backend/test:/server/test
+            - ./backend/:/server/
+            - /server/node_modules
         env_file: .env
         environment:
             PORT: 5001
@@ -29,14 +23,14 @@ services:
         build:
             context: ./app
         volumes:
-            - ./app/public:/app/public
-            - ./app/src:/app/src
+            - ./app:/app
+            - /app/node_modules
         env_file: .env
         ports:
             - 3000:3000
 
     mongodb:
-        image: mongo
+        image: mongo:4.0
         restart: always
         env_file: .env
         volumes:
