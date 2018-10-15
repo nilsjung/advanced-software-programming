@@ -1,41 +1,33 @@
 /**
- * User Route
- *
- * Methods:
- * GET /users
- * GET /users/:id
- * POST /users
- * PUT /users/:id
- * DELETE /users
- * DELETE /users/:id
+ * Message Route
  */
 
 var express = require('express');
 var router = express.Router();
 
-var User = require('../model').User;
+var Message = require('../model').Message;
 
 /**
  * GET /users
  */
 router.get('/', (req, res) => {
-    User.find({}, (err, users) => {
+    Message.find({}, (err, messages) => {
 
         if (err) {
             res.end(err);
         }
 
         res.contentType('application/json');
-        res.json(users);
+        res.json(messages || {});
     });
 });
 
 router.get('/:id', (req, res) => {
-    User.findById(req.params.id, (err, user) => {
+    Message.findById(req.params.id, (err, messages) => {
         if (err) {
             res.send(err);
         } else {
-            res.json(user);
+            res.json(messages);
         }
     });
 });
@@ -45,15 +37,16 @@ router.get('/:id', (req, res) => {
  */
 router.post('/', (req, res) => {
 
-    var newUser = new User(req.body);
+    var currentMessage = new Message(req.body);
 
-    newUser.save((err, user) => {
+    currentMessage.save((err, result) => {
         if (err) {
             res.send(err);
         } else {
-            res.json({message: 'user created', user});
+            res.json({message: 'user created', result});
         }
     });
+
 });
 
 /**
@@ -61,11 +54,11 @@ router.post('/', (req, res) => {
  */
 router.delete('/', (req, res) => {
 
-    User.remove({}, (err, result) => {
+    Message.remove({}, (err, result) => {
         if (err) {
             res.send(err);
         } else {
-            res.json({message: 'deleted all users', user: result});
+            res.json({message: 'deleted all users', result});
         }
     });
 });
@@ -76,7 +69,7 @@ router.delete('/', (req, res) => {
 router.delete('/:id', (req, res) => {
     let id = req.params.id;
 
-    User.findByIdAndRemove({'_id': id}, (err, result) => {
+    Message.findByIdAndRemove({'_id': id}, (err, result) => {
         if (err) {
             res.send(err);
         } else {
