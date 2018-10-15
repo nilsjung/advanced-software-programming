@@ -30,7 +30,7 @@ services:
             - 3000:3000
 
     mongodb:
-        image: mongo
+        image: mongo:4.0
         restart: always
         env_file: .env
         volumes:
