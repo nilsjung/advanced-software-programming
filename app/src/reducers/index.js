@@ -7,10 +7,10 @@ export default function (initialState) {
         if (action.type === ADD_MESSAGE || action.type === ADD_RESPONSE) {
             console.log(action.type, action.message)
             console.log(currentMessages)
-            let messages = currentMessages.map((message) => Object.assign({}, message));
+            let messages = currentMessages.map((message) =>  ({...message}));
 
             console.log(messages, action.message)
-            messages.push(Object.assign({}, action.message));
+            messages.push({...action.message});
             return messages;
         }
 
