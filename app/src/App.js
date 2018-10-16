@@ -13,15 +13,21 @@ class App extends Component {
         let {messages, currentMessage, updateMessage, addMessage, userId} = this.props;
 
         return (
-            <div className="ChatApp">
-                <MessagesList userId={userId} messages={messages} />
-                <TextInput
-                    userId={userId}
-                    value={currentMessage}
-                    onChange={updateMessage}
-                    onSubmit={addMessage}
-                    onClick={addMessage}
-                />
+            <div className='ChatApp'>
+                <div class='container'>
+                    <div class='row'>
+                        <div class='col'>
+                        <MessagesList userId={userId} messages={messages} />
+                        <TextInput
+                            userId={userId}
+                            value={currentMessage}
+                            onChange={updateMessage}
+                            onSubmit={addMessage}
+                            onClick={addMessage}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
