@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test';
 let User = require('../model/user');
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-let app = require('../bin/www');
+let app = require('../app.js');
 
 let should = chai.should();
 
@@ -80,7 +80,6 @@ describe('User', () => {
                     res.body.user.should.have.property('lastname');
                     res.body.user.should.have.property('firstname');
                     res.body.user.should.have.property('email');
-                    res.body.user.should.have.property('age');
                     done();
                 });
         });
