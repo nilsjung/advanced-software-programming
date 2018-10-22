@@ -1,38 +1,36 @@
 
 import {combineReducers} from 'redux';
-import { UPDATE_MESSAGE, ADD_MESSAGE, ADD_RESPONSE, SET_USER_ID } from '../actions/message-actions';
+import { SET_USER_ID } from '../actions/message-actions';
+import {registerReducer} from './registerReducer'
+import {messagesReducer, currentMessageReducer} from './messageReducer';
 
+
+/**
+ * This is the main reducer. delegates the work to the specialized sub-reducer.
+ *
+ * TODO: improve structure
+ *
+ * @param {Object} initialState The initial state
+ */
 export default function (initialState) {
-    function messages(currentMessages=initialState.messages, action) {
-        if (action.type === ADD_MESSAGE || action.type === ADD_RESPONSE) {
-            console.log(action.type, action.message)
-            console.log(currentMessages)
-            let messages = currentMessages.map((message) =>  ({...message}));
-
-            console.log(messages, action.message)
-            messages.push({...action.message});
-            return messages;
-        }
-
-        return currentMessages;
+    function messages(currentMessages = initialState.messages, action) {
+        return messagesReducer(currentMessages, action);
     }
 
-    function currentMessage(currentMessage=initialState.currentMessage, action) {
-        if (action.type === UPDATE_MESSAGE) {
-            return action.message;
-        } else if (action.type === ADD_MESSAGE) {
-            return '';
-        }
-
-        return currentMessage;
+    function currentMessage(currentMessage = initialState.currentMessage, action) {
+        return currentMessageReducer(currentMessage, action);
     }
 
-    function userId(currentUserId=initialState.userId, action) {
+    function userId(currentUserId = initialState.userId, action) {
         if (action.type === SET_USER_ID) {
             return action.userId;
         }
         return  currentUserId;
     }
 
-    return combineReducers({userId, currentMessage, messages});
+    function registerUser(state = initialState, action) {
+        return registerReducer(state, action);
+    }
+
+    return combineReducers({userId, currentMessage, messages, registerUser});
 }

@@ -1,27 +1,70 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
 
+import * as actions from '../actions/register-actions';
 
 class Register extends React.Component {
+
+    register = (user) => {
+        this.props.registerUser(user)
+    }
+
+    handleSubmitButton = (event) => {
+        event.preventDefault();
+        const user = {
+            firstname: '',
+            lastname: '',
+            password: '',
+            email: ''
+        }
+
+        return this.register(user)
+    }
+
     render() {
         return (
             <div className='container'>
-                <h1>Login/Register</h1>
+                <div className='h2'>Login/Register</div>
                 <form>
-                    <div class='form-group'>
-                        <label for='registrationEmail'>Email address</label>
-                        <input type='email' class='form-control' id='registrationEmail' aria-describedby='emailHelp' placeholder='Enter email' />
-                        <small id='emailHelp' class='form-text text-muted'>We'll never share your email with anyone else.</small>
+                    <div className='form-group'>
+                        <label htmlFor='registrationEmail'>Email address</label>
+                        <input type='email' className='form-control' id='registrationEmail' aria-describedby='emailHelp' placeholder='Enter your email' />
+                        <small id='emailHelp' className='form-text text-muted'>We'll never share your email with anyone else.</small>
                     </div>
-                    <div class='form-group'>
-                        <label for='registrationPassword'>Password</label>
-                        <input type='password' class='form-control' id='registrationPassword' placeholder='Password' />
+                    <div className='form-group'>
+                        <label htmlFor='registrationFirstname'>First Name</label>
+                        <input type='text' className='form-control' id='registrationFirstname' aria-describedby='' placeholder='Enter yourt first name' />
                     </div>
-                    <button type='submit' class='btn btn-primary'>Register</button>
+                    <div className='form-group'>
+                        <label htmlFor='registrationLastname'>Last Name</label>
+                        <input type='text' className='form-control' id='registrationLastname' aria-describedby='emailHelp' placeholder='Enter your last name' />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor='registrationPassword'>Password</label>
+                        <input type='password' className='form-control' id='registrationPassword' placeholder='Password' />
+                    </div>
+                    <button className='btn btn-primary' onClick={this.handleSubmitButton}>Register</button>
                 </form>
             </div>
         );
     }
 }
 
-export default Register;
+function mapStateToProps(state) {
+    return {
+        userId: state.userId,
+        messages: state.messages,
+        currentMessage: state.currentMessage
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        registerUser: actions.registerUser,
+    }, dispatch);
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Register));
