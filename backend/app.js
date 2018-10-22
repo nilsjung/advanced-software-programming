@@ -70,7 +70,6 @@ app.use(function(err, req, res) {
 /**
  * Get port from environment and store in Express.
  */
-
 var port = process.env.PORT || '3000';
 
 var io = require('socket.io').listen(app.listen(port));
@@ -95,3 +94,6 @@ io.sockets.on('connection', function(socket) {
         connections.splice(index, 1);
     });
 });
+
+// export for testing
+module.exports = app;
