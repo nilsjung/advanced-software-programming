@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {withRouter} from 'react-router-dom';
 import * as messageActionCreators from  './actions/message-actions';
 
 import './App.css';
@@ -42,4 +43,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
