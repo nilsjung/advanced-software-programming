@@ -15,7 +15,13 @@ import Register from './components/Login';
 import startChat, {chatMiddleware} from './api';
 
 const initialState = {
+    user: {
     userId: '',
+        email: '',
+        firstname: '',
+        lastname: '',
+        password: '',
+    },
     messages: [],
     currentMessage: '',
     success: true,

@@ -24,9 +24,9 @@ export function addResponse(message) {
     }
 }
 
-export function setUserId(userId) {
+export function setUserId(user) {
     return {
         type: SET_USER_ID,
-        userId,
+        userId: user.userId,
     }
 }
