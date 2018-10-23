@@ -19,7 +19,6 @@ mongoose.connect(config.dbHost, {
 });
 
 const db = mongoose.connection;
-db.on('error', logger('database connection error: '));
 db.once('open', function() {
     debug('succesfully loaded database');
 });
@@ -43,6 +42,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Disable CORS
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
 
 /**
  * define your endpoints
