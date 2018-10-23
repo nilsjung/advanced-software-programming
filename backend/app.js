@@ -19,7 +19,6 @@ mongoose.connect(config.dbHost, {
 });
 
 const db = mongoose.connection;
-db.on('error', logger('database connection error: '));
 db.once('open', function() {
     debug('succesfully loaded database');
 });
