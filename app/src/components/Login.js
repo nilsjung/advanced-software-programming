@@ -15,36 +15,53 @@ class Register extends React.Component {
     handleSubmitButton = (event) => {
         event.preventDefault();
         const user = {
-            firstname: '',
-            lastname: '',
-            password: '',
-            email: ''
+            firstname: document.getElementById('registrationFirstname').value,
+            lastname: document.getElementById('registrationLastname').value,
+            password: document.getElementById('registrationPassword').value,
+            email: document.getElementById('registrationEmail').value
         }
 
         return this.register(user)
     }
 
     render() {
+        let alert;
+        if (this.props.hasErrored) {
+
+            alert = <div class='alert alert-danger'>this.props.message</div>
+
+        } else if (this.props.isLoading) {
+
+            alert = <div class='alert alert-success'>{this.props.message}</div>
+
+        }
+
+        if (this.props.isLoading) {
+            return (<p>loading...</p>)
+        }
+
         return (
             <div className='container'>
                 <div className='h2'>Login/Register</div>
+                {alert}
+
                 <form>
                     <div className='form-group'>
                         <label htmlFor='registrationEmail'>Email address</label>
-                        <input type='email' className='form-control' id='registrationEmail' aria-describedby='emailHelp' placeholder='Enter your email' />
+                        <input type='email' className='form-control' value='nils.jung@networkteam.com' id='registrationEmail' aria-describedby='emailHelp' placeholder='Enter your email' />
                         <small id='emailHelp' className='form-text text-muted'>We'll never share your email with anyone else.</small>
                     </div>
                     <div className='form-group'>
                         <label htmlFor='registrationFirstname'>First Name</label>
-                        <input type='text' className='form-control' id='registrationFirstname' aria-describedby='' placeholder='Enter yourt first name' />
+                        <input type='text' className='form-control' value='Nils' id='registrationFirstname' aria-describedby='' placeholder='Enter yourt first name' />
                     </div>
                     <div className='form-group'>
                         <label htmlFor='registrationLastname'>Last Name</label>
-                        <input type='text' className='form-control' id='registrationLastname' aria-describedby='emailHelp' placeholder='Enter your last name' />
+                        <input type='text' className='form-control' value='Jung' id='registrationLastname' aria-describedby='emailHelp' placeholder='Enter your last name' />
                     </div>
                     <div className='form-group'>
                         <label htmlFor='registrationPassword'>Password</label>
-                        <input type='password' className='form-control' id='registrationPassword' placeholder='Password' />
+                        <input type='password' className='form-control' value='12345678' id='registrationPassword' placeholder='Password' />
                     </div>
                     <button className='btn btn-primary' onClick={this.handleSubmitButton}>Register</button>
                 </form>
@@ -55,9 +72,10 @@ class Register extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        userId: state.userId,
-        messages: state.messages,
-        currentMessage: state.currentMessage
+        user: state.user,
+        hasErrored: state.hasErrored,
+        isLoading: state.isLoading,
+        message: state.infoMessage,
     }
 }
 
