@@ -13,7 +13,7 @@ class TextInput extends Component {
                 const message = this.props.value.trim();
                 if (message) {
                     this.props.onSubmit({
-                        userId: this.props.userId,
+                        user: this.props.user,
                         text: message,
                         timestamp: new Date(),
                     });
@@ -28,7 +28,7 @@ class TextInput extends Component {
 
             if (message) {
                 this.props.onSubmit({
-                    userId: this.props.userId,
+                    user: this.props.user,
                     text: message,
                     timestamp: new Date(),
                 });

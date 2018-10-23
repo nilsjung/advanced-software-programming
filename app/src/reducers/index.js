@@ -1,7 +1,7 @@
 
 import {combineReducers} from 'redux';
 import { SET_USER_ID } from '../actions/message-actions';
-import {registerReducer} from './registerReducer'
+import { registerReducer, isLoading} from './registerReducer'
 import {messagesReducer, currentMessageReducer} from './messageReducer';
 
 
@@ -21,7 +21,7 @@ export default function (initialState) {
         return currentMessageReducer(currentMessage, action);
     }
 
-    function userId(currentUserId = initialState.userId, action) {
+    function userId(currentUserId = initialState.user.userId, action) {
         if (action.type === SET_USER_ID) {
             return action.userId;
         }
@@ -32,5 +32,9 @@ export default function (initialState) {
         return registerReducer(state, action);
     }
 
-    return combineReducers({userId, currentMessage, messages, registerUser});
+    function registerUserIsLoading (state = initialState, action) {
+        return isLoading(state, action);
+    }
+
+    return combineReducers({ userId, currentMessage, messages, registerUser, registerUserIsLoading});
 }

@@ -16,7 +16,7 @@ import startChat, {chatMiddleware} from './api';
 
 const initialState = {
     user: {
-    userId: '',
+        userId: '',
         email: '',
         firstname: '',
         lastname: '',
@@ -24,7 +24,9 @@ const initialState = {
     },
     messages: [],
     currentMessage: '',
-    success: true,
+    hasErrored: null,
+    isLoading: false,
+    infoMessage: '',
 }
 
 const createStoreWithMiddleware = applyMiddleware(chatMiddleware, thunk)(createStore)
