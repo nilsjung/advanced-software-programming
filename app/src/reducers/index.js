@@ -1,7 +1,7 @@
 
 import {combineReducers} from 'redux';
 import { SET_USER_ID } from '../actions/message-actions';
-import { registerReducer, isLoading} from './registerReducer'
+import { isLoading, registrationHasFailed, isSuccess} from './registerReducer'
 import {messagesReducer, currentMessageReducer} from './messageReducer';
 
 
@@ -28,13 +28,17 @@ export default function (initialState) {
         return  currentUserId;
     }
 
-    function registerUser(state = initialState, action) {
-        return registerReducer(state, action);
+    function registrationFailed(state = initialState, action) {
+        return registrationHasFailed(state, action);
+    }
+
+    function registrationSucceed(state = initialState, action) {
+        return isSuccess(state, action);
     }
 
     function registerUserIsLoading (state = initialState, action) {
         return isLoading(state, action);
     }
 
-    return combineReducers({ userId, currentMessage, messages, registerUser, registerUserIsLoading});
+    return combineReducers({ userId, currentMessage, messages, registerUserIsLoading, registrationFailed, registrationSucceed});
 }

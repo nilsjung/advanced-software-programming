@@ -25,8 +25,9 @@ const initialState = {
     messages: [],
     currentMessage: '',
     hasErrored: null,
-    isLoading: false,
+    isLoading: null,
     infoMessage: '',
+    isSuccess: null,
 }
 
 const createStoreWithMiddleware = applyMiddleware(chatMiddleware, thunk)(createStore)

@@ -28,7 +28,7 @@ export default function(store) {
     socket = io.connect('http://localhost:5001');
 
     socket.on('start', (data) => {
-        store.dispatch(actions.setUserId(data.userId))
+        store.dispatch(actions.setUserId(data))
     })
 
     socket.on('message', (data) => {
