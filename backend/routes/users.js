@@ -10,10 +10,12 @@
  * DELETE /users/:id
  */
 
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var User = require('../model').User;
+const User = require('../model/user');
+
+const defined = require('../mixins/helper');
 
 /**
  * GET /users
@@ -45,14 +47,29 @@ router.get('/:id', (req, res) => {
  */
 router.post('/', (req, res) => {
 
-    var newUser = new User(req.body);
+    var registerEmail = req.body.email;
 
-    newUser.save((err, user) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json({message: 'user created', user});
+    User.findOne({email: registerEmail}, (err, user) => {
+
+        const {firstname, lastname, email, password} = req.body;
+        const dataComplete = defined(firstname) && defined(lastname)  && defined(email) && defined(password);
+
+        if (!dataComplete) {
+            res.json({message: 'data not complete'});
+            return;
         }
+
+        if (user) {
+            res.json({ message: 'email already in use' });
+            return ;
+        }
+
+        const newUser = new User(req.body);
+        newUser.save((err, user) => {
+            return user;
+        });
+
+        res.json({ message: 'user created', user: newUser });
     });
 });
 

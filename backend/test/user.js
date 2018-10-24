@@ -13,7 +13,7 @@ const MaxMusterman = {
     firstname: 'Max',
     email: 'max.mustermann@testmail.com',
     lastname: 'Mustermann',
-    age: 35
+    password: '12345678'
 };
 
 describe('User', () => {
@@ -34,7 +34,6 @@ describe('User', () => {
                     res.should.have.status(200);
                     res.body.should.be.a('array');
                     res.body.length.should.be.eql(0);
-
                     done();
                 });
         });
@@ -56,7 +55,7 @@ describe('User', () => {
                         res.body.should.have.property('firstname');
                         res.body.should.have.property('lastname');
                         res.body.should.have.property('email');
-                        res.body.should.have.property('age');
+                        res.body.should.have.property('password');
                         res.body.should.have.property('_id').eql(user.id);
                         done();
                     });
@@ -84,6 +83,20 @@ describe('User', () => {
                 });
         });
 
+        it('it should not create two users with the same email', (done) => {
+            const user = new User(MaxMusterman);
+            user.save(() => {});
+            chai.request(app)
+                .post('/users')
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('message').eql('email already in use');
+                    done();
+                });
+        });
+
         it('it creates no user if arguments are missing', (done) => {
             delete MaxMusterman.lastname;
 
@@ -93,8 +106,7 @@ describe('User', () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    res.body.errors.should.have.property('lastname');
-                    res.body.errors.lastname.should.have.property('kind').eql('required');
+                    res.body.should.have.property('message').eql('data not complete');
                     done();
                 });
         });
