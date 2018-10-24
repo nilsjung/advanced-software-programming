@@ -17,9 +17,7 @@ var userSchema =  new mongoose.Schema({
     lastname: {type: String, required: true},
     nickname: {type: String},
     email: {type: String, required: true, unique: true},
-    age: Number,
+    password: {type: String, required: true},
 });
 
-let User = mongoose.model('User', userSchema);
-
-module.exports = User;
+module.exports = mongoose.model('User', userSchema);
