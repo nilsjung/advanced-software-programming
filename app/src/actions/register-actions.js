@@ -1,14 +1,34 @@
+import request from 'superagent';
+
 export const REGISTER_USER = 'register-user';
 export const IS_LOADING = 'is-loading';
 export const REGISTRATION_SUCCESS = 'registration-success';
 export const REGISTRATION_FAILED = 'registration-failed';
 
 
+const HOST = 'http://localhost:5001/users';
 
-export function registerUser(payload) {
-    return {
-        type: REGISTER_USER,
-        user: payload
+
+
+export function registerUser(user) {
+
+    return (dispatch) => {
+        dispatch(isLoading({isLoading: true}))
+        request
+            .post(HOST)
+            .set('Content-Type', 'application/json')
+            .send(user)
+            .then((res) => {
+                console.log(res)
+                dispatch(registrationSuccess({isSuccess: true, infoMessage: res.body.message}));
+                dispatch(isLoading({isLoading: false}))
+            })
+            .catch((err) => {
+                console.log(err);
+                dispatch(registrationHasFailed({hasFailed: true}));
+                dispatch(isLoading({isLoading: false}))
+            })
+
     }
 }
 
@@ -26,9 +46,10 @@ export function isLoading(payload) {
     }
 }
 
-export function registrationSuccess(reqBody) {
+export function registrationSuccess({infoMessage, isSuccess}) {
     return {
         type: REGISTRATION_SUCCESS,
-        reqBody
+        isSuccess,
+        infoMessage
     }
 }
