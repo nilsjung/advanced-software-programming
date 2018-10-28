@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 
-import * as actions from '../actions/register-actions';
+import * as actions from '../actions/registerActions';
 
 class Register extends React.Component {
     handleSubmitButton = (event) => {

@@ -14,10 +14,8 @@ import Register from './components/Login';
 
 import startChat, {chatMiddleware} from './api';
 
-import initialState from './store/'
-
 const createStoreWithMiddleware = applyMiddleware(chatMiddleware, thunk)(createStore)
-const store = createStoreWithMiddleware(reducers(initialState), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 startChat(store);
 

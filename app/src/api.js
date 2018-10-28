@@ -1,4 +1,6 @@
-import * as actions from './actions/message-actions';
+import * as actions from './actions/messageActions';
+
+import {setUserId} from './actions/userActions';
 import io from 'socket.io-client';
 
 let socket = null;
@@ -28,7 +30,7 @@ export default function(store) {
     socket = io.connect('http://localhost:5001');
 
     socket.on('start', (data) => {
-        store.dispatch(actions.setUserId(data))
+        store.dispatch(setUserId(data))
     })
 
     socket.on('message', (data) => {
