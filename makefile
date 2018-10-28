@@ -1,3 +1,5 @@
+all: build start logging
+
 start:
 	docker-compose up --quiet-pull --remove-orphans -d
 
