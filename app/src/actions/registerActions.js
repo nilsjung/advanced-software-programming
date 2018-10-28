@@ -21,12 +21,12 @@ export function registerUser(user) {
             .then((res) => {
                 console.log(res)
                 dispatch(registrationSuccess({isSuccess: true, infoMessage: res.body.message}));
-                dispatch(isLoading({isLoading: false}))
+                dispatch(isLoading(false))
             })
             .catch((err) => {
                 console.log(err);
                 dispatch(registrationHasFailed({hasFailed: true}));
-                dispatch(isLoading({isLoading: false}))
+                dispatch(isLoading(false))
             })
 
     }

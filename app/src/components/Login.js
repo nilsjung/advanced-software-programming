@@ -23,16 +23,16 @@ class Register extends React.Component {
         let alert;
         if (this.props.hasErrored) {
 
-            alert = <div class='alert alert-danger'>this.props.message</div>
+            alert = <div className='alert alert-danger'>{this.props.inforMessage}</div>
 
         } else if (this.props.hasSucceeded) {
 
-            alert = <div class='alert alert-success'>{this.props.message}</div>
+            alert = <div className='alert alert-success'>{this.props.infoMessage}</div>
 
         }
 
         if (this.props.isLoading) {
-            return (<p>loading...</p>)
+            alert = <p>loading...</p>
         }
 
         return (
@@ -69,11 +69,12 @@ class Register extends React.Component {
 
 function mapStateToProps(state) {
     return {
+        isAuthenticated: state.isAuthenticated,
         user: state.user,
         hasErrored: state.hasErrored,
         isLoading: state.isLoading,
         hasSucceeded: state.isSuccess,
-        message: state.infoMessage,
+        infoMessage: state.infoMessage,
     }
 }
 
