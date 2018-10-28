@@ -1,41 +1,44 @@
-# Advanced Software Programming (semester project)
+# Chat Application
 
-## TODOS
-* Find a Project
-* find a styleguide
-* expand frontend workflow
-* expand development environment by adding dependency-commands for docker-container.
-* minimize backend to just backend-stuff
-* customize react-app/express-backend to match our requirements
-* build a autoload on change for frontend and backend? (maybe this already works...)
-
-## Infos
-* Frontend was initialized by `create-react-app`
-* Backend was initialized by `express-generator`
-* MongoDB for database support
-* When adding a new folder you have to add the new folder to the `docker-compose.yaml` and restart docker-compose.
-
-## Requirements
+This repository contains the code for the semester project that is part of module _Advanced Softare Programming_.
+Used technologies so far:
 * docker
-* docker-compose
-* make (for testing)
+* nodejs
+* react
+* react-redux and redux-thunk
+* mongodb
+* websockets
 
-## Content
-* A folder `frontend` as web-app based on ReactJS
-* A folder `backend` as server service handling the requests.
-* A folder `data` as mongodb volume.
+## Requirements:
+This application uses docker and docker-compose to simplify the communication between frontend and backend on every machine.
 
-## Frontend
-After starting the server with `docker-compose up` you can access the frontend on `localhost:3000`
-### Development
-* Adding a new requirement to `package.json` requires a build refresh `docker-compose build && docker-compose up` (maybe should be simplyfied in a `makefile`)
+* docker `~18.0`
+* docker-compose `~3.6`
+* make (optional)
+
+## Development
+Clone this repository eg: `git clone git@github.com:nilsjung/chat-application.git` and enter the created folder with `cd chat-application`. Run `docker-compose build && docker-compose up` or easily `make` if installed. At the moment the image creation takes some time. This has to be improved.
 
 
-## Backend
-After starting `docker-compose up` in the root directory enter `localhost:5001`
+### App (React-App)
 
-### Development
-* Adding a new requirement to `package.json` requires a build refresh `docker-compose build && docker-compose up` (maybe should be simplyfied in a `makefile`)
+Based on a webpack development server the frontend reloads every time you change some code in any of a `*.js`, `*.jsx` or `*.scss` file.
 
-### Testing
-There is already a rudimentary testing possibility. `make test` starts the test routine that is defined in the `package.json` within the docker-container. This has to be improved. 
+#### Redux
+Actions and Reducers...
+
+#### Bootstrap
+The styles are loaded from the source files of the npm bootstrap package. To change bootstrap behavior or styling overwrite the part in new sass file beneath `sass/bootstrap` and import the file in `sass/main.scss`. Variables can be overwritten in `sass/components/_variables.scss`.
+
+#### Testing
+Not implemented so far
+
+### Mongodb
+Here shouldn't be anything to do.
+
+### Backend (Nodejs-Server with ExpressJs)
+The backend is based on the ExpressJs library with socket.io as websocket framework.
+
+#### Testing
+As a testing framework we use the mocka/chai framework.
+Tests can be run with `cd backend && make test`. The watch option is not implemented so far.
