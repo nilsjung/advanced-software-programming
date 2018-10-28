@@ -1,29 +1,14 @@
-import * as actions from '../actions/register-actions';
+import * as actions from '../actions/registerActions';
 
 
 export function registrationHasFailed(state, action) {
-    if (action.type === actions.REGISTRATION_FAILED) {
-        console.log('reducer: registration failed')
-        return {...state, hasErrored: action.hasFailed};
-    }
-
-    return {...state};
+    return {...state, hasErrored: action.hasFailed};
 }
 
-export function isLoading(state, action) {
-    if (action.type === actions.IS_LOADING) {
-        console.log('reducer. registration is laoding: ', action.isLoading)
-        return {...state, isLoading: action.isLoading};
-    }
-
-    return {...state};
+export function registrationIsLoading(state, action) {
+    return {...state, isLoading: action.isLoading};
 }
 
-export function isSuccess(state, action) {
-    if (action.type === actions.REGISTRATION_SUCCESS) {
-        console.log('reducer: registration succeeded: ', action.isSuccess, action.infoMessage)
-        return {...state, infoMessage: action.infoMessage, isSuccess: action.isSuccess, user: action.user};
-    }
-
-    return {...state}
+export function registrationIsSuccess(state, action) {
+    return {...state, infoMessage: action.infoMessage, isSuccess: action.isSuccess, user: action.user};
 }

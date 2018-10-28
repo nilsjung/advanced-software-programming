@@ -1,7 +1,6 @@
 export const ADD_MESSAGE = 'addMessage';
 export const UPDATE_MESSAGE = 'updateMessage';
 export const ADD_RESPONSE = 'addResponse';
-export const SET_USER_ID = 'setUserId';
 
 export function addMessage(message) {
     return {
@@ -21,12 +20,5 @@ export function addResponse(message) {
     return {
         type: ADD_RESPONSE,
         message
-    }
-}
-
-export function setUserId(user) {
-    return {
-        type: SET_USER_ID,
-        userId: user.userId,
     }
 }
