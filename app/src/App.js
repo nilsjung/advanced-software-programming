@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as messageActionCreators from  './actions/message-actions';
 
-import './App.css';
 import MessagesList from './components/MessagesList';
 import TextInput from './components/TextInput';
 
