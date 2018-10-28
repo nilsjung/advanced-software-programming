@@ -2,11 +2,11 @@
  * This is the webpack configuration file
  *
  * tasks:
- * - linting files with eslint
+ * - linting files with esling
  * - compile js/es6
  * - compile sass
  *
- *  TODO: generate fav-icon / compress images / load web fonts
+ *  TODO: generate fav-icon / compress images / load web fonts / linting files with esling
  */
 
 const webpack = require('webpack');
@@ -28,11 +28,6 @@ module.exports = {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
             use: [{
-                loader: 'eslint-loader',
-                options: {
-                    path: __dirname + '/node_modules/.bin/eslint'
-                },
-            }, {
                 loader: 'babel-loader'
             }],
         },{
