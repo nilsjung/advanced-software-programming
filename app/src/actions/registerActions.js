@@ -19,12 +19,10 @@ export function registerUser(user) {
             .set('Content-Type', 'application/json')
             .send(user)
             .then((res) => {
-                console.log(res)
                 dispatch(registrationSuccess({isSuccess: true, infoMessage: res.body.message}));
                 dispatch(isLoading(false))
             })
             .catch((err) => {
-                console.log(err);
                 dispatch(registrationHasFailed({hasFailed: true}));
                 dispatch(isLoading(false))
             })
