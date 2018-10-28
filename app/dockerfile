@@ -1,14 +1,10 @@
-FROM node:10.11-alpine
-
-RUN mkdir -p /app
+FROM node:10.11
 
 WORKDIR /app
 
 COPY . .
+RUN npm config set registry http://registry.npmjs.org/ && npm install -q --development
 
-RUN npm install
 
-EXPOSE 5001
-
-CMD npm start
-
+EXPOSE 3000
+CMD ["npm", "run", "start"]
