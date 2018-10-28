@@ -14,21 +14,7 @@ import Register from './components/Login';
 
 import startChat, {chatMiddleware} from './api';
 
-const initialState = {
-    user: {
-        userId: '',
-        email: '',
-        firstname: '',
-        lastname: '',
-        password: '',
-    },
-    messages: [],
-    currentMessage: '',
-    hasErrored: null,
-    isLoading: null,
-    infoMessage: '',
-    isSuccess: null,
-}
+import initialState from './store/'
 
 const createStoreWithMiddleware = applyMiddleware(chatMiddleware, thunk)(createStore)
 const store = createStoreWithMiddleware(reducers(initialState), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
