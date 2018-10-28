@@ -8,7 +8,9 @@
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.5",
     "redux": "^4.0.1",
-    "socket.io-client": "^2.1.1"
+    "socket.io-client": "^2.1.1",
+    "anchorme":"^1.1.2",
+    "plyr": "^3.4.6"
   },
   "scripts": {
     "start": "react-scripts start",

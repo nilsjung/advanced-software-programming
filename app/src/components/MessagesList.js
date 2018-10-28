@@ -7,8 +7,17 @@ class MessagesList extends Component {
         return (
             <ol className='MessageContainer'>
                 {messages.map((message, index) => {
+                    let youtubeThingy
+                    if(message.youtubeEmbed!=null){
+                        let youtubeUrl = "https://www.youtube.com/embed/"+message.youtubeEmbed
+                        youtubeThingy = <div class="plyr__video-embed" id="player">
+                                            <iframe src={youtubeUrl} allowfullscreen allowtransparency allow="autoplay"></iframe>
+                                        </div>
+                    }
+                    
                     let additionalClass = message.userId !== userId ? 'is-response' : ''
                     return (
+                        
                         <li key={`message-${index}`} className={`MessageItem ${additionalClass}`}>
                             <div className='MessageHeader'>
                                 <span className='TimeStamp'>{message.timestamp.toLocaleString()}</span>
@@ -17,7 +26,8 @@ class MessagesList extends Component {
                             <div className='MessageBody'>
                                 {message.text}
                             </div>
-                        </li>
+                                {youtubeThingy}
+                        </li>              
                     )
                 })}
             </ol>
