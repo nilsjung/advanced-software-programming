@@ -12,5 +12,5 @@ logging:
 stop:
 	docker-compose down
 
-clean:
+clean: stop
 	docker rmi chatapp_app chat_app_backend

@@ -19,6 +19,7 @@ This application uses docker and docker-compose to simplify the communication be
 ## Development
 Clone this repository eg: `git clone git@github.com:nilsjung/chat-application.git` and enter the created folder with `cd chat-application`. Run `docker-compose build && docker-compose up` or easily `make` if installed. At the moment the image creation takes some time. This has to be improved.
 
+If you add new dependencies first run `make clean` to remove all containing data in the images. Then run `make` to rebuild the dependencies.
 
 ### App (React-App)
 
