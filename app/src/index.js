@@ -5,8 +5,10 @@ import ReactDOM from 'react-dom';
 import reducers from './reducers';
 import App from './App';
 
+// imports the bootstrap js part installed via dependencies
 import 'bootstrap';
 
+// this is the entry-point for our styles. no further loading neccessary
 import './sass/main.scss';
 
 import startChat, {chatMiddleware} from './api';
