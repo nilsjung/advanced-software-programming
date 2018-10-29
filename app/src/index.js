@@ -2,10 +2,14 @@ import React from 'react';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
-import './index.css';
 import reducers from './reducers';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+
+// imports the bootstrap js part installed via dependencies
+import 'bootstrap';
+
+// this is the entry-point for our styles. no further loading neccessary
+import './sass/main.scss';
 
 import startChat, {chatMiddleware} from './api';
 
@@ -26,4 +30,3 @@ ReactDOM.render(
     </Provider>
     , document.getElementById('root')
 );
-registerServiceWorker();
