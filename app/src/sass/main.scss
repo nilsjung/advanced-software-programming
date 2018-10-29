@@ -4,10 +4,12 @@
 */
 
 
-
-//@import 'variables';
+@import 'variables';
 @import 'components/TextInput';
 @import 'components/MessagesList';
+
+// import font-awesome icons
+@import '~font-awesome/scss/font-awesome';
 
 
 /*
