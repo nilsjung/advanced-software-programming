@@ -14,9 +14,9 @@ class App extends Component {
 
         return (
             <div className='ChatApp'>
-                <div class='container'>
-                    <div class='row'>
-                        <div class='col'>
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col'>
                         <MessagesList userId={userId} messages={messages} />
                         <TextInput
                             userId={userId}
