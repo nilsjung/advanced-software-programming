@@ -14,6 +14,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
+    mode: 'development',
     entry: {
         app: __dirname + '/src/index.js',
     },
@@ -76,5 +77,5 @@ module.exports = {
         port: '3000',
     },
 
-    devtool: 'source-map'
+    devtool: 'inline-source-map'
 }
