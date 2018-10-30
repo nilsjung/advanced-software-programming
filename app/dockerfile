@@ -1,14 +1,10 @@
 FROM node:10.11-alpine
 
-RUN mkdir -p /app
-
 WORKDIR /app
 
-COPY . .
+COPY package.json .
+RUN apk add git && npm install -q
 
-RUN npm install
 
-EXPOSE 5001
-
-CMD npm start
-
+EXPOSE 3000
+CMD ["npm", "run", "start"]
