@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 
+const CHAT_COLOR_ME = 'bg-light';
+const CHAT_COLOR_OTHER = 'bg-dark text-light';
 
 class MessagesList extends Component {
     render() {
         let {messages, user} = this.props;
         return (
-            <ol className='MessageContainer'>
+            <div className='container'>
                 {messages.map((message, index) => {
                     let additionalClass = message.user.userId !== user.userId ? 'is-response' : ''
                     return (
@@ -20,7 +22,7 @@ class MessagesList extends Component {
                         </li>
                     )
                 })}
-            </ol>
+            </div>
         );
     }
 }

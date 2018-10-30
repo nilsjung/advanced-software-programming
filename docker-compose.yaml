@@ -2,6 +2,7 @@ version: '3'
 
 services:
     backend:
+        image: 'chat_app_backend'
         container_name: "nodejs_server"
         build:
             context: ./backend
@@ -19,6 +20,7 @@ services:
             - 5001:5001
 
     app:
+        image: 'chatapp_app'
         container_name: "react_app"
         build:
             context: ./app
@@ -31,6 +33,7 @@ services:
 
     mongodb:
         image: mongo:4.0
+        container_name: "mongodb"
         restart: always
         env_file: .env
         volumes:

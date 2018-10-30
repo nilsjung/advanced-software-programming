@@ -6,7 +6,6 @@ COPY ./package*.json /server/
 
 
 WORKDIR /server
-COPY . .
 
 RUN npm install -qy
 

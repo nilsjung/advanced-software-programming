@@ -40,16 +40,23 @@ class TextInput extends Component {
 
     render() {
         return (
-            <div className='InputContainer'>
-                <input id='messageInput'
-                    type='text'
-                    value={this.props.value}
-                    className='MessageInput'
-                    onKeyPress={this.handleKeyPress.bind(this)}
-                    onChange={this.handleChange}
-                    placeholder='enter text...'>
-                </input>
-                <button className='btn btn-primary' type='submit' onClick={this.handleClick}>Send!</button>
+            <div className='container'>
+                <div className='input-group mb-3'>
+                    <input
+                        id='messageInput'
+                        className='form-control'
+                        type='text'
+                        value={this.props.value}
+                        onKeyPress={this.handleKeyPress.bind(this)}
+                        onChange={this.handleChange}
+                        placeholder='Enter text...'>
+                    </input>
+                    <div className='input-group-append'>
+                        <button className='btn btn-primary'
+                            type='button'
+                            onClick={this.handleClick}><i className='fa fa-paper-plane'></i></button>
+                    </div>
+                </div>
             </div>
         )
     }

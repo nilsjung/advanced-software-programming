@@ -5,7 +5,6 @@ import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 import * as messageActionCreators from  './actions/messageActions';
 
-import './App.css';
 import MessagesList from './components/MessagesList';
 import TextInput from './components/TextInput';
 
@@ -14,15 +13,21 @@ class App extends Component {
         let {messages, currentMessage, updateMessage, addMessage, user} = this.props;
 
         return (
-            <div className="ChatApp">
-                <MessagesList user={user} messages={messages} />
-                <TextInput
-                    user={user}
-                    value={currentMessage}
-                    onChange={updateMessage}
-                    onSubmit={addMessage}
-                    onClick={addMessage}
-                />
+            <div className='ChatApp'>
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col'>
+                        <MessagesList userId={userId} messages={messages} />
+                        <TextInput
+                            userId={userId}
+                            value={currentMessage}
+                            onChange={updateMessage}
+                            onSubmit={addMessage}
+                            onClick={addMessage}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
