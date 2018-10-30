@@ -11,15 +11,15 @@ import TextInput from './components/TextInput';
 class App extends Component {
     render() {
         let {messages, currentMessage, updateMessage, addMessage, user} = this.props;
-
+        console.log(user)
         return (
             <div className='ChatApp'>
                 <div className='container'>
                     <div className='row'>
                         <div className='col'>
-                        <MessagesList userId={userId} messages={messages} />
+                        <MessagesList user={user} messages={messages} />
                         <TextInput
-                            userId={userId}
+                            user={user}
                             value={currentMessage}
                             onChange={updateMessage}
                             onSubmit={addMessage}
@@ -35,9 +35,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: {
-            userId: state.userId,
-        },
+        user: state.user,
         messages: state.messages,
         currentMessage: state.currentMessage
     }

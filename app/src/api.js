@@ -30,7 +30,10 @@ export default function(store) {
     socket = io.connect('http://localhost:5001');
 
     socket.on('start', (data) => {
-        store.dispatch(setUserId(data))
+        const user = {
+            userId: data.userId,
+        }
+        store.dispatch(setUserId(user))
     })
 
     socket.on('message', (data) => {
