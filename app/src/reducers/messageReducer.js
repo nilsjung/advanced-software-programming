@@ -7,7 +7,7 @@ export function messagesReducer(state, action) {
 }
 
 export function addMessageReducer(state, action) {
-    return {...state, currentMessage: ''}
+    return {...state, currentMessage: action.message}
 }
 
 export function updateMessageReducer(state, action) {
