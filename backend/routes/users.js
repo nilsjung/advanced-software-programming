@@ -15,6 +15,26 @@ var router = express.Router();
 
 var User = require('../model').User;
 
+router.post('/login', (req, res) => {
+    const {email, password} = req.body;
+    if (params !== undefined) {
+        User.find({email: email}, (err, user) => {
+            if (err) {
+                res.json({error: err});
+                return;
+            } else {
+                if (password === user.password) {
+                    res.status(200).json({message: 'successfully logged in', user: user});
+                    return;
+                } else {
+                    res.status(403).json({error: 'invalid password', user: null});
+                    return;
+                }
+            }
+        });
+    }
+});
+
 /**
  * GET /users
  */
