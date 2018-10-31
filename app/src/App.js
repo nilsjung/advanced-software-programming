@@ -42,7 +42,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        userId: state.userId,
+        user: state.user,
         messages: state.messages,
         currentMessage: state.currentMessage
     }
