@@ -15,7 +15,7 @@ class Login extends React.Component {
                         <form>
                             <Input placeholder='Enter your E-mail...' label='Email' Id='emailLogin' type='email' />
                             <Input placeholder='******' label='Password' Id='passwordLogin' type='password' />
-                            <button type="submit" class="login btn btn-info"><span>Login</span><i className='fa fa-arrow-right'></i></button>
+                            <button type="submit" className="login btn btn-info"><span>Login</span><i className='fa fa-arrow-right'></i></button>
                         </form>
                     </div>
                 </div>

@@ -1,34 +1,41 @@
 import React, { Component } from 'react';
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as messageActionCreators from  './actions/message-actions';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
-import MessagesList from './components/MessagesList';
-import TextInput from './components/TextInput';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as messageActionCreators from './actions/message-actions';
+
+
+import Chat from './components/chat/';
+import NavBar from './components/mixins/NavBar';
+import Login from './components/login'
 
 class App extends Component {
+
+    renderChat = () => {
+        const {userId, messages, currentMessage, addMessage, updateMessage} = this.props;
+        return <Chat messages={messages}
+            userId={userId}
+            currentMessage={currentMessage}
+            addMessage={addMessage}
+            updateMessage={updateMessage}
+        ></Chat>
+    }
+
     render() {
-        let {messages, currentMessage, updateMessage, addMessage, userId} = this.props;
+        const {isAuthenticated} = this.props
 
         return (
-            <div className='ChatApp'>
-                <div className='container'>
-                    <div className='row'>
-                        <div className='col'>
-                        <MessagesList userId={userId} messages={messages} />
-                        <TextInput
-                            userId={userId}
-                            value={currentMessage}
-                            onChange={updateMessage}
-                            onSubmit={addMessage}
-                            onClick={addMessage}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
+            <Router>
+                <main>
+                    <NavBar isAuthenticated={isAuthenticated}/>
+
+                    <Route path='/chat' exact render={this.renderChat} />
+                    <Route path='/login' render={() => <Login></Login>} ></Route>
+                </main>
+            </Router>
+        )
     }
 }
 
