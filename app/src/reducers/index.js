@@ -1,38 +1,42 @@
+import { registrationIsLoading, registrationHasFailed, registrationIsSuccess} from './registerReducer'
+import { messagesReducer, addMessageReducer, updateMessageReducer} from './messageReducer';
+import {setUserIdReducer} from './userReducer';
 
-import {combineReducers} from 'redux';
-import { UPDATE_MESSAGE, ADD_MESSAGE, ADD_RESPONSE, SET_USER_ID } from '../actions/message-actions';
+import { SET_USER_ID } from '../actions/userActions';
+import { UPDATE_MESSAGE, ADD_MESSAGE, ADD_RESPONSE } from '../actions/messageActions';
+import { REGISTRATION_FAILED, REGISTRATION_SUCCESS, IS_LOADING } from '../actions/registerActions';
 
-export default function (initialState) {
-    function messages(currentMessages=initialState.messages, action) {
-        if (action.type === ADD_MESSAGE || action.type === ADD_RESPONSE) {
-            console.log(action.type, action.message)
-            console.log(currentMessages)
-            let messages = currentMessages.map((message) => Object.assign({}, message));
 
-            console.log(messages, action.message)
-            messages.push(Object.assign({}, action.message));
-            return messages;
-        }
 
-        return currentMessages;
+import initialState from '../store/';
+
+/**
+ * This is the main reducer. delegates the work to the specialized sub-reducer.
+ */
+export default function (state = initialState, action) {
+
+    // registration reducer
+    if (action.type === REGISTRATION_FAILED) {
+        return registrationHasFailed(state, action);
+    } else if (action.type === IS_LOADING) {
+        return registrationIsLoading(state, action);
+    } else if (action.type === REGISTRATION_SUCCESS) {
+        return registrationIsSuccess(state, action)
+
+        // message reducer
+    } else if (action.type === ADD_MESSAGE || action.type === ADD_RESPONSE) {
+        return messagesReducer(state, action)
+
+    } else if (action.type === UPDATE_MESSAGE) {
+        return updateMessageReducer(state, action)
+    } else if (action.type === ADD_MESSAGE) {
+        return addMessageReducer(state, action)
+
+        // user reducer
+    } else if (action.type === SET_USER_ID) {
+        return setUserIdReducer(state, action);
     }
 
-    function currentMessage(currentMessage=initialState.currentMessage, action) {
-        if (action.type === UPDATE_MESSAGE) {
-            return action.message;
-        } else if (action.type === ADD_MESSAGE) {
-            return '';
-        }
+    return {...state};
 
-        return currentMessage;
-    }
-
-    function userId(currentUserId=initialState.userId, action) {
-        if (action.type === SET_USER_ID) {
-            return action.userId;
-        }
-        return  currentUserId;
-    }
-
-    return combineReducers({userId, currentMessage, messages});
 }

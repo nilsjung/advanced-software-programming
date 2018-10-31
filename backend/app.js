@@ -1,17 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var debug = require('debug')('backend:server');
-var cookieParser = require('cookie-parser');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const debug = require('debug')('backend:server');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-var logger = require('morgan');
-let config = require('config');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var messagesRouter = require('./routes/messages');
-var mongoose = require('mongoose');
+const logger = require('morgan');
+const config = require('config');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const mongoose = require('mongoose');
 
-var app = express();
+const app = express();
 
 process.env['NODE_CONFIG_DIR'] = './config';
 
@@ -52,7 +51,6 @@ app.use(bodyParser.urlencoded({extended: true}));
  */
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/messages', messagesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -73,13 +71,12 @@ app.use(function(err, req, res) {
 /**
  * Get port from environment and store in Express.
  */
+const port = process.env.PORT || '3000';
 
-var port = process.env.PORT || '3000';
+const io = require('socket.io').listen(app.listen(port));
 
-var io = require('socket.io').listen(app.listen(port));
-
-var userId = 0;
-var connections = [];
+let userId = 0;
+let connections = [];
 
 io.sockets.on('connection', function(socket) {
     connections.push(socket);
@@ -99,4 +96,5 @@ io.sockets.on('connection', function(socket) {
     });
 });
 
+// export for testing
 module.exports = app;
