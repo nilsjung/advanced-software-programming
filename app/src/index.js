@@ -4,7 +4,7 @@ import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import reducers from './reducers';
 import App from './App';
-import Login from './components/login/';
+
 // imports the bootstrap js part installed via dependencies
 import 'bootstrap';
 
