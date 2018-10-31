@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var debug = require('debug')('backend:server');
 var cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 var logger = require('morgan');
 let config = require('config');
 var indexRouter = require('./routes/index');
@@ -42,6 +43,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 /**
  * define your endpoints
@@ -94,3 +98,5 @@ io.sockets.on('connection', function(socket) {
         connections.splice(index, 1);
     });
 });
+
+module.exports = app;

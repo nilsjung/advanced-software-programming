@@ -101,4 +101,37 @@ describe('User', () => {
         });
     });
 
+    describe('/login user', () => {
+        it('it should log in an existing user', (done) => {
+
+            // save the user to database to request q
+            const max = new User(MaxMusterman);
+            max.save(() => { });
+
+            chai.request(app)
+                .post('login')
+                .send(max)
+                .end( (err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('message').eql('successfully logged in');
+                    res.body.should.have.property('user').eql(MaxMusterman);
+                    done();
+                });
+        });
+    });
+
+    it('it should not log in an non existing user', (done) => {
+        chai.request(app)
+            .post('login')
+            .send(MaxMusterman)
+            .end((err, res) => {
+                res.should.have.status(403);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message').eql('successfully logged in');
+                res.body.should.have.property('user').eql(MaxMusterman);
+                done();
+            });
+    });
+
 });
