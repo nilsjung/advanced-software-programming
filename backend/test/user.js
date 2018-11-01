@@ -29,7 +29,7 @@ describe('User', () => {
     describe('/GET user', () => {
         it('it should GET all users', (done) => {
             chai.request(app)
-                .get('/users')
+                .get('/user')
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('array');
@@ -47,7 +47,7 @@ describe('User', () => {
             let user = new User(MaxMusterman);
             user.save((err, user) => {
                 chai.request(app)
-                    .get('/users/' + user.id)
+                    .get('/user/' + user.id)
                     .send(user)
                     .end((err, res) => {
                         res.should.have.status(200);
@@ -70,7 +70,7 @@ describe('User', () => {
         it('it creates a new user', (done) => {
 
             chai.request(app)
-                .post('/users')
+                .post('/user')
                 .send(MaxMusterman)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -85,24 +85,27 @@ describe('User', () => {
 
         it('it should not create two users with the same email', (done) => {
             const user = new User(MaxMusterman);
-            user.save(() => {});
-            chai.request(app)
-                .post('/users')
-                .send(user)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('message').eql('email already in use');
-                    done();
-                });
+            user.save(() => {
+
+                chai.request(app)
+                    .post('/user')
+                    .send(user)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('message').eql('email already in use');
+                        done();
+                    });
+            });
         });
 
         it('it creates no user if arguments are missing', (done) => {
-            delete MaxMusterman.lastname;
+            let max = {...MaxMusterman};
+            delete max.lastname;
 
             chai.request(app)
-                .post('/users')
-                .send(MaxMusterman)
+                .post('/user')
+                .send(max)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
@@ -113,36 +116,58 @@ describe('User', () => {
     });
 
     describe('/login user', () => {
+        beforeEach( (done) => {
+            let max = new User(MaxMusterman);
+            max.save(() => {});
+            done();
+        });
+
         it('it should log in an existing user', (done) => {
-
-            // save the user to database to request q
-            const max = new User(MaxMusterman);
-            max.save(() => { });
-
             chai.request(app)
-                .post('login')
-                .send(max)
+                .post('/user/login')
+                .send(MaxMusterman)
                 .end( (err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     res.body.should.have.property('message').eql('successfully logged in');
-                    res.body.should.have.property('user').eql(MaxMusterman);
+                    res.body.should.have.property('user');
+                    res.body.user.should.have.property('email');
+                    res.body.user.should.have.property('password');
+                    done();
+                });
+        });
+
+        it('it should not log in an user with a wrong password', (done) => {
+            let max = {...MaxMusterman, password: 'wrongPassword'};
+            chai.request(app)
+                .post('/user/login')
+                .send(max)
+                .end((err, res) => {
+                    res.should.have.status(403);
+                    res.body.should.have.property('user').eql(null);
+                    res.body.should.have.property('error').eql('invalid password');
+                    done();
+                });
+        });
+
+        it('it should not log in an non existing user', (done) => {
+            const MaxMusterfrau = {
+                firstname: 'Maxime',
+                lastname: 'Musterfrau',
+                password: '222333',
+                email: 'maxime@musterfrau.com'
+            };
+
+            chai.request(app)
+                .post('/user/login')
+                .send(MaxMusterfrau)
+                .end((err, res) => {
+                    res.should.have.status(404);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('error').eql('user not found');
+                    res.body.should.not.have.property('user');
                     done();
                 });
         });
     });
-
-    it('it should not log in an non existing user', (done) => {
-        chai.request(app)
-            .post('login')
-            .send(MaxMusterman)
-            .end((err, res) => {
-                res.should.have.status(403);
-                res.body.should.be.a('object');
-                res.body.should.have.property('message').eql('successfully logged in');
-                res.body.should.have.property('user').eql(MaxMusterman);
-                done();
-            });
-    });
-
 });
