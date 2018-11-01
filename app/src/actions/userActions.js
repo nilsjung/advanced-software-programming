@@ -9,6 +9,20 @@ export const USER_LOGIN = 'user-login';
 export const FAILED = 'failed';
 export const SUCCESS = 'success';
 export const LOADING = 'laoding';
+export const SET_USER_ID = 'set-user-id';
+
+/**
+ * Register a new client on the websocket
+ *
+ * @param {Object} user the user to register
+ *
+ */
+export function setUserId(user) {
+    return {
+        type: SET_USER_ID,
+        user,
+    }
+}
 
 /**
  * logs in a user. on success redirect to chat.
