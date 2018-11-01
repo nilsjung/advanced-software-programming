@@ -9,7 +9,6 @@ const initialState = {
     },
     messages: [],
     currentMessage: '',
-    hasErrored: null,
     isLoading: null,
     infoMessage: '',
     isSuccess: null,

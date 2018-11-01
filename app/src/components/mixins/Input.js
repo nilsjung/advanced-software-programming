@@ -1,6 +1,11 @@
 import React from 'react'
 
 export default class Input extends React.Component {
+
+    handleChange = (event) => {
+        this.props.onChange(event.target.value);
+    }
+
     render() {
         const {placeholder, Id, label, type, className} = this.props;
         const inputId = Id || Symbol('input');
@@ -8,7 +13,7 @@ export default class Input extends React.Component {
         return (
             <div className='form-group'>
                 {renderLabel}
-                <input type={type} className='form-control' placeholder={placeholder} id={inputId}/>
+                <input type={type} className='form-control' onChange={this.handleChange} placeholder={placeholder} id={inputId}/>
             </div>
         )
     }

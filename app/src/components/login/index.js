@@ -4,8 +4,21 @@ import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux';
 
 import Input from '../mixins/Input';
+import { login } from '../../actions/userActions';
 
 class Login extends React.Component {
+
+    onSubmit = (event) => {
+        event.preventDefault();
+
+        const user = {
+            password: document.getElementById('passwordLogin'),
+            email: document.getElementById('emailLogin')
+        }
+
+        return (dispatch) => dispatch(this.props.login(this.props.user));
+    }
+
     render() {
         return (
             <div className='container loginForm'>
@@ -15,7 +28,7 @@ class Login extends React.Component {
                         <form>
                             <Input placeholder='Enter your E-mail...' label='Email' Id='emailLogin' type='email' />
                             <Input placeholder='******' label='Password' Id='passwordLogin' type='password' />
-                            <button type="submit" className="login btn btn-info"><span>Login</span><i className='fa fa-arrow-right'></i></button>
+                            <button type="submit" onSubmit={this.onSubmit} className="login btn btn-info"><span>Login</span><i className='fa fa-arrow-right'></i></button>
                         </form>
                     </div>
                 </div>
@@ -32,6 +45,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
+        login: login,
     }, dispatch);
 }
 

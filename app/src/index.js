@@ -14,7 +14,7 @@ import './sass/main.scss';
 import thunk from 'redux-thunk';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 
-import Register from './components/Login';
+import Register from './components/Register';
 
 import startChat, {chatMiddleware} from './api';
 
@@ -26,20 +26,7 @@ startChat(store);
 ReactDOM.render(
     <Provider store={store}>
         <Router>
-            <nav className='container'>
-                <ul className='nav nav-tabs nav-fill'>
-                    <li className='nav-item'>
-                        <Link className='nav-link' to='register'>Register</Link>
-                    </li>
-                    <li className='nav-item'>
-                        <Link className='nav-link' to='chat'>Chat</Link>
-                    </li>
-                </ul>
-                <div>
-                    <Route exact path='/register' component={Register} />
-                    <Route path='/chat' component={App} />
-                </div>
-            </nav>
+            <App />
         </Router>
     </Provider>
     , document.getElementById('root')
