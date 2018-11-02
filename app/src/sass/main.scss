@@ -5,9 +5,6 @@
 
 
 @import 'variables';
-@import 'components/TextInput';
-@import 'components/MessagesList';
-@import 'components/Login';
 
 // import font-awesome icons
 @import '~font-awesome/scss/font-awesome';
@@ -54,3 +51,7 @@
 // @import "../../node_modules/bootstrap/scss/tooltip";
 @import "../../node_modules/bootstrap/scss/transitions";
 @import "../../node_modules/bootstrap/scss/type";
+
+@import 'components/TextInput';
+@import 'components/MessagesList';
+@import 'components/Login';

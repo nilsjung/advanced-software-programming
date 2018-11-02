@@ -13,7 +13,7 @@ export default class Input extends React.Component {
         return (
             <div className='form-group'>
                 {renderLabel}
-                <input type={type} className='form-control' onChange={this.handleChange} placeholder={placeholder} id={inputId}/>
+                <input type={type} className='form-control' placeholder={placeholder} id={inputId}/>
             </div>
         )
     }

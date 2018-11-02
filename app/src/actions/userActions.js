@@ -1,7 +1,9 @@
 import request from 'superagent';
 import {HOST} from '../config/';
 
-const loginEndpoint = HOST + 'user';
+
+
+const loginEndpoint = HOST + 'user/login';
 
 export const USER_LOGIN = 'user-login';
 
@@ -32,18 +34,18 @@ export function setUserId(user) {
  */
 export function login({email, password}) {
     return (dispatch) => {
-        dispatch(isLoading({isLoading: true}));
+        dispatch(isLoading(true));
         request
             .post(loginEndpoint)
             .set('Content-Type', 'application/json')
             .send({email, password})
             .then( res => {
-                dispatch(hasSucceeded({isSuccess: true, infoMessage: res.body.message}));
+                dispatch(hasSucceeded({isSuccess: true, infoMessage: res.body.message, user: res.body.user}));
                 dispatch(isLoading(false));
             })
             .catch( err => {
                 dispatch(hasSucceeded({isSuccess: false, infoMessage: res.body.error}));
-                dispatch(isLoading(false))
+                dispatch(isLoading(false));
             });
     }
 }
@@ -55,10 +57,11 @@ export function isLoading(bool) {
     }
 }
 
-export function hasSucceeded({isSuccess, infoMessage}) {
+export function hasSucceeded({isSuccess, infoMessage, user}) {
     return {
         type: SUCCESS,
         infoMessage,
         isSuccess,
+        user,
     }
 }

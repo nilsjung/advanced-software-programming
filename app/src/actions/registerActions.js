@@ -6,7 +6,9 @@ export const REGISTRATION_SUCCESS = 'registration-success';
 export const REGISTRATION_FAILED = 'registration-failed';
 
 
-const HOST = 'http://localhost:5001/users';
+import {HOST} from './../config/';
+
+const userEndpoint = HOST + 'user';
 
 
 
@@ -15,16 +17,16 @@ export function registerUser(user) {
     return (dispatch) => {
         dispatch(isLoading({isLoading: true}))
         request
-            .post(HOST)
+            .post(userEndpoint)
             .set('Content-Type', 'application/json')
             .send(user)
             .then((res) => {
                 dispatch(registrationSuccess({isSuccess: true, infoMessage: res.body.message}));
-                dispatch(isLoading(false))
+                dispatch(isLoading(false));
             })
             .catch((err) => {
                 dispatch(registrationHasFailed({hasFailed: true}));
-                dispatch(isLoading(false))
+                dispatch(isLoading(false));
             })
 
     }
