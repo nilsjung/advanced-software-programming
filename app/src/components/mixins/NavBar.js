@@ -11,9 +11,9 @@ export default class NavBar extends React.Component {
                 </button>
                 <div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
                     <div className='navbar-nav'>
-                        <Link className='nav-item nav-link' to='/chat'>Chat</Link>
-                        <Link className='nav-item nav-link' to='/login'>{this.props.isAuthorized ? 'Logout' : 'Login'}</Link>
-                        {!this.props.isAuthorized ? <Link className='nav-item nav-link disabled' to='/register'>Register</Link> : ''}
+                        {this.props.isAuthenticated ? <Link className='nav-item nav-link' to='/chat'>Chat</Link> : ''}
+                        <Link className='nav-item nav-link' to='/login'>{this.props.isAuthenticated ? 'Logout' : 'Login'}</Link>
+                        {!this.props.isAuthenticated ? <Link className='nav-item nav-link disabled' to='/register'>Register</Link> : ''}
                     </div>
                 </div>
             </nav>

@@ -16,10 +16,9 @@ import Register from './components/Register';
 class App extends Component {
 
     renderChat = () => {
-        let {userId, messages, currentMessage, addMessage, updateMessage} = this.props;
-        return <Chat
-            messages={messages}
-            userId={userId}
+        const {user, messages, currentMessage, addMessage, updateMessage} = this.props;
+        return <Chat messages={messages}
+            user={user}
             currentMessage={currentMessage}
             addMessage={addMessage}
             updateMessage={updateMessage}
@@ -35,8 +34,8 @@ class App extends Component {
                     <NavBar isAuthenticated={isAuthenticated}/>
 
                     <Route path='/chat' exact render={this.renderChat} />
-                    <Route path='/login' render={() => <Login login={this.props.login}></Login>} ></Route>
-                    <Route path='/register' render={() => <Register></Register>} ></Route>
+                    <Route path='/login' component={Login}></Route>
+                    <Route path='/register' component={Register}></Route>
                 </main>
             </Router>
         )

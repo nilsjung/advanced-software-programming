@@ -1,10 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux'
+import { withRouter } from 'react-router-dom';
 
-import { bindActionCreators } from 'redux';
+// for redirect
+import { browserHistory } from 'react-router';
+
+import * as userActionCreators from '../../actions/userActions';
 
 import Input from '../mixins/Input';
-import { login } from '../../actions/userActions';
 
 class Login extends React.Component {
 
@@ -12,23 +15,33 @@ class Login extends React.Component {
         event.preventDefault();
 
         const user = {
-            password: document.getElementById('passwordLogin'),
-            email: document.getElementById('emailLogin')
+            password: document.getElementById('passwordLogin').value,
+            email: document.getElementById('emailLogin').value
         }
 
-        return (dispatch) => dispatch(this.props.login(this.props.user));
+        return this.props.login(user).then(() => {
+            browserHistory.push('/chat')
+        });
     }
 
     render() {
+
+        const message = this.props.infoMessage;
+        const loading = this.props.isLoading ? <div>Loading...</div> : ''
+
         return (
             <div className='container loginForm'>
                 <div className='card'>
                     <div className='h4 card-header'>Login</div>
                     <div className='card-body'>
+                    {loading}
+                    <div className={'alert ' + this.props.isSuccess ? 'alert-success' : 'alert-danger'}>
+                        {message}
+                    </div>
                         <form>
                             <Input placeholder='Enter your E-mail...' label='Email' Id='emailLogin' type='email' />
                             <Input placeholder='******' label='Password' Id='passwordLogin' type='password' />
-                            <button type="submit" onSubmit={this.onSubmit} className="login btn btn-info"><span>Login</span><i className='fa fa-arrow-right'></i></button>
+                            <button type="submit" onClick={this.onSubmit} className="login btn btn-info"><span>Login</span><i className='fa fa-arrow-right'></i></button>
                         </form>
                     </div>
                 </div>
@@ -39,14 +52,19 @@ class Login extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.user
+        user: state.user,
+        messages: state.messages,
+        currentMessage: state.currentMessage,
+        isSuccess: state.isSuccess,
+        infoMessage: state.infoMessage,
+        isLoading: state.isLoading,
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({
-        login: login,
-    }, dispatch);
+    return {
+        login: (user) => dispatch(userActionCreators.login(user)),
+    }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

@@ -5,20 +5,22 @@ class MessagesList extends Component {
         let {messages, user} = this.props;
         return (
             <div className='container'>
-                {messages.map((message, index) => {
-                    let additionalClass = message.user.userId !== user.userId ? 'is-response' : ''
-                    return (
-                        <li key={`message-${index}`} className={`MessageItem ${additionalClass}`}>
-                            <div className='MessageHeader'>
-                                <span className='TimeStamp'>{message.timestamp.toLocaleString()}</span>
-                                <span className='MessageAuthor'>{message.user.userId}</span>
-                            </div>
-                            <div className='MessageBody'>
-                                {message.text}
-                            </div>
-                        </li>
-                    )
-                })}
+                <ul className='messages'>
+                    {messages.map((message, index) => {
+                        let additionalClass = message.user.userId !== user.userId ? 'is-response' : ''
+                        return (
+                            <li key={`message-${index}`} className={`MessageItem ${additionalClass}`}>
+                                <small className='MessageHeader row'>
+                                    <span className='TimeStamp col-4'>{message.timestamp.toLocaleString()}</span>
+                                    <span className='MessageAuthor col-8'>{message.user.userId}</span>
+                                </small>
+                                <div className='MessageBody'>
+                                    {message.text}
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ul>
             </div>
         );
     }
