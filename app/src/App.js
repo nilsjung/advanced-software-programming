@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -26,12 +26,10 @@ class App extends Component {
     }
 
     render() {
-        const {isAuthenticated} = this.props
-
         return (
             <Router>
                 <main>
-                    <NavBar isAuthenticated={isAuthenticated}/>
+                    <NavBar isAuthenticated={this.props.isAuthenticated}/>
 
                     <Route path='/chat' exact render={this.renderChat} />
                     <Route path='/login' component={Login}></Route>
@@ -44,6 +42,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
+        isAuthenticated: state.isAuthenticated,
         user: state.user,
         messages: state.messages,
         currentMessage: state.currentMessage
@@ -58,4 +57,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
