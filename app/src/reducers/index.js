@@ -26,7 +26,6 @@ export default function (state = initialState, action) {
         // user login
     } else if (action.type === LOADING) {
         return  loginIsLoadingReducer(state, action);
-
     } else if (action.type === SUCCESS || action.type === FAILED) {
         return isLoginSuccessfullReducer(state, action);
 
@@ -36,8 +35,6 @@ export default function (state = initialState, action) {
 
     } else if (action.type === UPDATE_MESSAGE) {
         return updateMessageReducer(state, action)
-    } else if (action.type === ADD_MESSAGE) {
-        return addMessageReducer(state, action)
 
         // user reducer
     } else if (action.type === SET_USER_ID) {

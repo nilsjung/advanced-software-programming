@@ -19,23 +19,21 @@ class Login extends React.Component {
             email: document.getElementById('emailLogin').value
         }
 
-        return this.props.login(user).then(() => {
-            browserHistory.push('/chat')
-        });
+        return this.props.login(user);
     }
 
     render() {
 
         const message = this.props.infoMessage;
         const loading = this.props.isLoading ? <div>Loading...</div> : ''
-
+        const messageClass = 'alert ' + (this.props.isSuccess ? 'alert-success' : 'alert-danger');
         return (
             <div className='container loginForm'>
                 <div className='card'>
                     <div className='h4 card-header'>Login</div>
                     <div className='card-body'>
                     {loading}
-                    <div className={'alert ' + this.props.isSuccess ? 'alert-success' : 'alert-danger'}>
+                    <div className={messageClass} role='alert'>
                         {message}
                     </div>
                         <form>

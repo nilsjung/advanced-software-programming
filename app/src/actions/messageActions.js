@@ -2,10 +2,10 @@ export const ADD_MESSAGE = 'addMessage';
 export const UPDATE_MESSAGE = 'updateMessage';
 export const ADD_RESPONSE = 'addResponse';
 
-export function addMessage() {
+export function addMessage(message) {
     return {
         type: ADD_MESSAGE,
-        message: ''
+        message: message,
     }
 }
 
