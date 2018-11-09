@@ -21,28 +21,28 @@ export function registerUser(user) {
             .set('Content-Type', 'application/json')
             .send(user)
             .then((res) => {
-                dispatch(registrationSuccess({isSuccess: true, infoMessage: res.body.message}));
+                dispatch(registrationIsSuccess({isSuccess: true, infoMessage: res.body.message}));
                 dispatch(isLoading(false));
             })
             .catch((err) => {
-                dispatch(registrationHasFailed({hasFailed: true}));
+                dispatch(registrationIsSuccess({isSuccess: false, infoMessage: err}));
                 dispatch(isLoading(false));
             })
 
     }
 }
 
-export function registrationHasFailed(payload) {
+export function registrationIsSuccess(bool) {
     return {
         type: REGISTRATION_FAILED,
-        hasErrored: payload
+        isSuccess: bool
     };
 }
 
-export function isLoading(payload) {
+export function isLoading(bool) {
     return {
         type: IS_LOADING,
-        isLoading: payload
+        isLoading: bool
     }
 }
 

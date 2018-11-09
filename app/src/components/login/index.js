@@ -3,9 +3,10 @@ import {connect} from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
 // for redirect
-import { browserHistory } from 'react-router';
+import {Redirect} from 'react-router';
 
 import * as userActionCreators from '../../actions/userActions';
+import * as helperActions from '../../actions/helperAction';
 
 import Input from '../mixins/Input';
 
@@ -24,9 +25,16 @@ class Login extends React.Component {
 
     render() {
 
-        const message = this.props.infoMessage;
+        const message = this.props.showPopup(this.props.infoMessage);
         const loading = this.props.isLoading ? <div>Loading...</div> : ''
-        const messageClass = 'alert ' + (this.props.isSuccess ? 'alert-success' : 'alert-danger');
+        let messageClass = 'alert ';
+        if (this.props.isSuccess) {
+            messageClass += 'alert-success';
+            return <Redirect to='/chat'></Redirect>
+        } else if (this.props.isSuccess === false) {
+            messageClass += 'alert-danger';
+        }
+
         return (
             <div className='container loginForm'>
                 <div className='card'>
@@ -62,6 +70,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         login: (user) => dispatch(userActionCreators.login(user)),
+        showPopup: (message) => dispatch(helperActions.showPopup(message))
     }
 }
 

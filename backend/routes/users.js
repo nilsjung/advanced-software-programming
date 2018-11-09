@@ -14,9 +14,11 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../model/user');
-
 const defined = require('../mixins/helper');
 
+/**
+ * Login /user
+ */
 router.post('/login', (req, res) => {
     const {email, password} = req.body;
 
@@ -31,8 +33,7 @@ router.post('/login', (req, res) => {
             return;
         } else if (user){
             if (password !== user.password) {
-                res.status(403).json({error: 'invalid password', user: null});
-                return;
+                res.status(403).json('invalid password')
             } else {
                 res.status(200).json({message: 'successfully logged in', user: user});
                 return;
@@ -41,6 +42,14 @@ router.post('/login', (req, res) => {
             res.status(404).json({error: 'user not found'});
         }
     });
+});
+
+/**
+ * Logout /user
+ */
+router.post('/logout', (req, res) => {
+    // req.session.destroy();
+    res.status(200).json({message: 'successfully logged out'})
 });
 
 /**
