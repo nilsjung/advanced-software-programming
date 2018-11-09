@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
 import * as actions from '../actions/registerActions';
 
@@ -21,14 +21,15 @@ class Register extends React.Component {
 
     render() {
         let alert;
-        if (this.props.hasErrored) {
+        if (this.props.isSuccess === false) {
 
             alert = <div className='alert alert-danger'>{this.props.inforMessage}</div>
 
-        } else if (this.props.hasSucceeded) {
+        } else if (this.props.isSuccess) {
 
             alert = <div className='alert alert-success'>{this.props.infoMessage}</div>
-
+            this.props.reset();
+            return <Redirect to='/login'></Redirect>
         }
 
         if (this.props.isLoading) {
@@ -71,9 +72,8 @@ function mapStateToProps(state) {
     return {
         isAuthenticated: state.isAuthenticated,
         user: state.user,
-        hasErrored: state.hasErrored,
         isLoading: state.isLoading,
-        hasSucceeded: state.isSuccess,
+        isSuccess: state.isSuccess,
         infoMessage: state.infoMessage,
     }
 }
@@ -81,6 +81,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         registerUser: (user) =>  dispatch(actions.registerUser(user)),
+        reset: () => { dispatch(actions.registrationIsSuccess(null))}
     }
 }
 

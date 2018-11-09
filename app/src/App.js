@@ -27,7 +27,6 @@ class App extends Component {
 
     render() {
         return (
-            <Router>
                 <main>
                     <NavBar isAuthenticated={this.props.isAuthenticated}/>
 
@@ -35,7 +34,6 @@ class App extends Component {
                     <Route path='/login' component={Login}></Route>
                     <Route path='/register' component={Register}></Route>
                 </main>
-            </Router>
         )
     }
 }

@@ -1,8 +1,6 @@
 import request from 'superagent';
 import {HOST} from '../config/';
 
-
-
 const loginEndpoint = HOST + 'user/login';
 
 export const USER_LOGIN = 'user-login';
@@ -40,11 +38,13 @@ export function login({email, password}) {
             .set('Content-Type', 'application/json')
             .send({email, password})
             .then( res => {
+                console.log(res)
                 dispatch(hasSucceeded({isSuccess: true, infoMessage: res.body.message, user: res.body.user}));
                 dispatch(isLoading(false));
             })
             .catch( err => {
-                dispatch(hasSucceeded({isSuccess: false, infoMessage: res.body.error}));
+                console.log(err)
+                dispatch(hasSucceeded({isSuccess: false, infoMessage: err}));
                 dispatch(isLoading(false));
             });
     }
