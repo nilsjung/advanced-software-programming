@@ -28,7 +28,7 @@ export default function (state = initialState, action) {
         return  loginIsLoadingReducer(state, action);
 
     } else if (action.type === SUCCESS || action.type === FAILED) {
-        return isLoginSuccessfullReducer(sate, action);
+        return isLoginSuccessfullReducer(state, action);
 
         // message reducer
     } else if (action.type === ADD_MESSAGE || action.type === ADD_RESPONSE) {

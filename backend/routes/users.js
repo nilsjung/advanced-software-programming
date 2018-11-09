@@ -47,6 +47,7 @@ router.post('/login', (req, res) => {
  * GET /users
  */
 router.get('/', (req, res) => {
+    console.log('get Users')
     User.find({}, (err, users) => {
 
         if (err) {
@@ -71,8 +72,9 @@ router.get('/:id', (req, res) => {
 /**
  * POST /users
  */
-router.post('/', (req, res) => {
 
+router.post('/', (req, res) => {
+    console.log('create contact')
     var registerEmail = req.body.email;
 
     User.findOne({email: registerEmail}, (err, user) => {

@@ -11,12 +11,14 @@ import * as userActionCreators from './actions/userActions';
 import Chat from './components/chat/';
 import NavBar from './components/mixins/NavBar';
 import Login from './components/login'
+import Register from './components/Register';
 
 class App extends Component {
 
     renderChat = () => {
-        const {userId, messages, currentMessage, addMessage, updateMessage} = this.props;
-        return <Chat messages={messages}
+        let {userId, messages, currentMessage, addMessage, updateMessage} = this.props;
+        return <Chat
+            messages={messages}
             userId={userId}
             currentMessage={currentMessage}
             addMessage={addMessage}
@@ -34,6 +36,7 @@ class App extends Component {
 
                     <Route path='/chat' exact render={this.renderChat} />
                     <Route path='/login' render={() => <Login login={this.props.login}></Login>} ></Route>
+                    <Route path='/register' render={() => <Register></Register>} ></Route>
                 </main>
             </Router>
         )
