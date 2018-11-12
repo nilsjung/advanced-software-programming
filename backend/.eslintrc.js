@@ -7,7 +7,10 @@ module.exports = {
     "plugins": ["mocha"],
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": 2016
+        "ecmaVersion": 2016,
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        },
     },
     "rules": {
         "indent": [

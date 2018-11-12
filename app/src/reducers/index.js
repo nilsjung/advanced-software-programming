@@ -1,38 +1,53 @@
+import { registrationIsLoading, registrationIsSuccess} from './registerReducer'
+import { messagesReducer, updateMessageReducer} from './messageReducer';
+import { setUserIdReducer, loginIsLoadingReducer, isLoginSuccessfullReducer} from './userReducer';
+import { setInfoMessage, resetInfoMessage } from './helperReducer';
 
-import {combineReducers} from 'redux';
-import { UPDATE_MESSAGE, ADD_MESSAGE, ADD_RESPONSE, SET_USER_ID } from '../actions/message-actions';
+import { SET_USER_ID, FAILED, SUCCESS, LOADING } from '../actions/userActions';
+import { UPDATE_MESSAGE, ADD_MESSAGE, ADD_RESPONSE } from '../actions/messageActions';
+import { REGISTRATION_FAILED, REGISTRATION_SUCCESS, IS_LOADING } from '../actions/registerActions';
+import { SHOW_INFO_MESSAGE, RESET_INFO_MESSAGE } from '../actions/helperAction';
 
-export default function (initialState) {
-    function messages(currentMessages=initialState.messages, action) {
-        if (action.type === ADD_MESSAGE || action.type === ADD_RESPONSE) {
-            console.log(action.type, action.message)
-            console.log(currentMessages)
-            let messages = currentMessages.map((message) => Object.assign({}, message));
 
-            console.log(messages, action.message)
-            messages.push(Object.assign({}, action.message));
-            return messages;
-        }
 
-        return currentMessages;
+import initialState from '../store/';
+
+/**
+ * This is the main reducer. delegates the work to the specialized sub-reducer.
+ */
+export default function (state = initialState, action) {
+
+    // registration reducer
+    if (action.type === REGISTRATION_FAILED || action.type === REGISTRATION_SUCCESS) {
+        return registrationIsSuccess(state, action);
+    } else if (action.type === IS_LOADING) {
+        return registrationIsLoading(state, action);
+
+        // user login
+    } else if (action.type === LOADING) {
+        return  loginIsLoadingReducer(state, action);
+    } else if (action.type === SUCCESS || action.type === FAILED) {
+        return isLoginSuccessfullReducer(state, action);
+
+        // message reducer
+    } else if (action.type === ADD_MESSAGE || action.type === ADD_RESPONSE) {
+        return messagesReducer(state, action)
+
+    } else if (action.type === UPDATE_MESSAGE) {
+        return updateMessageReducer(state, action)
+
+        // user reducer
+    } else if (action.type === SET_USER_ID) {
+        return setUserIdReducer(state, action);
+
+        // logging reducer
+    } else if (action.type === SHOW_INFO_MESSAGE){
+        return setInfoMessage(state, action)
+    } else if (action.type === RESET_INFO_MESSAGE) {
+        return resetInfoMessage(state, action)
     }
 
-    function currentMessage(currentMessage=initialState.currentMessage, action) {
-        if (action.type === UPDATE_MESSAGE) {
-            return action.message;
-        } else if (action.type === ADD_MESSAGE) {
-            return '';
-        }
 
-        return currentMessage;
-    }
+    return {...state};
 
-    function userId(currentUserId=initialState.userId, action) {
-        if (action.type === SET_USER_ID) {
-            return action.userId;
-        }
-        return  currentUserId;
-    }
-
-    return combineReducers({userId, currentMessage, messages});
 }

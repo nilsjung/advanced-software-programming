@@ -1,0 +1,21 @@
+.messages {
+    list-style: none;
+
+    .MessageItem {
+
+        width: 80%;
+        margin: .3em;
+        border-radius: 5px;
+        background: $gray-100;
+        padding: .5em;
+        border: 1px $gray-400 solid;
+    }
+
+    .MessageItem.is-response {
+        right: 0;
+        background: $blue;
+        color: $light;
+        text-align: right;
+    }
+
+}

@@ -1,40 +1,47 @@
 import React, { Component } from 'react';
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as messageActionCreators from  './actions/message-actions';
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 
-import MessagesList from './components/MessagesList';
-import TextInput from './components/TextInput';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as messageActionCreators from './actions/messageActions';
+import * as userActionCreators from './actions/userActions';
+
+
+import Chat from './components/chat/';
+import NavBar from './components/mixins/NavBar';
+import Login from './components/login'
+import Register from './components/Register';
 
 class App extends Component {
-    render() {
-        let {messages, currentMessage, updateMessage, addMessage, userId} = this.props;
 
+    renderChat = () => {
+        const {user, messages, currentMessage, addMessage, updateMessage} = this.props;
+        return <Chat messages={messages}
+            user={user}
+            currentMessage={currentMessage}
+            addMessage={addMessage}
+            updateMessage={updateMessage}
+        ></Chat>
+    }
+
+    render() {
         return (
-            <div className='ChatApp'>
-                <div className='container'>
-                    <div className='row'>
-                        <div className='col'>
-                        <MessagesList userId={userId} messages={messages} />
-                        <TextInput
-                            userId={userId}
-                            value={currentMessage}
-                            onChange={updateMessage}
-                            onSubmit={addMessage}
-                            onClick={addMessage}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
+                <main>
+                    <NavBar isAuthenticated={this.props.isAuthenticated}/>
+
+                    <Route path='/chat' exact render={this.renderChat} />
+                    <Route path='/login' component={Login}></Route>
+                    <Route path='/register' component={Register}></Route>
+                </main>
+        )
     }
 }
 
 function mapStateToProps(state) {
     return {
-        userId: state.userId,
+        isAuthenticated: state.isAuthenticated,
+        user: state.user,
         messages: state.messages,
         currentMessage: state.currentMessage
     }
@@ -44,7 +51,8 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         addMessage: messageActionCreators.addMessage,
         updateMessage: messageActionCreators.updateMessage,
+        login: userActionCreators.login,
     }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

@@ -14,3 +14,6 @@ stop:
 
 clean: stop
 	docker rmi chatapp_app chat_app_backend
+
+cleanVolumes:
+	docker volume rm $$(docker volume ls -qf dangling=true)
