@@ -1,34 +1,16 @@
 import React, {Component} from 'react';
 
 class TextInput extends Component {
-    constructor(props) {
-        super(props);
+    handleChange = (event) => {
+        this.props.onChange(event.target.value);
+    }
 
-        this.handleChange = (event) => {
-            this.props.onChange(event.target.value);
-        }
-
-        this.handleKeyPress = (event) => {
-            if (event.which === 13) {
-                const message = this.props.value.trim();
-                if (message) {
-                    this.props.onSubmit({
-                        userId: this.props.userId,
-                        text: message,
-                        timestamp: new Date(),
-                    });
-                }
-
-                event.preventDefault();
-            }
-        }
-
-        this.handleClick = (event) => {
-            const message = document.getElementById('messageInput').value.trim();
-
+    handleKeyPress = (event) => {
+        if (event.which === 13) {
+            const message = this.props.value.trim();
             if (message) {
                 this.props.onSubmit({
-                    userId: this.props.userId,
+                    user: this.props.user,
                     text: message,
                     timestamp: new Date(),
                 });
@@ -36,6 +18,20 @@ class TextInput extends Component {
 
             event.preventDefault();
         }
+    }
+
+    handleClick = (event) => {
+        const message = this.props.value.trim();
+
+        if (message) {
+            this.props.onClick({
+                user: this.props.user,
+                text: message,
+                timestamp: new Date(),
+            });
+        }
+
+        event.preventDefault();
     }
 
     render() {
@@ -47,7 +43,7 @@ class TextInput extends Component {
                         className='form-control'
                         type='text'
                         value={this.props.value}
-                        onKeyPress={this.handleKeyPress.bind(this)}
+                        onKeyPress={this.handleKeyPress}
                         onChange={this.handleChange}
                         placeholder='Enter text...'>
                     </input>

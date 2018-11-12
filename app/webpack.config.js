@@ -14,6 +14,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
+    mode: 'development',
     entry: {
         app: __dirname + '/src/index.js',
     },
@@ -49,7 +50,18 @@ module.exports = {
             }, {
                 loader: 'sass-loader',
             }]
-        }],
+            }, {
+                test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/',
+                        publicFolder: '../'
+                    }
+                }],
+            }
+        ],
     },
 
     resolve: {
@@ -65,5 +77,5 @@ module.exports = {
         port: '3000',
     },
 
-    devtool: 'source-map'
+    devtool: 'inline-source-map'
 }

@@ -1,16 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var debug = require('debug')('backend:server');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-let config = require('config');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var messagesRouter = require('./routes/messages');
-var mongoose = require('mongoose');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const debug = require('debug')('backend:server');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+const config = require('config');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const mongoose = require('mongoose');
 
-var app = express();
+const app = express();
 
 process.env['NODE_CONFIG_DIR'] = './config';
 
@@ -22,9 +22,6 @@ const db = mongoose.connection;
 db.once('open', function() {
     debug('succesfully loaded database');
 });
-
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,12 +40,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+// Disable CORS
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
 /**
  * define your endpoints
  */
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/messages', messagesRouter);
+app.use('/user', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -69,13 +75,12 @@ app.use(function(err, req, res) {
 /**
  * Get port from environment and store in Express.
  */
+const port = process.env.PORT || '3000';
 
-var port = process.env.PORT || '3000';
+const io = require('socket.io').listen(app.listen(port));
 
-var io = require('socket.io').listen(app.listen(port));
-
-var userId = 0;
-var connections = [];
+let userId = 0;
+let connections = [];
 
 io.sockets.on('connection', function(socket) {
     connections.push(socket);
@@ -94,3 +99,6 @@ io.sockets.on('connection', function(socket) {
         connections.splice(index, 1);
     });
 });
+
+// export for testing
+module.exports = app;
