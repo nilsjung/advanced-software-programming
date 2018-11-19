@@ -2,6 +2,7 @@ import React from 'react'
 
 import MessagesList from './MessagesList';
 import TextInput from './TextInput';
+import Chatrooms from './Chatrooms';
 
 
 export default class Chat extends React.Component {
@@ -13,6 +14,7 @@ export default class Chat extends React.Component {
                 <div className='container'>
                     <div className='row'>
                         <div className='col'>
+                            <Chatrooms />
                             <MessagesList user={user} messages={messages} />
                             <TextInput
                                 user={user}
