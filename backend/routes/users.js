@@ -10,6 +10,7 @@
  * DELETE /users/:id
  */
 
+const token = require('../security/token');
 const express = require('express');
 const router = express.Router();
 
@@ -35,7 +36,14 @@ router.post('/login', (req, res) => {
             if (password !== user.password) {
                 res.status(403).json('invalid password')
             } else {
-                res.status(200).json({message: 'successfully logged in', user: user});
+                // create token
+                token.sign(email).then((result) => {
+                    console.log(result);
+                    res.status(200).json({message: 'successfully logged in', user: user, token:result});
+                }).catch((err) => {
+                    console.log(err);
+                    res.status(200).json({message: 'successfully logged in without access token', user: user});
+                });
                 return;
             }
         } else {
