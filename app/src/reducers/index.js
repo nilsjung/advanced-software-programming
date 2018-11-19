@@ -3,7 +3,7 @@ import { messagesReducer, updateMessageReducer} from './messageReducer';
 import { setUserIdReducer, loginIsLoadingReducer, isLoginSuccessfullReducer} from './userReducer';
 import { setInfoMessage, resetInfoMessage } from './helperReducer';
 
-import { SET_USER_ID, FAILED, SUCCESS, LOADING } from '../actions/userActions';
+import { SET_USER_ID, FAILED, SUCCESS, LOADING, LOGOUT } from '../actions/userActions';
 import { UPDATE_MESSAGE, ADD_MESSAGE, ADD_RESPONSE } from '../actions/messageActions';
 import { REGISTRATION_FAILED, REGISTRATION_SUCCESS, IS_LOADING } from '../actions/registerActions';
 import { SHOW_INFO_MESSAGE, RESET_INFO_MESSAGE } from '../actions/helperAction';
@@ -28,7 +28,8 @@ export default function (state = initialState, action) {
         return  loginIsLoadingReducer(state, action);
     } else if (action.type === SUCCESS || action.type === FAILED) {
         return isLoginSuccessfullReducer(state, action);
-
+    } else if (action.type === LOGOUT) {
+        return initialState;
         // message reducer
     } else if (action.type === ADD_MESSAGE || action.type === ADD_RESPONSE) {
         return messagesReducer(state, action)

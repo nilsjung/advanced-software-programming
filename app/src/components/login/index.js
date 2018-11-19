@@ -12,6 +12,10 @@ import Input from '../mixins/Input';
 
 class Login extends React.Component {
 
+    componentDidMount() {
+        this.props.logout();
+    }
+
     onSubmit = (event) => {
         event.preventDefault();
 
@@ -24,7 +28,6 @@ class Login extends React.Component {
     }
 
     render() {
-
         const message = this.props.showPopup(this.props.infoMessage);
         const loading = this.props.isLoading ? <div>Loading...</div> : ''
         let messageClass = 'alert ';
@@ -70,6 +73,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         login: (user) => dispatch(userActionCreators.login(user)),
+        logout: () => dispatch(userActionCreators.logout()),
         showPopup: (message) => dispatch(helperActions.showPopup(message))
     }
 }

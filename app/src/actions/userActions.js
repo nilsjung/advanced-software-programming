@@ -10,6 +10,7 @@ export const FAILED = 'failed';
 export const SUCCESS = 'success';
 export const LOADING = 'laoding';
 export const SET_USER_ID = 'set-user-id';
+export const LOGOUT = 'logout';
 
 /**
  * Register a new client on the websocket
@@ -39,7 +40,8 @@ export function login({email, password}) {
             .send({email, password})
             .then( res => {
                 console.log(res)
-                dispatch(hasSucceeded({isSuccess: true, infoMessage: res.body.message, user: res.body.user}));
+                dispatch(hasSucceeded({isSuccess: true, infoMessage: res.body.message, user: res.body.user,
+                    accessToken: res.body.token}));
                 dispatch(isLoading(false));
             })
             .catch( err => {
@@ -50,6 +52,12 @@ export function login({email, password}) {
     }
 }
 
+export function logout() {
+    return {
+        type: LOGOUT
+    }
+}
+
 export function isLoading(bool) {
     return {
         type: LOADING,
@@ -57,11 +65,12 @@ export function isLoading(bool) {
     }
 }
 
-export function hasSucceeded({isSuccess, infoMessage, user}) {
+export function hasSucceeded({isSuccess, infoMessage, user, accessToken}) {
     return {
         type: SUCCESS,
         infoMessage,
         isSuccess,
         user,
+        accessToken,
     }
 }

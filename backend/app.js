@@ -9,6 +9,7 @@ const config = require('config');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const mongoose = require('mongoose');
+const token = require('./security/token');
 
 const app = express();
 
@@ -86,10 +87,12 @@ io.sockets.on('connection', function(socket) {
     connections.push(socket);
     userId += 1;
     socket.emit('start', {userId} );
-    socket.on('message', (data) => {
+    socket.on('message', async (data) => {
+        const user = await token.verify(data.token);
+        console.log('authenticated:', user);
         connections.forEach( (connectedSocket) => {
             if (connectedSocket !== socket) {
-                connectedSocket.emit('message', data);
+                connectedSocket.emit('message', data.message);
             }
         });
     });

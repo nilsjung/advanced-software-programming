@@ -12,6 +12,7 @@ const initialState = {
     isLoading: null,
     infoMessage: '',
     isSuccess: null,
+    accessToken: '',
 }
 
 export default initialState;
