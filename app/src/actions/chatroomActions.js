@@ -24,11 +24,12 @@ export function createChatroom({chatroom, token}) {
             .set({'Content-Type': 'application/json', 'Authorization': token})
             .send({chatroom})
             .then( res => {
-                console.log(res)
+                console.log(res);
                 dispatch(createdChatroom({chatroom: res.body.chatroom}));
             })
             .catch( err => {
-                console.log(err)
+                console.log(err);
+
                 //todo: add error dispatching
             });
     }
