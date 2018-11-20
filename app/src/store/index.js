@@ -13,6 +13,8 @@ const initialState = {
     infoMessage: '',
     isSuccess: null,
     accessToken: '',
+    chatrooms: ['test', 'default'],
+    currentChatroom: 'default',
 }
 
 export default initialState;

@@ -7,14 +7,14 @@ import Chatrooms from './Chatrooms';
 
 export default class Chat extends React.Component {
     render() {
-        let { messages, currentMessage, updateMessage, addMessage, user } = this.props;
+        let { messages, currentMessage, updateMessage, addMessage, user, changeChatroom, createChatroom, chatrooms } = this.props;
 
         return (
             <div className='ChatApp'>
                 <div className='container'>
                     <div className='row'>
                         <div className='col'>
-                            <Chatrooms />
+                            <Chatrooms chatrooms = {chatrooms} createChatroom = {createChatroom} changeChatroom={changeChatroom} />
                             <MessagesList user={user} messages={messages} />
                             <TextInput
                                 user={user}
