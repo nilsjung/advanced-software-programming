@@ -4,7 +4,7 @@ import { setUserIdReducer, loginIsLoadingReducer, isLoginSuccessfullReducer} fro
 import { setInfoMessage, resetInfoMessage } from './helperReducer';
 
 import { SET_USER_ID, FAILED, SUCCESS, LOADING, LOGOUT } from '../actions/userActions';
-import { UPDATE_MESSAGE, ADD_MESSAGE, ADD_RESPONSE } from '../actions/messageActions';
+import {UPDATE_MESSAGE, ADD_MESSAGE, ADD_RESPONSE, LOAD_HISTORY} from '../actions/messageActions';
 import { REGISTRATION_FAILED, REGISTRATION_SUCCESS, IS_LOADING } from '../actions/registerActions';
 import { SHOW_INFO_MESSAGE, RESET_INFO_MESSAGE } from '../actions/helperAction';
 import {CHANGE_ROOM, CREATE_CHATROOM} from "../actions/chatroomActions";
@@ -55,6 +55,10 @@ export default function (state = initialState, action) {
         const newChatrooms = Object.create(state.chatrooms);
         newChatrooms.push(action.chatroom);
         return {...state, chatrooms: newChatrooms}
+    }
+    else if (action.type === LOAD_HISTORY) {
+        console.log(action)
+        return {...state, messages: action.chats};
     }
     return {...state};
 
