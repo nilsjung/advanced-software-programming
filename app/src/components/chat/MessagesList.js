@@ -1,8 +1,19 @@
 import React, {Component} from 'react';
 
 class MessagesList extends Component {
+
+    getChatHistory = () => {
+        const currentChatroom = this.props.currentChatroom;
+        const messages = this.props.chatrooms.map((room) => {
+            if(room.name === currentChatroom) {
+                return room.chats;
+            }
+        });
+        return messages;
+    }
+
     render() {
-        let {messages, user} = this.props;
+        let {messages, user, currentChatroom, chatrooms} = this.props;
         return (
             <div className='container'>
                 <ul className='messages'>

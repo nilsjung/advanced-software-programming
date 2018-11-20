@@ -16,7 +16,7 @@ export function createChatroom({chatroom, token}) {
             .send({chatroom})
             .then( res => {
                 console.log(res)
-                dispatch(createdChatroom({chatroom: res.body.chatroom.name}));
+                dispatch(createdChatroom({chatroom: res.body.chatroom}));
             })
             .catch( err => {
                 console.log(err)

@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
         }
 
         res.contentType('application/json');
-        res.json(chatrooms);
+        res.json({chatrooms});
     });
 });
 

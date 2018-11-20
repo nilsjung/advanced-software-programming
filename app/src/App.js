@@ -17,7 +17,7 @@ import Register from './components/Register';
 class App extends Component {
 
     renderChat = () => {
-        const {user, messages, currentMessage, addMessage, updateMessage, changeChatroom, createChatroom, chatrooms} = this.props;
+        const {user, messages, currentMessage, addMessage, updateMessage, changeChatroom, createChatroom, chatrooms, currentChatroom} = this.props;
         return <Chat messages={messages}
             user={user}
             currentMessage={currentMessage}
@@ -26,6 +26,7 @@ class App extends Component {
             changeChatroom={changeChatroom}
             createChatroom = {createChatroom}
             chatrooms ={chatrooms}
+            currentChatroom = {currentChatroom}
         ></Chat>
     }
 
@@ -48,6 +49,7 @@ function mapStateToProps(state) {
         messages: state.messages,
         currentMessage: state.currentMessage,
         chatrooms: state.chatrooms,
+        currentChatroom: state.currentChatroom,
     }
 }
 
