@@ -54,7 +54,7 @@ router.post('/', (req, res) => {
         Chatroom.findOne({name: name}, (err, chatroom) => {
 
             if (chatroom) {
-                res.json({ message: 'chatroom already in use' });
+                res.status(400).send({ message: 'chatroom already in use' });
                 return ;
             }
 
@@ -67,7 +67,7 @@ router.post('/', (req, res) => {
         });
     })
         .catch((err) => {
-            res.status(403).send({err});
+            res.status(403).send({message: 'authentication failed'});
         });
 });
 
