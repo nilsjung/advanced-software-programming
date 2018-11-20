@@ -7,7 +7,7 @@ import { SET_USER_ID, FAILED, SUCCESS, LOADING, LOGOUT } from '../actions/userAc
 import { UPDATE_MESSAGE, ADD_MESSAGE, ADD_RESPONSE } from '../actions/messageActions';
 import { REGISTRATION_FAILED, REGISTRATION_SUCCESS, IS_LOADING } from '../actions/registerActions';
 import { SHOW_INFO_MESSAGE, RESET_INFO_MESSAGE } from '../actions/helperAction';
-
+import {CHANGE_ROOM, CREATE_CHATROOM} from "../actions/chatroomActions";
 
 
 import initialState from '../store/';
@@ -47,8 +47,15 @@ export default function (state = initialState, action) {
     } else if (action.type === RESET_INFO_MESSAGE) {
         return resetInfoMessage(state, action)
     }
-
-
+        //chatroom reducer
+    else if (action.type === CHANGE_ROOM) {
+        return {...state, currentChatroom: action.currentChatroom}
+    }
+    else if(action.type === CREATE_CHATROOM) {
+        const newChatrooms = Object.create(state.chatrooms);
+        newChatrooms.push(action.chatroom);
+        return {...state, chatrooms: newChatrooms}
+    }
     return {...state};
 
 }

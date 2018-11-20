@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as messageActionCreators from './actions/messageActions';
 import * as userActionCreators from './actions/userActions';
+import * as chatroomActionCreators from './actions/chatroomActions';
 
 
 import Chat from './components/chat/';
@@ -16,12 +17,15 @@ import Register from './components/Register';
 class App extends Component {
 
     renderChat = () => {
-        const {user, messages, currentMessage, addMessage, updateMessage} = this.props;
+        const {user, messages, currentMessage, addMessage, updateMessage, changeChatroom, createChatroom, chatrooms} = this.props;
         return <Chat messages={messages}
             user={user}
             currentMessage={currentMessage}
             addMessage={addMessage}
             updateMessage={updateMessage}
+            changeChatroom={changeChatroom}
+            createChatroom = {createChatroom}
+            chatrooms ={chatrooms}
         ></Chat>
     }
 
@@ -29,7 +33,6 @@ class App extends Component {
         return (
                 <main>
                     <NavBar isAuthenticated={this.props.isAuthenticated}/>
-
                     <Route path='/chat' exact render={this.renderChat} />
                     <Route path='/login' component={Login}></Route>
                     <Route path='/register' component={Register}></Route>
@@ -43,7 +46,8 @@ function mapStateToProps(state) {
         isAuthenticated: state.isAuthenticated,
         user: state.user,
         messages: state.messages,
-        currentMessage: state.currentMessage
+        currentMessage: state.currentMessage,
+        chatrooms: state.chatrooms,
     }
 }
 
@@ -52,6 +56,8 @@ function mapDispatchToProps(dispatch) {
         addMessage: messageActionCreators.addMessage,
         updateMessage: messageActionCreators.updateMessage,
         login: userActionCreators.login,
+        changeChatroom: chatroomActionCreators.changeChatroom,
+        createChatroom: chatroomActionCreators.createChatroom,
     }, dispatch);
 }
 

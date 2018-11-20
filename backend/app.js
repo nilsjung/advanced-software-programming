@@ -8,6 +8,7 @@ const logger = require('morgan');
 const config = require('config');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const chatroomRouter = require('./routes/chatrooms');
 const mongoose = require('mongoose');
 const token = require('./security/token');
 
@@ -47,7 +48,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Disable CORS
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     next();
 });
 
@@ -56,6 +57,7 @@ app.use(function (req, res, next) {
  */
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
+app.use('/chatroom', chatroomRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
