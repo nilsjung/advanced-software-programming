@@ -2,6 +2,7 @@ import request from 'superagent';
 import {HOST} from '../config/';
 
 const loginEndpoint = HOST + 'user/login';
+const chatroomEndpoint = HOST + 'chatroom';
 
 export const USER_LOGIN = 'user-login';
 
@@ -34,21 +35,48 @@ export function setUserId(user) {
 export function login({email, password}) {
     return (dispatch) => {
         dispatch(isLoading(true));
-        request
+
+        const requests = [];
+        requests.push(
+            request
             .post(loginEndpoint)
             .set('Content-Type', 'application/json')
             .send({email, password})
-            .then( res => {
-                console.log(res)
-                dispatch(hasSucceeded({isSuccess: true, infoMessage: res.body.message, user: res.body.user,
-                    accessToken: res.body.token}));
-                dispatch(isLoading(false));
-            })
-            .catch( err => {
-                console.log(err)
-                dispatch(hasSucceeded({isSuccess: false, infoMessage: err}));
+        );
+        requests.push(
+            request
+                .get(chatroomEndpoint)
+                .set({'Content-Type': 'application/json'})
+        );
+
+        Promise.all(requests).then((result) => {
+            const loginResult = result[0];
+            const chatroomResult = result[1];
+            dispatch(hasSucceeded({isSuccess: true, infoMessage: loginResult.body.message, user: loginResult.body.user,
+                accessToken: loginResult.body.token, chatrooms: chatroomResult.body.chatrooms}));
+            dispatch(isLoading(false));
+        })
+            .catch((loginError, chatroomError) => {
+                console.log(loginError)
+                dispatch(hasSucceeded({isSuccess: false, infoMessage: loginError}));
                 dispatch(isLoading(false));
             });
+
+        // request
+        //     .post(loginEndpoint)
+        //     .set('Content-Type', 'application/json')
+        //     .send({email, password})
+        //     .then( res => {
+        //         console.log(res)
+        //         dispatch(hasSucceeded({isSuccess: true, infoMessage: res.body.message, user: res.body.user,
+        //             accessToken: res.body.token}));
+        //         dispatch(isLoading(false));
+        //     })
+        //     .catch( err => {
+        //         console.log(err)
+        //         dispatch(hasSucceeded({isSuccess: false, infoMessage: err}));
+        //         dispatch(isLoading(false));
+        //     });
     }
 }
 
@@ -65,12 +93,13 @@ export function isLoading(bool) {
     }
 }
 
-export function hasSucceeded({isSuccess, infoMessage, user, accessToken}) {
+export function hasSucceeded({isSuccess, infoMessage, user, accessToken, chatrooms}) {
     return {
         type: SUCCESS,
         infoMessage,
         isSuccess,
         user,
         accessToken,
+        chatrooms,
     }
 }

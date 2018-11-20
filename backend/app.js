@@ -1,3 +1,4 @@
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -11,6 +12,8 @@ const usersRouter = require('./routes/users');
 const chatroomRouter = require('./routes/chatrooms');
 const mongoose = require('mongoose');
 const token = require('./security/token');
+const chatroomService= require("./services/chatroomService");
+
 
 const app = express();
 
@@ -90,11 +93,17 @@ io.sockets.on('connection', function(socket) {
     userId += 1;
     socket.emit('start', {userId} );
     socket.on('message', async (data) => {
+        console.log(data);
         const user = await token.verify(data.token);
         console.log('authenticated:', user);
+        //store message to chat
+        const chatroom = data.chatroom;
+        chatroomService.storeMessageToChatroom(data.message, user.mail, chatroom).then((result) => {
+            console.log('successfully stored ' + result);
+        }).catch((err) => console.log(err));
         connections.forEach( (connectedSocket) => {
             if (connectedSocket !== socket) {
-                connectedSocket.emit('message', data.message);
+                connectedSocket.emit('message', {message: data.message, user: user});
             }
         });
     });

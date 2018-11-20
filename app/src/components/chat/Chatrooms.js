@@ -47,17 +47,17 @@ class Chatrooms extends React.Component {
     renderChatrooms = () => {
         const renderedChatrooms =
         this.props.chatrooms.map((room) => {
-            if(room === this.props.currentChatroom) {
+            if(room.name === this.props.currentChatroom) {
                 return (
-                    <li key = {room} class="nav-item">
-                    <a onClick={this.handleChangeChatroom(room)} class="nav-link active" href="#">{room}</a>
+                    <li key = {room.name} class="nav-item">
+                    <a onClick={this.handleChangeChatroom(room.name)} class="nav-link active" href="#">{room.name}</a>
                     </li>
                 )
             }
             else {
                 return (
-                    <li key = {room} class="nav-item">
-                    <a  onClick={this.handleChangeChatroom(room)} class="nav-link" href="#">{room}</a>
+                    <li key = {room.name} class="nav-item">
+                    <a  onClick={this.handleChangeChatroom(room.name)} class="nav-link" href="#">{room.name}</a>
                     </li>
                 )
             }

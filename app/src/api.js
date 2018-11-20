@@ -14,7 +14,7 @@ export function chatMiddleware(store) {
     return (next) => (action) => {
         if (socket && (action.type === actions.ADD_MESSAGE)) {
             console.log(store.accessToken)
-            socket.emit('message', {message: action.message, token: store.getState().accessToken});
+            socket.emit('message', {message: action.message, token: store.getState().accessToken, chatroom: store.getState().currentChatroom});
         }
         return next(action);
     }

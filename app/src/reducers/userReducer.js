@@ -6,8 +6,8 @@ export function setUserIdReducer(state, action) {
 }
 
 export function isLoginSuccessfullReducer(state, action) {
-    const { isSuccess, infoMessage, user, accessToken} = action
-    return {...state, isSuccess, infoMessage, isAuthenticated: isSuccess, user, accessToken}
+    const { isSuccess, infoMessage, user, accessToken, chatrooms} = action
+    return {...state, isSuccess, infoMessage, isAuthenticated: isSuccess, user, accessToken, chatrooms}
 }
 
 export function loginIsLoadingReducer(state, action) {
