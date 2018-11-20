@@ -9,8 +9,9 @@ class TextInput extends Component {
         if (event.which === 13) {
             const message = this.props.value.trim();
             if (message) {
+                const user = {name: this.props.user.firstname + " " + this.props.user.lastname, email: this.props.user.email};
                 this.props.onSubmit({
-                    user: this.props.user,
+                    user: user,
                     text: message,
                     timestamp: new Date(),
                 });
@@ -24,8 +25,9 @@ class TextInput extends Component {
         const message = this.props.value.trim();
 
         if (message) {
+            const user = {name: this.props.user.firstname + " " + this.props.user.lastname, email: this.props.user.email};
             this.props.onClick({
-                user: this.props.user,
+                user: user,
                 text: message,
                 timestamp: new Date(),
             });

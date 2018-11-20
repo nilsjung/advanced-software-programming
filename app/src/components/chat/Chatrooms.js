@@ -84,7 +84,7 @@ class Chatrooms extends React.Component {
             <div className='input-group-append'>
             <button className='btn btn-primary'
         type='button'
-        onClick={this.handleClick}><i className='fa fa-paper-plane'></i></button>
+        onClick={this.handleClick}><i className='fa fa-plus-square'></i></button>
         </div>
         </div>
         </div>

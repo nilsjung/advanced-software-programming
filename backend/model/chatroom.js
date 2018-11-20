@@ -13,7 +13,10 @@ let mongoose = require('mongoose');
 var chatroomSchema =  new mongoose.Schema({
     name: {type: String, required: true},
     chats: [ {
-        user: String,
+        user: {
+            name: String,
+            email: String,
+        },
         text: String,
         timestamp: Date,
     }]

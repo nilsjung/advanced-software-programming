@@ -98,12 +98,13 @@ io.sockets.on('connection', function(socket) {
         console.log('authenticated:', user);
         //store message to chat
         const chatroom = data.chatroom;
-        chatroomService.storeMessageToChatroom(data.message, user.mail, chatroom).then((result) => {
-            console.log('successfully stored ' + result);
+        console.log(data.user);
+        chatroomService.storeMessageToChatroom(data.message, data.user, chatroom).then((result) => {
+            //console.log('successfully stored ' + result);
         }).catch((err) => console.log(err));
         connections.forEach( (connectedSocket) => {
             if (connectedSocket !== socket) {
-                connectedSocket.emit('message', {message: data.message, user: user});
+                connectedSocket.emit('message', {message: data.message, user: data.user});
             }
         });
     });

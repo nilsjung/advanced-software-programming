@@ -13,7 +13,7 @@ const initialState = {
     infoMessage: '',
     isSuccess: null,
     accessToken: '',
-    chatrooms: [''],
+    chatrooms: [],
     currentChatroom: '',
 }
 

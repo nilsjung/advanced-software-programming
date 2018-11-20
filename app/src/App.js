@@ -17,7 +17,8 @@ import Register from './components/Register';
 class App extends Component {
 
     renderChat = () => {
-        const {user, messages, currentMessage, addMessage, updateMessage, changeChatroom, createChatroom, chatrooms, currentChatroom} = this.props;
+        const {user, messages, currentMessage, addMessage, updateMessage, changeChatroom, createChatroom, chatrooms,
+            currentChatroom, getChatroom} = this.props;
         return <Chat messages={messages}
             user={user}
             currentMessage={currentMessage}
@@ -27,6 +28,7 @@ class App extends Component {
             createChatroom = {createChatroom}
             chatrooms ={chatrooms}
             currentChatroom = {currentChatroom}
+            getChatroom = {getChatroom}
         ></Chat>
     }
 
@@ -60,6 +62,7 @@ function mapDispatchToProps(dispatch) {
         login: userActionCreators.login,
         changeChatroom: chatroomActionCreators.changeChatroom,
         createChatroom: chatroomActionCreators.createChatroom,
+        getChatroom: chatroomActionCreators.getChatroom,
     }, dispatch);
 }
 

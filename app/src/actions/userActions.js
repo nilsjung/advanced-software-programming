@@ -1,5 +1,6 @@
 import request from 'superagent';
 import {HOST} from '../config/';
+import {loadChatHistory} from "./messageActions";
 
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
@@ -50,14 +51,15 @@ export function login({email, password}) {
         );
 
         Promise.all(requests).then((result) => {
-            const loginResult = result[0];
-            const chatroomResult = result[1];
-            dispatch(hasSucceeded({isSuccess: true, infoMessage: loginResult.body.message, user: loginResult.body.user,
-                accessToken: loginResult.body.token, chatrooms: chatroomResult.body.chatrooms}));
+            const loginResult = result[0].body;
+            const chatroomResult = result[1].body;
+            dispatch(hasSucceeded({isSuccess: true, infoMessage: loginResult.message, user: loginResult.user,
+                accessToken: loginResult.token, chatrooms: chatroomResult.chatrooms}));
             dispatch(isLoading(false));
         })
             .catch((loginError, chatroomError) => {
-                console.log(loginError)
+                console.log(chatroomError);
+                console.log(loginError);
                 dispatch(hasSucceeded({isSuccess: false, infoMessage: loginError}));
                 dispatch(isLoading(false));
             });
