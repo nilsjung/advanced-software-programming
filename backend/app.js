@@ -93,15 +93,14 @@ io.sockets.on('connection', function(socket) {
     userId += 1;
     socket.emit('start', {userId} );
     socket.on('message', async (data) => {
-        console.log(data);
         const user = await token.verify(data.token);
-        console.log('authenticated:', user);
-        //store message to chat
         const chatroom = data.chatroom;
-        console.log(data.user);
+
+        //store message to chat
         chatroomService.storeMessageToChatroom(data.message, data.user, chatroom).then((result) => {
             //console.log('successfully stored ' + result);
         }).catch((err) => console.log(err));
+
         connections.forEach( (connectedSocket) => {
             if (connectedSocket !== socket) {
                 connectedSocket.emit('message', {message: data.message, user: data.user});

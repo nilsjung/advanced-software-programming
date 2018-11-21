@@ -50,35 +50,18 @@ export function login({email, password}) {
                 .set({'Content-Type': 'application/json'})
         );
 
-        Promise.all(requests).then((result) => {
-            const loginResult = result[0].body;
-            const chatroomResult = result[1].body;
-            dispatch(hasSucceeded({isSuccess: true, infoMessage: loginResult.message, user: loginResult.user,
-                accessToken: loginResult.token, chatrooms: chatroomResult.chatrooms}));
-            dispatch(isLoading(false));
-        })
+        Promise.all(requests)
+            .then((result) => {
+                const loginResult = result[0].body;
+                const chatroomResult = result[1].body;
+                dispatch(hasSucceeded({isSuccess: true, infoMessage: loginResult.message, user: loginResult.user,
+                    accessToken: loginResult.token, chatrooms: chatroomResult.chatrooms}));
+                dispatch(isLoading(false));
+            })
             .catch((loginError, chatroomError) => {
-                console.log(chatroomError);
-                console.log(loginError);
                 dispatch(hasSucceeded({isSuccess: false, infoMessage: loginError}));
                 dispatch(isLoading(false));
             });
-
-        // request
-        //     .post(loginEndpoint)
-        //     .set('Content-Type', 'application/json')
-        //     .send({email, password})
-        //     .then( res => {
-        //         console.log(res)
-        //         dispatch(hasSucceeded({isSuccess: true, infoMessage: res.body.message, user: res.body.user,
-        //             accessToken: res.body.token}));
-        //         dispatch(isLoading(false));
-        //     })
-        //     .catch( err => {
-        //         console.log(err)
-        //         dispatch(hasSucceeded({isSuccess: false, infoMessage: err}));
-        //         dispatch(isLoading(false));
-        //     });
     }
 }
 

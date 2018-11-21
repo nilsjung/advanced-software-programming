@@ -38,10 +38,8 @@ router.post('/login', (req, res) => {
             } else {
                 // create token
                 token.sign(email).then((result) => {
-                    console.log(result);
                     res.status(200).json({message: 'successfully logged in', user: user, token:result});
                 }).catch((err) => {
-                    console.log(err);
                     res.status(200).json({message: 'successfully logged in without access token', user: user});
                 });
                 return;
@@ -64,7 +62,6 @@ router.post('/logout', (req, res) => {
  * GET /users
  */
 router.get('/', (req, res) => {
-    console.log('get Users')
     User.find({}, (err, users) => {
 
         if (err) {
@@ -89,9 +86,7 @@ router.get('/:id', (req, res) => {
 /**
  * POST /users
  */
-
 router.post('/', (req, res) => {
-    console.log('create contact')
     var registerEmail = req.body.email;
 
     User.findOne({email: registerEmail}, (err, user) => {

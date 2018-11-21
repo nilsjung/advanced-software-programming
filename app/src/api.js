@@ -13,7 +13,6 @@ let socket = null;
 export function chatMiddleware(store) {
     return (next) => (action) => {
         if (socket && (action.type === actions.ADD_MESSAGE)) {
-            console.log({emit: action.message});
             socket.emit('message', {message: action.message, user: action.message.user, token: store.getState().accessToken, chatroom: store.getState().currentChatroom});
         }
         return next(action);

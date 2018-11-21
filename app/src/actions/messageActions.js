@@ -4,7 +4,6 @@ export const ADD_RESPONSE = 'addResponse';
 export const LOAD_HISTORY = 'loadHistory';
 
 export function addMessage(message) {
-    console.log(message);
     return {
         type: ADD_MESSAGE,
         message: message,
