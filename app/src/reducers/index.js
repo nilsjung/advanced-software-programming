@@ -57,7 +57,6 @@ export default function (state = initialState, action) {
         return {...state, chatrooms: newChatrooms}
     }
     else if (action.type === LOAD_HISTORY) {
-        console.log(action)
         return {...state, messages: action.chats};
     }
     return {...state};

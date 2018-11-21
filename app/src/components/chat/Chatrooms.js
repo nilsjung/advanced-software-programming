@@ -10,7 +10,6 @@ class Chatrooms extends React.Component {
 
     handleChangeChatroom = (room) => {
         return () => {
-            console.log(room);
             this.props.changeChatroom(room);
         }
     };

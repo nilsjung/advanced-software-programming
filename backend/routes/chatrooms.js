@@ -20,7 +20,6 @@ const Chatroom = require('../model/chatroom');
  * GET /chatrooms
  */
 router.get('/', (req, res) => {
-    console.log('get Chatrooms')
     Chatroom.find({}, (err, chatrooms) => {
 
         if (err) {
