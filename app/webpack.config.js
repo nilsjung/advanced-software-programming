@@ -25,42 +25,54 @@ module.exports = {
     },
 
     module: {
-        rules: [{
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            use: [{
-                loader: 'babel-loader'
-            }],
-        },{
-            test: /\.(scss)$/,
-            use: [{
-                loader: 'style-loader'
-            }, {
-                loader: 'css-loader'
-            }, {
-                loader: 'postcss-loader',
-                options: {
-                    plugins: function() {
-                        return [
-                            require('precss'),
-                            require('autoprefixer'),
-                        ]
-                    }
-                },
-            }, {
-                loader: 'sass-loader',
-            }]
-            }, {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                    },
+                ],
+            },
+            {
+                test: /\.(scss)$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: function() {
+                                return [
+                                    require('precss'),
+                                    require('autoprefixer'),
+                                ];
+                            },
+                        },
+                    },
+                    {
+                        loader: 'sass-loader',
+                    },
+                ],
+            },
+            {
                 test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        name: '[name].[ext]',
-                        outputPath: 'fonts/',
-                        publicFolder: '../'
-                    }
-                }],
-            }
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'fonts/',
+                            publicFolder: '../',
+                        },
+                    },
+                ],
+            },
         ],
     },
 
@@ -69,13 +81,15 @@ module.exports = {
     },
 
     plugins: [
-        new HtmlWebpackPlugin({ template: __dirname + '/public/index.html'}),
+        new HtmlWebpackPlugin({ template: __dirname + '/public/index.html' }),
         new CleanWebpackPlugin(['www']),
     ],
 
     devServer: {
         port: '3000',
+        historyApiFallback: true,
+        hot: true,
     },
 
-    devtool: 'inline-source-map'
-}
+    devtool: 'inline-source-map',
+};

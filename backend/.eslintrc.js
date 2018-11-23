@@ -1,33 +1,11 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "commonjs": true,
-        "es6": true
+    extends: ['eslint:recommended', 'plugin:node/recommended'],
+    env: {
+        browser: false,
+        node: true,
+        es6: true,
     },
-    "plugins": ["mocha"],
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaVersion": 2016,
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true
-        },
+    parserOptions: {
+        acmaVersion: 8,
     },
-    "rules": {
-        "indent": [
-            "error",
-            4
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ]
-    }
 };
