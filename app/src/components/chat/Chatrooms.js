@@ -43,40 +43,31 @@ class Chatrooms extends React.Component {
     };
 
     renderChatrooms = () => {
-        const renderedChatrooms = this.props.chatrooms.map((room) => {
+        return this.props.chatrooms.map((room) => {
+            let navlinkClass = 'nav-link';
+
             if (room.name === this.props.currentChatroom) {
-                return (
-                    <li key={room.name} class="nav-item">
-                        <a
-                            onClick={this.handleChangeChatroom(room.name)}
-                            class="nav-link active"
-                            href="#"
-                        >
-                            {room.name}
-                        </a>
-                    </li>
-                );
-            } else {
-                return (
-                    <li key={room.name} class="nav-item">
-                        <a
-                            onClick={this.handleChangeChatroom(room.name)}
-                            class="nav-link"
-                            href="#"
-                        >
-                            {room.name}
-                        </a>
-                    </li>
-                );
+                navlinkClass += ' active';
             }
+
+            return (
+                <li key={room.name} className="nav-item">
+                    <a
+                        onClick={this.handleChangeChatroom(room.name)}
+                        className={navlinkClass}
+                        href="#"
+                    >
+                        {room.name}
+                    </a>
+                </li>
+            );
         });
-        return renderedChatrooms;
     };
 
     render() {
         return (
             <div className="container">
-                <ul class="nav">{this.renderChatrooms()}</ul>
+                <ul className="nav">{this.renderChatrooms()}</ul>
                 <div className="input-group mb-3">
                     <input
                         id="messageInput"

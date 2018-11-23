@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-sign = (mail) => {
+const sign = (mail) => {
     return new Promise((res, rej) => {
         jwt.sign({ mail: mail }, 'secret', function(err, token) {
             if (err) {
@@ -12,7 +12,7 @@ sign = (mail) => {
     });
 };
 
-verify = (token) => {
+const verify = (token) => {
     return new Promise((res, rej) => {
         jwt.verify(token, 'secret', function(err, decoded) {
             if (err) {
