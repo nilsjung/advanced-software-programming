@@ -8,7 +8,7 @@ class MessagesList extends Component {
                 <ul className="messages">
                     {messages.map((message, index) => {
                         let additionalClass =
-                            message.user.mail !== user.mail
+                            message.user.email !== user.email
                                 ? 'is-response'
                                 : '';
                         return (
