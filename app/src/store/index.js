@@ -15,6 +15,6 @@ const initialState = {
     accessToken: '',
     chatrooms: [],
     currentChatroom: '',
-}
+};
 
 export default initialState;

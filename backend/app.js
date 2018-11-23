@@ -1,4 +1,3 @@
-
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -12,16 +11,18 @@ const usersRouter = require('./routes/users');
 const chatroomRouter = require('./routes/chatrooms');
 const mongoose = require('mongoose');
 const token = require('./security/token');
-const chatroomService= require("./services/chatroomService");
-
+const chatroomService = require('./services/chatroomService');
 
 const app = express();
 
 process.env['NODE_CONFIG_DIR'] = './config';
 
-mongoose.connect(config.dbHost, {
-    useNewUrlParser: true,
-});
+mongoose.connect(
+    config.dbHost,
+    {
+        useNewUrlParser: true,
+    }
+);
 
 const db = mongoose.connection;
 db.once('open', function() {
@@ -33,7 +34,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 //don't show the log when it is in test mode
-if(config.util.getEnv('NODE_ENV') !== 'test') {
+if (config.util.getEnv('NODE_ENV') !== 'test') {
     app.use(logger('combined'));
 }
 
@@ -46,12 +47,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Disable CORS
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    );
     next();
 });
 
@@ -91,19 +95,25 @@ let connections = [];
 io.sockets.on('connection', function(socket) {
     connections.push(socket);
     userId += 1;
-    socket.emit('start', {userId} );
+    socket.emit('start', { userId });
     socket.on('message', async (data) => {
         const user = await token.verify(data.token);
         const chatroom = data.chatroom;
 
         //store message to chat
-        chatroomService.storeMessageToChatroom(data.message, data.user, chatroom).then((result) => {
-            //console.log('successfully stored ' + result);
-        }).catch((err) => console.log(err));
+        chatroomService
+            .storeMessageToChatroom(data.message, data.user, chatroom)
+            .then((result) => {
+                //console.log('successfully stored ' + result);
+            })
+            .catch((err) => console.log(err));
 
-        connections.forEach( (connectedSocket) => {
+        connections.forEach((connectedSocket) => {
             if (connectedSocket !== socket) {
-                connectedSocket.emit('message', {message: data.message, user: data.user});
+                connectedSocket.emit('message', {
+                    message: data.message,
+                    user: data.user,
+                });
             }
         });
     });

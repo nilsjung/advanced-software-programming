@@ -14,25 +14,22 @@ const router = express.Router();
 
 const Chatroom = require('../model/chatroom');
 
-
-
 /**
  * GET /chatrooms
  */
 router.get('/', (req, res) => {
     Chatroom.find({}, (err, chatrooms) => {
-
         if (err) {
             res.end(err);
         }
 
         res.contentType('application/json');
-        res.json({chatrooms});
+        res.json({ chatrooms });
     });
 });
 
 router.get('/:name', (req, res) => {
-    Chatroom.findOne({name: req.params.name}, (err, chatroom) => {
+    Chatroom.findOne({ name: req.params.name }, (err, chatroom) => {
         if (err) {
             res.send(err);
         } else {
@@ -47,26 +44,32 @@ router.get('/:name', (req, res) => {
 
 router.post('/', (req, res) => {
     //validate token:
-    token.verify(req.headers.authorization).then((result) => {
-        var name = req.body.chatroom;
+    token
+        .verify(req.headers.authorization)
+        .then((result) => {
+            var name = req.body.chatroom;
 
-        Chatroom.findOne({name: name}, (err, chatroom) => {
+            Chatroom.findOne({ name: name }, (err, chatroom) => {
+                if (chatroom) {
+                    res.status(400).send({
+                        message: 'chatroom already in use',
+                    });
+                    return;
+                }
 
-            if (chatroom) {
-                res.status(400).send({ message: 'chatroom already in use' });
-                return ;
-            }
+                const newChatroom = new Chatroom({ name: name, chats: [] });
+                newChatroom.save((err, chatroom) => {
+                    return chatroom;
+                });
 
-            const newChatroom = new Chatroom({name: name, chats: []});
-            newChatroom.save((err, chatroom) => {
-                return chatroom;
+                res.json({
+                    message: 'chatroom created',
+                    chatroom: newChatroom,
+                });
             });
-
-            res.json({ message: 'chatroom created', chatroom: newChatroom });
-        });
-    })
+        })
         .catch((err) => {
-            res.status(403).send({message: 'authentication failed'});
+            res.status(403).send({ message: 'authentication failed' });
         });
 });
 

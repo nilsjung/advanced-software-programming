@@ -7,27 +7,27 @@ export function addMessage(message) {
     return {
         type: ADD_MESSAGE,
         message: message,
-    }
+    };
 }
 
-export function loadChatHistory({chats}) {
+export function loadChatHistory({ chats }) {
     return {
         type: LOAD_HISTORY,
-        chats
-    }
+        chats,
+    };
 }
 
 export function updateMessage(message) {
     return {
         type: UPDATE_MESSAGE,
-        message
-    }
+        message,
+    };
 }
 
-export function addResponse({message, user}) {
+export function addResponse({ message, user }) {
     return {
         type: ADD_RESPONSE,
         message,
         user,
-    }
+    };
 }

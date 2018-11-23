@@ -1,6 +1,6 @@
 import React from 'react';
-import {createStore, applyMiddleware} from 'redux';
-import {Provider} from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import reducers from './reducers';
 import App from './App';
@@ -12,12 +12,17 @@ import 'bootstrap';
 import './sass/main.scss';
 
 import thunk from 'redux-thunk';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-import startChat, {chatMiddleware} from './api';
+import startChat, { chatMiddleware } from './api';
 
-const createStoreWithMiddleware = applyMiddleware(chatMiddleware, thunk)(createStore)
-const store = createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const createStoreWithMiddleware = applyMiddleware(chatMiddleware, thunk)(
+    createStore
+);
+const store = createStoreWithMiddleware(
+    reducers,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 startChat(store);
 
@@ -26,6 +31,6 @@ ReactDOM.render(
         <Router>
             <App />
         </Router>
-    </Provider>
-    , document.getElementById('root')
+    </Provider>,
+    document.getElementById('root')
 );
