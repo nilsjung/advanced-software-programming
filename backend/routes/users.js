@@ -21,31 +21,42 @@ const defined = require('../mixins/helper');
  * Login /user
  */
 router.post('/login', (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
 
     if (!email || !password) {
-        res.status(401).json({error: 'missing data'});
+        res.status(401).json({ error: 'missing data' });
         return;
     }
 
-    User.findOne({email: email}, (err, user) => {
+    User.findOne({ email: email }, (err, user) => {
         if (err) {
-            res.json({error: err});
+            res.json({ error: err });
             return;
-        } else if (user){
+        } else if (user) {
             if (password !== user.password) {
-                res.status(403).json('invalid password')
+                res.status(403).json('invalid password');
             } else {
                 // create token
-                token.sign(email).then((result) => {
-                    res.status(200).json({message: 'successfully logged in', user: user, token:result});
-                }).catch((err) => {
-                    res.status(200).json({message: 'successfully logged in without access token', user: user});
-                });
+                token
+                    .sign(email)
+                    .then((result) => {
+                        res.status(200).json({
+                            message: 'successfully logged in',
+                            user: user,
+                            token: result,
+                        });
+                    })
+                    .catch((err) => {
+                        res.status(200).json({
+                            message:
+                                'successfully logged in without access token',
+                            user: user,
+                        });
+                    });
                 return;
             }
         } else {
-            res.status(404).json({error: 'user not found'});
+            res.status(404).json({ error: 'user not found' });
         }
     });
 });
@@ -55,7 +66,7 @@ router.post('/login', (req, res) => {
  */
 router.post('/logout', (req, res) => {
     // req.session.destroy();
-    res.status(200).json({message: 'successfully logged out'})
+    res.status(200).json({ message: 'successfully logged out' });
 });
 
 /**
@@ -63,7 +74,6 @@ router.post('/logout', (req, res) => {
  */
 router.get('/', (req, res) => {
     User.find({}, (err, users) => {
-
         if (err) {
             res.end(err);
         }
@@ -89,19 +99,22 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     var registerEmail = req.body.email;
 
-    User.findOne({email: registerEmail}, (err, user) => {
-
-        const {firstname, lastname, email, password} = req.body;
-        const dataComplete = defined(firstname) && defined(lastname)  && defined(email) && defined(password);
+    User.findOne({ email: registerEmail }, (err, user) => {
+        const { firstname, lastname, email, password } = req.body;
+        const dataComplete =
+            defined(firstname) &&
+            defined(lastname) &&
+            defined(email) &&
+            defined(password);
 
         if (!dataComplete) {
-            res.json({message: 'data not complete'});
+            res.json({ message: 'data not complete' });
             return;
         }
 
         if (user) {
             res.json({ message: 'email already in use' });
-            return ;
+            return;
         }
 
         const newUser = new User(req.body);
@@ -117,12 +130,11 @@ router.post('/', (req, res) => {
  * DELETE /users
  */
 router.delete('/', (req, res) => {
-
     User.remove({}, (err, result) => {
         if (err) {
             res.send(err);
         } else {
-            res.json({message: 'deleted all users', user: result});
+            res.json({ message: 'deleted all users', user: result });
         }
     });
 });
@@ -133,13 +145,12 @@ router.delete('/', (req, res) => {
 router.delete('/:id', (req, res) => {
     let id = req.params.id;
 
-    User.findByIdAndRemove({'_id': id}, (err, result) => {
+    User.findByIdAndRemove({ _id: id }, (err, result) => {
         if (err) {
             res.send(err);
         } else {
-            res.json({message: 'deleted user with id' + id, result});
+            res.json({ message: 'deleted user with id' + id, result });
         }
-
     });
 });
 
