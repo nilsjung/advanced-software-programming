@@ -1,24 +1,33 @@
 export const ADD_MESSAGE = 'addMessage';
 export const UPDATE_MESSAGE = 'updateMessage';
 export const ADD_RESPONSE = 'addResponse';
+export const LOAD_HISTORY = 'loadHistory';
 
 export function addMessage(message) {
     return {
         type: ADD_MESSAGE,
         message: message,
-    }
+    };
+}
+
+export function loadChatHistory({ chats }) {
+    return {
+        type: LOAD_HISTORY,
+        chats,
+    };
 }
 
 export function updateMessage(message) {
     return {
         type: UPDATE_MESSAGE,
-        message
-    }
+        message,
+    };
 }
 
-export function addResponse(message) {
+export function addResponse({ message, user }) {
     return {
         type: ADD_RESPONSE,
-        message
-    }
+        message,
+        user,
+    };
 }

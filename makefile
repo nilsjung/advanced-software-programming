@@ -1,10 +1,16 @@
-all: build start logging
+all: nodeModules build start logging
 
 start:
-	docker-compose up --quiet-pull --remove-orphans -d
+	docker-compose up --remove-orphans -d
 
 build:
 	docker-compose build --force-rm
+
+format:
+	npm run format
+
+nodeModules:
+	npm install
 
 logging:
 	docker-compose logs -f
