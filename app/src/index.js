@@ -12,7 +12,7 @@ import 'bootstrap';
 import './sass/main.scss';
 
 import thunk from 'redux-thunk';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import startChat, { chatMiddleware } from './api';
 

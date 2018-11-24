@@ -2,12 +2,14 @@ import {
     registrationIsLoading,
     registrationIsSuccess,
 } from './registerReducer';
+
 import { messagesReducer, updateMessageReducer } from './messageReducer';
 import {
     setUserIdReducer,
     loginIsLoadingReducer,
     isLoginSuccessfullReducer,
 } from './userReducer';
+
 import { setInfoMessage, resetInfoMessage } from './helperReducer';
 
 import {
@@ -17,17 +19,20 @@ import {
     LOADING,
     LOGOUT,
 } from '../actions/userActions';
+
 import {
     UPDATE_MESSAGE,
     ADD_MESSAGE,
     ADD_RESPONSE,
     LOAD_HISTORY,
 } from '../actions/messageActions';
+
 import {
     REGISTRATION_FAILED,
     REGISTRATION_SUCCESS,
     IS_LOADING,
 } from '../actions/registerActions';
+
 import { SHOW_INFO_MESSAGE, RESET_INFO_MESSAGE } from '../actions/helperAction';
 import { CHANGE_ROOM, CREATE_CHATROOM } from '../actions/chatroomActions';
 
