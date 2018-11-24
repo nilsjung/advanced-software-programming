@@ -4,4 +4,4 @@ module.exports = (val) => {
     } else {
         return false;
     }
-}
+};
