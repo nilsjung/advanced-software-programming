@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
 import * as actions from '../actions/registerActions';

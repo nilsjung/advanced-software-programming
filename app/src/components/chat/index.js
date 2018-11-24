@@ -12,11 +12,8 @@ export default class Chat extends React.Component {
             updateMessage,
             addMessage,
             user,
-            changeChatroom,
-            createChatroom,
             chatrooms,
             currentChatroom,
-            getChatroom,
         } = this.props;
 
         if (currentChatroom !== '') {
@@ -53,15 +50,9 @@ export default class Chat extends React.Component {
     };
     render() {
         let {
-            messages,
-            currentMessage,
-            updateMessage,
-            addMessage,
-            user,
             changeChatroom,
             createChatroom,
             chatrooms,
-            currentChatroom,
             getChatroom,
         } = this.props;
 

@@ -6,7 +6,7 @@ export default class Input extends React.Component {
     };
 
     render() {
-        const { placeholder, Id, label, type, className } = this.props;
+        const { placeholder, Id, label, type } = this.props;
         const inputId = Id || Symbol('input');
         const renderLabel = label ? (
             <label htmlFor={inputId}>{label}</label>

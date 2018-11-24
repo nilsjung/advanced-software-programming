@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class MessagesList extends Component {
     render() {
-        let { messages, user, currentChatroom, chatrooms } = this.props;
+        let { messages, user } = this.props;
         return (
             <div className="container">
                 <ul className="messages">
