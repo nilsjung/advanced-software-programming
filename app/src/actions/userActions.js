@@ -1,6 +1,5 @@
 import request from 'superagent';
 import { HOST } from '../config/';
-import { loadChatHistory } from './messageActions';
 
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';

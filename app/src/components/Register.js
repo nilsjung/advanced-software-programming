@@ -59,7 +59,7 @@ class Register extends React.Component {
                             placeholder="Enter your email"
                         />
                         <small id="emailHelp" className="form-text text-muted">
-                            We'll never share your email with anyone else.
+                            We will never share your email with anyone else.
                         </small>
                     </div>
                     <div className="form-group">

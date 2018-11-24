@@ -6,15 +6,14 @@ class TextInput extends Component {
     };
 
     handleKeyPress = (event) => {
+        const message = this.props.value.trim();
+        const { firstname, lastname, email } = this.props.user;
+
         if (event.which === 13) {
-            const message = this.props.value.trim();
             if (message) {
                 const user = {
-                    name:
-                        this.props.user.firstname +
-                        ' ' +
-                        this.props.user.lastname,
-                    email: this.props.user.email,
+                    name: firstname + ' ' + lastname,
+                    email: email,
                 };
                 this.props.onSubmit({
                     user: user,
@@ -29,12 +28,12 @@ class TextInput extends Component {
 
     handleClick = (event) => {
         const message = this.props.value.trim();
+        const { firstname, lastname, email } = this.props.user;
 
         if (message) {
             const user = {
-                name:
-                    this.props.user.firstname + ' ' + this.props.user.lastname,
-                email: this.props.user.email,
+                name: firstname + ' ' + lastname,
+                email: email,
             };
             this.props.onClick({
                 user: user,

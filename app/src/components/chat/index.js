@@ -18,6 +18,7 @@ export default class Chat extends React.Component {
             currentChatroom,
             getChatroom,
         } = this.props;
+
         if (currentChatroom !== '') {
             return (
                 <div className="col">
@@ -38,13 +39,13 @@ export default class Chat extends React.Component {
             );
         } else if (chatrooms.length === 0) {
             return (
-                <div className="col">
+                <div className="col-12">
                     <p> Create a Chatroom first </p>
                 </div>
             );
         } else {
             return (
-                <div className="col">
+                <div className="col-12">
                     <p> Select a Chatroom </p>
                 </div>
             );
@@ -63,6 +64,7 @@ export default class Chat extends React.Component {
             currentChatroom,
             getChatroom,
         } = this.props;
+
         return (
             <div className="ChatApp">
                 <div className="container">
@@ -73,8 +75,8 @@ export default class Chat extends React.Component {
                             changeChatroom={changeChatroom}
                             getChatroom={getChatroom}
                         />
-                        {this.renderInputAndMessages()}
                     </div>
+                    <div className="row">{this.renderInputAndMessages()}</div>
                 </div>
             </div>
         );

@@ -67,7 +67,7 @@ class Chatrooms extends React.Component {
     render() {
         return (
             <div className="container">
-                <ul className="nav">{this.renderChatrooms()}</ul>
+                <ul className="nav nav-tabs">{this.renderChatrooms()}</ul>
                 <div className="input-group mb-3">
                     <input
                         id="messageInput"
