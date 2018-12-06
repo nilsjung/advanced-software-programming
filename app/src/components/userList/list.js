@@ -12,6 +12,13 @@ class UserList extends React.Component {
         };
     }
 
+    handleItemClick = (user) => {
+        this.props.handleItemClick({
+            chatroom: user,
+            token: this.props.accessToken,
+        });
+    };
+
     handleChange = (event) => {
         this.setState({ query: event.target.value });
         const query = event.target.value.toLowerCase();
@@ -30,7 +37,7 @@ class UserList extends React.Component {
                 <li
                     key={user}
                     className="list-group-item"
-                    onClick={() => console.log(user)}
+                    onClick={() => this.handleItemClick(user)}
                 >
                     {user}
                 </li>
@@ -54,7 +61,8 @@ class UserList extends React.Component {
     }
 }
 
-export default connect(({ users, selectedUsers }) => ({
+export default connect(({ users, selectedUsers, accessToken }) => ({
     users,
     selectedUsers,
+    accessToken,
 }))(UserList);

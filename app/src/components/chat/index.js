@@ -57,6 +57,7 @@ export default class Chat extends React.Component {
             chatrooms,
             getChatroom,
             users,
+            createUserChat,
         } = this.props;
 
         return (
@@ -64,7 +65,10 @@ export default class Chat extends React.Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm">
-                            <UserList loadUsers={loadUsers} />
+                            <UserList
+                                handleItemClick={createUserChat}
+                                loadUsers={loadUsers}
+                            />
                         </div>
                         <Chatrooms
                             chatrooms={chatrooms}
