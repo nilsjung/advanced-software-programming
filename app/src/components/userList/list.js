@@ -13,8 +13,14 @@ class UserList extends React.Component {
     }
 
     handleItemClick = (user) => {
+        const currentUser = {
+            name: this.props.user.firstname + ' ' + this.props.user.lastname,
+            email: this.props.user.email,
+            role: 'ADMIN',
+        };
         this.props.handleItemClick({
             chatroom: user,
+            user: currentUser,
             token: this.props.accessToken,
         });
     };
