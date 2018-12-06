@@ -28,6 +28,7 @@ class App extends Component {
             getChatroom,
             loadUsers,
             users,
+            createUserChat,
         } = this.props;
         return (
             <Chat
@@ -43,6 +44,7 @@ class App extends Component {
                 getChatroom={getChatroom}
                 loadUsers={loadUsers}
                 users={users}
+                createUserChat={createUserChat}
             />
         );
     };
@@ -81,6 +83,7 @@ function mapDispatchToProps(dispatch) {
             createChatroom: chatroomActionCreators.createChatroom,
             getChatroom: chatroomActionCreators.getChatroom,
             loadUsers: userActionCreators.getUsers,
+            createUserChat: chatroomActionCreators.createUserChat,
         },
         dispatch
     );

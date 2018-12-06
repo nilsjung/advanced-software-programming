@@ -36,6 +36,23 @@ export function createChatroom({ chatroom, token }) {
     };
 }
 
+export function createUserChat({ chatroom, token }) {
+    return (dispatch) => {
+        request
+            .post(chatroomEndpoint)
+            .set({ 'Content-Type': 'application/json', Authorization: token })
+            .send({ chatroom })
+            .then((res) => {
+                dispatch(createdChatroom({ chatroom: res.body.chatroom }));
+            })
+            .catch((err) => {
+                console.log(err);
+
+                //todo: add error dispatching
+            });
+    };
+}
+
 export function changeChatroom(room, token) {
     return (dispatch) => {
         request
