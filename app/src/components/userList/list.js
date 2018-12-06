@@ -32,7 +32,6 @@ class UserList extends React.Component {
                     className="list-group-item"
                     onClick={() => console.log(user)}
                 >
-                    //TODO: open chat with the user or whatever
                     {user}
                 </li>
             );
