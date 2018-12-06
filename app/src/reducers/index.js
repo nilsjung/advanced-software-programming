@@ -18,6 +18,8 @@ import {
     SUCCESS,
     LOADING,
     LOGOUT,
+    USERS,
+    SELECT_USERS,
 } from '../actions/userActions';
 
 import {
@@ -83,6 +85,16 @@ export default function(state = initialState, action) {
 
         case LOAD_HISTORY:
             return { ...state, messages: action.chats };
+
+        case USERS:
+            const selectedUsers = action.users.map((user) => user.email);
+            return {
+                ...state,
+                users: action.users,
+                selectedUsers: selectedUsers,
+            };
+        case SELECT_USERS:
+            return { ...state, selectedUsers: action.users };
 
         default:
             return { ...state };

@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
+import { selectUsers } from '../../actions/userActions';
 
 class UserList extends React.Component {
     constructor(props) {
         super(props);
+        this.props.loadUsers();
         this.state = {
-            users: ['hans', 'rolf', 'sven'],
-            selectedUsers: ['hans', 'rolf', 'sven'],
             query: '',
         };
     }
@@ -15,15 +15,24 @@ class UserList extends React.Component {
     handleChange = (event) => {
         this.setState({ query: event.target.value });
         const query = event.target.value.toLowerCase();
-        const users = this.state.users.filter(
-            (user) => user.indexOf(query) !== -1
-        );
-        this.setState({ selectedUsers: users });
+        const users = this.props.users.map((user) => {
+            if (user.email.indexOf(query) !== -1) {
+                return user.email;
+            }
+        });
+        this.props.dispatch(selectUsers(users));
     };
+
     renderUsers = () => {
-        const list = this.state.selectedUsers.map((user) => {
-            return (
-                <li key={user} className="list-group-item">
+        const list = [];
+        this.props.selectedUsers.forEach((user) => {
+            list.push(
+                <li
+                    key={user}
+                    className="list-group-item"
+                    onClick={() => console.log(user)}
+                >
+                    //TODO: open chat with the user or whatever
                     {user}
                 </li>
             );
@@ -38,7 +47,7 @@ class UserList extends React.Component {
                     className="form-control"
                     type="text"
                     onChange={this.handleChange}
-                    placeholder="Search.."
+                    placeholder="Search for user.."
                 />
                 <ul className="list-group">{this.renderUsers()}</ul>
             </div>
@@ -46,4 +55,7 @@ class UserList extends React.Component {
     }
 }
 
-export default UserList;
+export default connect(({ users, selectedUsers }) => ({
+    users,
+    selectedUsers,
+}))(UserList);

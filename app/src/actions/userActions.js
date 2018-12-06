@@ -3,6 +3,7 @@ import { HOST } from '../config/';
 
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
+const userEndpoint = HOST + 'user';
 
 export const USER_LOGIN = 'user-login';
 
@@ -12,6 +13,8 @@ export const SUCCESS = 'success';
 export const LOADING = 'laoding';
 export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
+export const USERS = 'users';
+export const SELECT_USERS = 'select_users';
 
 /**
  * Register a new client on the websocket
@@ -23,6 +26,21 @@ export function setUserId(user) {
     return {
         type: SET_USER_ID,
         user,
+    };
+}
+
+export function getUsers() {
+    return (dispatch) => {
+        console.log('loading users');
+        request
+            .get(userEndpoint)
+            .set({ 'Content-Type': 'application/json' })
+            .then((result) => {
+                dispatch(loadUsers(result.body));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 }
 
@@ -83,6 +101,20 @@ export function isLoading(bool) {
     return {
         type: LOADING,
         isLoading: bool,
+    };
+}
+
+function loadUsers(users) {
+    return {
+        type: USERS,
+        users: users,
+    };
+}
+
+export function selectUsers(users) {
+    return {
+        type: SELECT_USERS,
+        users: users,
     };
 }
 
