@@ -14,31 +14,34 @@ class Chatrooms extends React.Component {
     };
 
     handleChange = (event) => {
+        console.log('input');
         this.setState({ chatroomName: event.target.value });
+    };
+
+    createChatRoom = () => {
+        const message = this.state.chatroomName.trim();
+        const user = {
+            name: this.props.user.firstname + ' ' + this.props.user.lastname,
+            email: this.props.user.email,
+            role: 'ADMIN',
+        };
+        if (message) {
+            this.props.createChatroom({
+                chatroom: message,
+                user: user,
+                token: this.props.accessToken,
+            });
+        }
     };
 
     handleKeyPress = (event) => {
         if (event.which === 13) {
-            const accessToken = this.props.accessToken;
-            const message = this.state.chatroomName.trim();
-            if (message) {
-                this.props.createChatroom({
-                    chatroom: message,
-                    token: accessToken,
-                });
-            }
-            event.preventDefault();
+            this.createChatRoom();
         }
     };
 
     handleClick = (event) => {
-        const message = this.state.chatroomName.trim();
-        if (message) {
-            this.props.createChatroom({
-                chatroom: message,
-                token: this.props.accessToken,
-            });
-        }
+        this.createChatRoom();
         event.preventDefault();
     };
 
@@ -67,7 +70,7 @@ class Chatrooms extends React.Component {
     render() {
         return (
             <div className="container">
-                <ul className="nav nav-tabs">{this.renderChatrooms()}</ul>
+                <ul className="nav nav-tabs"> {this.renderChatrooms()} </ul>
                 <div className="input-group mb-3">
                     <input
                         id="messageInput"
@@ -93,7 +96,8 @@ class Chatrooms extends React.Component {
     }
 }
 
-export default connect(({ currentChatroom, accessToken }) => ({
+export default connect(({ currentChatroom, accessToken, user }) => ({
     currentChatroom,
     accessToken,
+    user,
 }))(Chatrooms);

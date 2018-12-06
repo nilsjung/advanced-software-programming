@@ -57,7 +57,11 @@ router.post('/', (req, res) => {
                     return;
                 }
 
-                const newChatroom = new Chatroom({ name: name, chats: [] });
+                const newChatroom = new Chatroom({
+                    name: name,
+                    chats: [],
+                    users: [req.body.user],
+                });
                 newChatroom.save((err, chatroom) => {
                     return chatroom;
                 });

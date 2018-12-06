@@ -22,6 +22,13 @@ var chatroomSchema = new mongoose.Schema({
             timestamp: Date,
         },
     ],
+    users: [
+        {
+            name: String,
+            email: String,
+            role: String,
+        },
+    ],
 });
 
 module.exports = mongoose.model('Chatroom', chatroomSchema);

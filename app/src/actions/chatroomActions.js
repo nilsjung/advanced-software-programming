@@ -19,12 +19,12 @@ export function getChatroom({ chatroom, token }) {
     };
 }
 
-export function createChatroom({ chatroom, token }) {
+export function createChatroom({ chatroom, user, token }) {
     return (dispatch) => {
         request
             .post(chatroomEndpoint)
             .set({ 'Content-Type': 'application/json', Authorization: token })
-            .send({ chatroom })
+            .send({ chatroom, user })
             .then((res) => {
                 dispatch(createdChatroom({ chatroom: res.body.chatroom }));
             })
