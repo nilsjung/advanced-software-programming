@@ -26,6 +26,8 @@ class App extends Component {
             chatrooms,
             currentChatroom,
             getChatroom,
+            loadUsers,
+            users,
         } = this.props;
         return (
             <Chat
@@ -39,6 +41,8 @@ class App extends Component {
                 chatrooms={chatrooms}
                 currentChatroom={currentChatroom}
                 getChatroom={getChatroom}
+                loadUsers={loadUsers}
+                users={users}
             />
         );
     };
@@ -63,6 +67,7 @@ function mapStateToProps(state) {
         currentMessage: state.currentMessage,
         chatrooms: state.chatrooms,
         currentChatroom: state.currentChatroom,
+        users: state.users,
     };
 }
 
@@ -75,6 +80,7 @@ function mapDispatchToProps(dispatch) {
             changeChatroom: chatroomActionCreators.changeChatroom,
             createChatroom: chatroomActionCreators.createChatroom,
             getChatroom: chatroomActionCreators.getChatroom,
+            loadUsers: userActionCreators.getUsers,
         },
         dispatch
     );
