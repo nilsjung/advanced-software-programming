@@ -87,10 +87,13 @@ export default function(state = initialState, action) {
             return { ...state, messages: action.chats };
 
         case USERS:
-            const selectedUsers = action.users.map((user) => user.email);
+            const users = action.users.filter(
+                (user) => user.email !== state.user.email
+            );
+            const selectedUsers = users.map((user) => user.email);
             return {
                 ...state,
-                users: action.users,
+                users: users,
                 selectedUsers: selectedUsers,
             };
         case SELECT_USERS:
