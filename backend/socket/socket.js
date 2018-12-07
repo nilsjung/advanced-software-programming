@@ -6,6 +6,8 @@ const socket = (server) => {
 
     const io = require('socket.io')(server);
 
+    io.set('origins', 'localhost:*');
+
     io.on('connection', function(socket) {
         connections.push(socket);
         userId += 1;
