@@ -1,7 +1,7 @@
 export const SHOW_INFO_MESSAGE = 'show-info-message';
 export const RESET_INFO_MESSAGE = 'reset-info-message';
 
-export const showPopup = (message, time = 3000) => {
+export const showPopup = (time = 3000) => {
     let waitTime = time;
 
     // round display time into seconds
@@ -14,7 +14,6 @@ export const showPopup = (message, time = 3000) => {
     }
 
     return (dispatch) => {
-        dispatch(setInfoMessage(message));
         setTimeout(() => {
             dispatch(resetInfoMessage());
         }, waitTime);

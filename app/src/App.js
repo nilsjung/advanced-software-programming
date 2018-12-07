@@ -11,7 +11,8 @@ import * as chatroomActionCreators from './actions/chatroomActions';
 import Chat from './components/chat/';
 import NavBar from './components/mixins/NavBar';
 import Login from './components/login';
-import Register from './components/Register';
+import Registration from './components/registration';
+import InfoField from './components/mixins/InfoField';
 
 class App extends Component {
     renderChat = () => {
@@ -45,12 +46,24 @@ class App extends Component {
 
     render() {
         return (
-            <main>
-                <NavBar isAuthenticated={this.props.isAuthenticated} />
-                <Route path="/chat" exact render={this.renderChat} />
-                <Route path="/login" component={Login} />
-                <Route path="/register" component={Register} />
-            </main>
+            <div className="container">
+                <div className="row">
+                    <div className="col-12">
+                        <NavBar isAuthenticated={this.props.isAuthenticated} />
+                    </div>
+                    <div className="col-12">
+                        <Route path="/chat" exact render={this.renderChat} />
+                        <Route path="/login" component={Login} />
+                        <Route path="/register" component={Registration} />
+                    </div>
+                    <div className="col-12">
+                        <InfoField
+                            message={this.props.infoMessage}
+                            isSuccess={this.props.isSuccess}
+                        />
+                    </div>
+                </div>
+            </div>
         );
     }
 }
@@ -63,6 +76,8 @@ function mapStateToProps(state) {
         currentMessage: state.currentMessage,
         chatrooms: state.chatrooms,
         currentChatroom: state.currentChatroom,
+        infoMessage: state.infoMessage,
+        isSuccess: state.isSuccess,
     };
 }
 
