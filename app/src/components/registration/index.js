@@ -9,6 +9,10 @@ import RegistrationForm from '../registration/RegistrationForm';
 
 class Registration extends React.Component {
     render() {
+        if (this.props.isSuccess) {
+            this.props.reset();
+            return <Redirect to="/login" />;
+        }
         return (
             <div className="container">
                 <div className="h2">Register</div>
@@ -20,7 +24,7 @@ class Registration extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        isAuthenticated: state.isAuthenticated,
+        isSuccess: state.isSuccess,
         user: state.user,
         isLoading: state.isLoading,
     };
