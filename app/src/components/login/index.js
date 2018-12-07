@@ -19,6 +19,9 @@ class Login extends React.Component {
     };
 
     render() {
+        if (this.props.isAuthenticated) {
+            return <Redirect to="/chat" />;
+        }
         return (
             <div className="container">
                 <div className="h2">Login</div>
@@ -30,6 +33,7 @@ class Login extends React.Component {
 
 function mapStateToProps(state) {
     return {
+        isAuthenticated: state.isAuthenticated,
         user: state.user,
         infoMessage: state.infoMessage,
     };
