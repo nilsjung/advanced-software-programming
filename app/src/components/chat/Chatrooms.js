@@ -1,45 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import InputWithButton from '../mixins/InputWithButton';
 
 class Chatrooms extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { chatroomName: '' };
-    }
-
     handleChangeChatroom = (room) => {
         return () => {
             this.props.changeChatroom(room);
         };
     };
 
-    handleChange = (event) => {
-        this.setState({ chatroomName: event.target.value });
-    };
+    onSubmit = (value) => {
+        const roomName = value;
 
-    handleKeyPress = (event) => {
-        if (event.which === 13) {
-            const accessToken = this.props.accessToken;
-            const message = this.state.chatroomName.trim();
-            if (message) {
-                this.props.createChatroom({
-                    chatroom: message,
-                    token: accessToken,
-                });
-            }
-            event.preventDefault();
-        }
-    };
-
-    handleClick = (event) => {
-        const message = this.state.chatroomName.trim();
-        if (message) {
+        if (roomName) {
             this.props.createChatroom({
-                chatroom: message,
+                chatroom: roomName,
                 token: this.props.accessToken,
             });
         }
-        event.preventDefault();
     };
 
     renderChatrooms = () => {
@@ -68,26 +46,10 @@ class Chatrooms extends React.Component {
         return (
             <div className="container">
                 <ul className="nav nav-tabs">{this.renderChatrooms()}</ul>
-                <div className="input-group mb-3">
-                    <input
-                        id="messageInput"
-                        className="form-control"
-                        type="text"
-                        value={this.state.chatroomName}
-                        onKeyPress={this.handleKeyPress}
-                        onChange={this.handleChange}
-                        placeholder="Create Chatroom..."
-                    />
-                    <div className="input-group-append">
-                        <button
-                            className="btn btn-primary"
-                            type="button"
-                            onClick={this.handleClick}
-                        >
-                            <i className="fa fa-plus-square" />
-                        </button>
-                    </div>
-                </div>
+                <InputWithButton
+                    onSubmit={this.onSubmit}
+                    onChange={this.onChange}
+                />
             </div>
         );
     }
