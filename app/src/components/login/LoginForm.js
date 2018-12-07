@@ -12,14 +12,9 @@ export default class LoginForm extends React.Component {
     }
 
     onChange = (key) => (value) => {
-        this.setState(
-            {
-                [key]: value,
-            },
-            () => {
-                console.log(this.state);
-            }
-        );
+        this.setState({
+            [key]: value,
+        });
     };
 
     handleSubmit = (event) => {
