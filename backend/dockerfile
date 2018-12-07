@@ -2,7 +2,7 @@ FROM node:10.11-alpine
 
 RUN mkdir -p /server
 
-COPY ./package*.json /server/
+COPY ./package.json /server/
 
 
 WORKDIR /server
