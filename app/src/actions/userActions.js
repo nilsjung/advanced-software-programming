@@ -1,5 +1,6 @@
 import request from 'superagent';
 import { HOST } from '../config/';
+import { showPopup } from './helperAction';
 
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
@@ -62,6 +63,7 @@ export function login({ email, password }) {
                         chatrooms: chatroomResult.chatrooms,
                     })
                 );
+                dispatch(showPopup()); // show the popup for default seconds
                 dispatch(isLoading(false));
             })
             .catch((loginError, chatroomError) => {
