@@ -13,22 +13,24 @@ class InputWithButton extends React.Component {
     };
 
     handleKeyPress = (event) => {
-        const value = this.state.value.trim();
-
         if (event.which === 13) {
-            if (value) {
-                this.props.onSubmit(value);
-            }
-            event.preventDefault();
+            const value = this.state.value.trim();
+            this.setState({ value: '' }, () => {
+                if (value) {
+                    this.props.onSubmit(value);
+                }
+            });
         }
     };
 
     handleClick = (event) => {
         const value = this.state.value.trim();
 
-        if (value) {
-            this.props.onSubmit(value);
-        }
+        this.setState({ value: '' }, () => {
+            if (value) {
+                this.props.onSubmit(value);
+            }
+        });
 
         event.preventDefault();
     };
@@ -41,7 +43,7 @@ class InputWithButton extends React.Component {
                 <input
                     className="form-control"
                     type="text"
-                    value={this.props.value}
+                    value={this.state.value}
                     onKeyPress={this.handleKeyPress}
                     onChange={this.handleChange}
                     placeholder="Enter text..."
