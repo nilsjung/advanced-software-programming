@@ -50,7 +50,7 @@ class InputWithButton extends React.Component {
                 />
                 <div className="input-group-append">
                     <button
-                        className="btn btn-primary"
+                        className="btn btn-outline-primary"
                         type="button"
                         onClick={this.handleClick}
                     >

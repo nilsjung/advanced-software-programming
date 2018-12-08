@@ -40,12 +40,6 @@ export default class Chat extends React.Component {
                     <p> Create a Chatroom first </p>
                 </div>
             );
-        } else {
-            return (
-                <div className="col-12">
-                    <p> Select a Chatroom </p>
-                </div>
-            );
         }
     };
 
