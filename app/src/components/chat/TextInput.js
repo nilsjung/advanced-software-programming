@@ -20,8 +20,6 @@ class TextInput extends Component {
                 timestamp: new Date(),
             });
         }
-
-        event.preventDefault();
     };
 
     render() {
