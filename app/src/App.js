@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,7 +8,7 @@ import * as messageActionCreators from './actions/messageActions';
 import * as userActionCreators from './actions/userActions';
 import * as chatroomActionCreators from './actions/chatroomActions';
 
-import Chat from './components/chat/';
+import Chat from './components/chat/Chat';
 import NavBar from './components/mixins/NavBar';
 import Login from './components/login';
 import Registration from './components/registration';
@@ -19,6 +19,7 @@ class App extends Component {
         const {
             user,
             messages,
+            isAuthenticated,
             currentMessage,
             addMessage,
             updateMessage,
@@ -28,19 +29,39 @@ class App extends Component {
             currentChatroom,
             getChatroom,
         } = this.props;
+
+        if (isAuthenticated) {
+            return (
+                <Chat
+                    messages={messages}
+                    user={user}
+                    currentMessage={currentMessage}
+                    addMessage={addMessage}
+                    updateMessage={updateMessage}
+                    changeChatroom={changeChatroom}
+                    createChatroom={createChatroom}
+                    chatrooms={chatrooms}
+                    currentChatroom={currentChatroom}
+                    getChatroom={getChatroom}
+                />
+            );
+        }
         return (
-            <Chat
-                messages={messages}
-                user={user}
-                currentMessage={currentMessage}
-                addMessage={addMessage}
-                updateMessage={updateMessage}
-                changeChatroom={changeChatroom}
-                createChatroom={createChatroom}
-                chatrooms={chatrooms}
-                currentChatroom={currentChatroom}
-                getChatroom={getChatroom}
-            />
+            <div className="jumbotron jumbotron-fluid">
+                <div className="container">
+                    <h1 className="display-4">Welcome to the Chat!</h1>
+                    <p className="lead">
+                        Find friends, create chatrooms and stay in contact with
+                        your friends.
+                    </p>
+                    <hr className="my-4" />
+                    <p>
+                        To use our app, first{' '}
+                        <Link to="/register">Register</Link> or{' '}
+                        <Link to="/login">Login</Link>
+                    </p>
+                </div>
+            </div>
         );
     };
 

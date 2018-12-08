@@ -48,6 +48,7 @@ export default class Chat extends React.Component {
             );
         }
     };
+
     render() {
         let {
             changeChatroom,
