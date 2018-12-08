@@ -1,4 +1,5 @@
-const User = require('../model/user');
+const token = require('./../security/token');
+const chatroomService = require('./../services/chatroomService');
 
 const socket = (server) => {
     let userId = 0;
@@ -8,24 +9,28 @@ const socket = (server) => {
 
     io.set('origins', 'localhost:*');
 
-    io.on('connection', function(socket) {
+    io.sockets.on('connection', function(socket) {
         connections.push(socket);
         userId += 1;
         socket.emit('start', { userId });
-        socket.on('message', (data) => {
+        socket.on('message', async (data) => {
+            const user = await token.verify(data.token);
+            const chatroom = data.chatroom;
+
+            //store message to chat
+            chatroomService
+                .storeMessageToChatroom(data.message, data.user, chatroom)
+                .then((result) => {
+                    //console.log('successfully stored ' + result);
+                })
+                .catch((err) => console.warn(err));
+
             connections.forEach((connectedSocket) => {
                 if (connectedSocket !== socket) {
-                    connectedSocket.emit('message', data);
-                }
-            });
-        });
-
-        socket.on('get-user-status', (userid) => {
-            User.findById(userid, (err, user) => {
-                if (err) {
-                    socket.emit('set-user-status', err);
-                } else {
-                    socket.emit('set-user-status', user.onlinestatus);
+                    connectedSocket.emit('message', {
+                        message: data.message,
+                        user: data.user,
+                    });
                 }
             });
         });
