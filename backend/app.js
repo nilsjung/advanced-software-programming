@@ -10,8 +10,6 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const chatroomRouter = require('./routes/chatrooms');
 const mongoose = require('mongoose');
-const token = require('./security/token');
-const chatroomService = require('./services/chatroomService');
 
 const app = express();
 

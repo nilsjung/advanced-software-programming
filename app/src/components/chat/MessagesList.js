@@ -7,6 +7,18 @@ class MessagesList extends Component {
             <div className="container">
                 <ul className="messages">
                     {messages.map((message, index) => {
+                        if (!message.user) {
+                            return (
+                                <Message
+                                    className={'MessageItem ' + additionalClass}
+                                    key={`message-${index}`}
+                                    timestamp={message.timestamp.toLocaleString()}
+                                    userName="Guest"
+                                    text={message.text}
+                                />
+                            );
+                        }
+
                         let additionalClass =
                             message.user.email !== user.email
                                 ? 'is-response'
