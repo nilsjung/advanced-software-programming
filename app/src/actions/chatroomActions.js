@@ -6,12 +6,20 @@ const chatroomEndpoint = HOST + 'chatroom/';
 
 export const CHANGE_ROOM = 'changeRoom';
 export const CREATE_CHATROOM = 'createChatroom';
+export const DELETE_CHATROOM = 'delete-chatroom';
+
+const signedHeader = (token) => {
+    return {
+        'Content-Type': 'application/json',
+        'X-Custom-Authorisation': token,
+    };
+};
 
 export function getChatroom({ chatroom, token }) {
     return (dispatch) => {
         request
             .get(chatroomEndpoint + chatroom)
-            .set({ 'Content-Type': 'application/json', Authorization: token })
+            .set(signedHeader(token))
             .then((result) =>
                 dispatch(loadChatHistory({ chatroom: result.chats }))
             )
@@ -19,11 +27,35 @@ export function getChatroom({ chatroom, token }) {
     };
 }
 
+export function deleteChatroom({ chatroom, token }) {
+    return (dispatch) => {
+        request
+            .del(chatroomEndpoint + chatroom)
+            .set(signedHeader(token))
+            .then((res) => {
+                dispatch(
+                    deletedChatroom({
+                        infoMessage: res.body.message,
+                        isSuccess: true,
+                    })
+                );
+            })
+            .catch((err) => {
+                dispatch(
+                    deletedChatroom({
+                        infoMessage: err.message,
+                        isSuccess: false,
+                    })
+                );
+            });
+    };
+}
+
 export function createChatroom({ chatroom, token }) {
     return (dispatch) => {
         request
             .post(chatroomEndpoint)
-            .set({ 'Content-Type': 'application/json', Authorization: token })
+            .set(signedHeader(token))
             .send({ chatroom })
             .then((res) => {
                 dispatch(createdChatroom({ chatroom: res.body.chatroom }));
@@ -53,6 +85,14 @@ function changedChatroom(room) {
     return {
         type: CHANGE_ROOM,
         currentChatroom: room,
+    };
+}
+
+function deletedChatroom({ infoMessage, isSuccess }) {
+    return {
+        type: DELETE_CHATROOM,
+        infoMessage,
+        isSuccess,
     };
 }
 

@@ -45,7 +45,7 @@ router.get('/:name', (req, res) => {
 router.post('/', (req, res) => {
     //validate token:
     token
-        .verify(req.headers.authorization)
+        .verify(req)
         .then((result) => {
             var name = req.body.chatroom;
 
@@ -77,7 +77,7 @@ router.delete('/:name', (req, res) => {
     const roomname = req.params.name;
 
     token
-        .verify(req.headers.authorization)
+        .verify(req)
         .then((result) => {
             Chatroom.deleteOne({ name: roomname }, (err, chatroom) => {
                 if (err) {
