@@ -34,9 +34,17 @@ import {
 } from '../actions/registerActions';
 
 import { SHOW_INFO_MESSAGE, RESET_INFO_MESSAGE } from '../actions/helperAction';
-import { CHANGE_ROOM, CREATE_CHATROOM } from '../actions/chatroomActions';
+import {
+    CHANGE_ROOM,
+    CREATE_CHATROOM,
+    DELETE_CHATROOM,
+} from '../actions/chatroomActions';
 
 import initialState from '../store/';
+import {
+    deleteChatroomReducer,
+    createChatroomReducer,
+} from './chatroomReducer';
 
 /**
  * This is the main reducer. delegates the work to the specialized sub-reducer.
@@ -77,9 +85,10 @@ export default function(state = initialState, action) {
             return { ...state, currentChatroom: action.currentChatroom };
 
         case CREATE_CHATROOM:
-            const newChatrooms = Object.create(state.chatrooms);
-            newChatrooms.push(action.chatroom);
-            return { ...state, chatrooms: newChatrooms };
+            return createChatroomReducer(state, action);
+
+        case DELETE_CHATROOM:
+            return deleteChatroomReducer(state, action);
 
         case LOAD_HISTORY:
             return { ...state, messages: action.chats };

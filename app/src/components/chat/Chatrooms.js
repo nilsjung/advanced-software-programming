@@ -1,8 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
+
 import InputWithButton from '../mixins/InputWithButton';
 
 class Chatrooms extends React.Component {
+    onDelete = (room) => {
+        return () => {
+            this.props.deleteChatroom({
+                chatroom: room,
+                token: this.props.accessToken,
+            });
+        };
+    };
+
     handleChangeChatroom = (room) => {
         return () => {
             this.props.changeChatroom(room);
@@ -41,7 +50,10 @@ class Chatrooms extends React.Component {
                             </a>
                         </span>
                         <span className="col-4">
-                            <button className="btn btn-sm btn-danger">
+                            <button
+                                onClick={this.onDelete(room.name)}
+                                className="btn btn-sm btn-danger"
+                            >
                                 <span>
                                     <i className="fa fa-trash-o" />
                                 </span>
@@ -86,7 +98,4 @@ class Chatrooms extends React.Component {
     }
 }
 
-export default connect(({ currentChatroom, accessToken }) => ({
-    currentChatroom,
-    accessToken,
-}))(Chatrooms);
+export default Chatrooms;
