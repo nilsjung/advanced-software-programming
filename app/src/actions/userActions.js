@@ -48,6 +48,8 @@ export function login({ email, password }) {
                 .send({ email, password })
                 .catch((err) => {
                     dispatch(showPopup('Error while login: ' + err.message));
+                    dispatch(isSuccess(false));
+                    dispatch(isLoading(false));
                 })
         );
         requests.push(
@@ -56,27 +58,21 @@ export function login({ email, password }) {
                 .set({ 'Content-Type': 'application/json' })
         );
 
-        Promise.all(requests)
-            .then((result) => {
-                const loginResult = result[0].body;
-                const chatroomResult = result[1].body;
-                dispatch(
-                    userLogin({
-                        user: loginResult.user,
-                        accessToken: loginResult.token,
-                        chatrooms: chatroomResult.chatrooms,
-                    })
-                );
-                dispatch(isSuccess(true));
-                dispatch(isAuthenticated(true));
-                dispatch(showPopup(loginResult.message)); // show the popup for default seconds
-                dispatch(isLoading(false));
-            })
-            .catch((loginError) => {
-                dispatch(isSuccess(false));
-
-                dispatch(isLoading(false));
-            });
+        Promise.all(requests).then((result) => {
+            const loginResult = result[0].body;
+            const chatroomResult = result[1].body;
+            dispatch(
+                userLogin({
+                    user: loginResult.user,
+                    accessToken: loginResult.token,
+                    chatrooms: chatroomResult.chatrooms,
+                })
+            );
+            dispatch(isSuccess(true));
+            dispatch(isAuthenticated(true));
+            dispatch(showPopup(loginResult.message)); // show the popup for default seconds
+            dispatch(isLoading(false));
+        });
     };
 }
 
