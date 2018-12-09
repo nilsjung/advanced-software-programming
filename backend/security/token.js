@@ -12,7 +12,8 @@ const sign = (mail) => {
     });
 };
 
-const verify = (token) => {
+const verify = (req) => {
+    const token = req.get('X-Custom-Authorisation');
     return new Promise((res, rej) => {
         jwt.verify(token, 'secret', function(err, decoded) {
             if (err) {
