@@ -73,4 +73,25 @@ router.post('/', (req, res) => {
         });
 });
 
+router.delete('/:name', (req, res) => {
+    const roomname = req.params.name;
+
+    token
+        .verify(req.headers.authorization)
+        .then((result) => {
+            Chatroom.deleteOne({ name: roomname }, (err, chatroom) => {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.status(200).json({
+                        message: `Chatroom ${roomname} successfully deleted!`,
+                    });
+                }
+            });
+        })
+        .catch((err) => {
+            res.status(403).send({ message: 'authentication failed' });
+        });
+});
+
 module.exports = router;
