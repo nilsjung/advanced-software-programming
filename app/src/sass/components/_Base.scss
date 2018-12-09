@@ -1,0 +1,20 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+#root {
+    height: 100%;
+
+    & > .container {
+        height: 100%;
+    }
+}
+
+.bottom-align {
+    bottom: 0;
+    position: absolute;
+}

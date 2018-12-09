@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
 
 import * as userActionCreators from '../../actions/userActions';
-
 import LoginForm from './LoginForm';
 
 class Login extends React.Component {

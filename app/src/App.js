@@ -10,8 +10,8 @@ import * as chatroomActionCreators from './actions/chatroomActions';
 
 import Chat from './components/chat/Chat';
 import NavBar from './components/mixins/NavBar';
-import Login from './components/login';
-import Registration from './components/registration';
+import Login from './components/login/Login';
+import Registration from './components/registration/Registration';
 import InfoField from './components/mixins/InfoField';
 
 class App extends Component {
@@ -77,12 +77,12 @@ class App extends Component {
                         <Route path="/login" component={Login} />
                         <Route path="/register" component={Registration} />
                     </div>
-                    <div className="col-12">
-                        <InfoField
-                            message={this.props.infoMessage}
-                            isSuccess={this.props.isSuccess}
-                        />
-                    </div>
+                </div>
+                <div className="container bottom-align">
+                    <InfoField
+                        message={this.props.infoMessage}
+                        isSuccess={this.props.isSuccess}
+                    />
                 </div>
             </div>
         );
