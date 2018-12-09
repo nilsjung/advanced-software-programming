@@ -1,24 +1,17 @@
-import {
-    registrationIsLoading,
-    registrationIsSuccess,
-} from './registerReducer';
+import {} from './registerReducer';
 
 import { messagesReducer, updateMessageReducer } from './messageReducer';
-import {
-    setUserIdReducer,
-    loginIsLoadingReducer,
-    isLoginSuccessfullReducer,
-} from './userReducer';
-
-import { setInfoMessage, resetInfoMessage } from './helperReducer';
+import { setUserIdReducer, isLoginSuccessfullReducer } from './userReducer';
 
 import {
-    SET_USER_ID,
-    FAILED,
-    SUCCESS,
-    LOADING,
-    LOGOUT,
-} from '../actions/userActions';
+    setInfoMessage,
+    resetInfoMessage,
+    setIsSuccess,
+    setIsAuthenticated,
+    setIsLoading,
+} from './helperReducer';
+
+import { SET_USER_ID, LOGOUT, USER_LOGIN } from '../actions/userActions';
 
 import {
     UPDATE_MESSAGE,
@@ -28,12 +21,12 @@ import {
 } from '../actions/messageActions';
 
 import {
-    REGISTRATION_FAILED,
-    REGISTRATION_SUCCESS,
+    SHOW_INFO_MESSAGE,
+    RESET_INFO_MESSAGE,
+    IS_SUCCESS,
+    IS_AUTHENTICATED,
     IS_LOADING,
-} from '../actions/registerActions';
-
-import { SHOW_INFO_MESSAGE, RESET_INFO_MESSAGE } from '../actions/helperAction';
+} from '../actions/helperAction';
 import { CHANGE_ROOM, CREATE_CHATROOM } from '../actions/chatroomActions';
 
 import initialState from '../store/';
@@ -43,16 +36,13 @@ import initialState from '../store/';
  */
 export default function(state = initialState, action) {
     switch (action.type) {
-        case REGISTRATION_FAILED || REGISTRATION_SUCCESS:
-            return registrationIsSuccess(state, action);
+        case IS_AUTHENTICATED:
+            return setIsAuthenticated(state, action);
 
         case IS_LOADING:
-            return registrationIsLoading(state, action);
+            return setIsLoading(state, action);
 
-        case LOADING:
-            return loginIsLoadingReducer(state, action);
-
-        case SUCCESS || FAILED:
+        case USER_LOGIN:
             return isLoginSuccessfullReducer(state, action);
 
         case LOGOUT:
@@ -83,6 +73,9 @@ export default function(state = initialState, action) {
 
         case LOAD_HISTORY:
             return { ...state, messages: action.chats };
+
+        case IS_SUCCESS:
+            return setIsSuccess(state, action);
 
         default:
             return { ...state };
