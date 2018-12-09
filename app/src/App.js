@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as messageActionCreators from './actions/messageActions';
 import * as userActionCreators from './actions/userActions';
-import * as chatroomActionCreators from './actions/chatroomActions';
 
 import Chat from './components/chat/Chat';
 import NavBar from './components/mixins/NavBar';
@@ -23,26 +22,18 @@ class App extends Component {
             currentMessage,
             addMessage,
             updateMessage,
-            changeChatroom,
-            createChatroom,
-            chatrooms,
-            currentChatroom,
-            getChatroom,
+            accessToken,
         } = this.props;
 
         if (isAuthenticated) {
             return (
                 <Chat
+                    accessToken={accessToken}
                     messages={messages}
                     user={user}
                     currentMessage={currentMessage}
                     addMessage={addMessage}
                     updateMessage={updateMessage}
-                    changeChatroom={changeChatroom}
-                    createChatroom={createChatroom}
-                    chatrooms={chatrooms}
-                    currentChatroom={currentChatroom}
-                    getChatroom={getChatroom}
                 />
             );
         }
@@ -92,11 +83,10 @@ class App extends Component {
 function mapStateToProps(state) {
     return {
         isAuthenticated: state.isAuthenticated,
+        accessToken: state.accessToken,
         user: state.user,
         messages: state.messages,
         currentMessage: state.currentMessage,
-        chatrooms: state.chatrooms,
-        currentChatroom: state.currentChatroom,
         infoMessage: state.infoMessage,
         isSuccess: state.isSuccess,
     };
@@ -108,9 +98,6 @@ function mapDispatchToProps(dispatch) {
             addMessage: messageActionCreators.addMessage,
             updateMessage: messageActionCreators.updateMessage,
             login: userActionCreators.login,
-            changeChatroom: chatroomActionCreators.changeChatroom,
-            createChatroom: chatroomActionCreators.createChatroom,
-            getChatroom: chatroomActionCreators.getChatroom,
         },
         dispatch
     );
