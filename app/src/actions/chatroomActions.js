@@ -8,7 +8,8 @@ export const CHANGE_ROOM = 'changeRoom';
 export const CREATE_CHATROOM = 'createChatroom';
 export const DELETE_CHATROOM = 'delete-chatroom';
 
-const signedHeader = (token) => {
+// TODO store this at a global place to use signHeader with other actions-modules as well
+const signHeader = (token) => {
     return {
         'Content-Type': 'application/json',
         'X-Custom-Authorisation': token,
@@ -19,7 +20,7 @@ export function getChatroom({ chatroom, token }) {
     return (dispatch) => {
         request
             .get(chatroomEndpoint + chatroom)
-            .set(signedHeader(token))
+            .set(signHeader(token))
             .then((result) =>
                 dispatch(loadChatHistory({ chatroom: result.chats }))
             )
@@ -31,7 +32,7 @@ export function deleteChatroom({ chatroom, token }) {
     return (dispatch) => {
         request
             .del(chatroomEndpoint + chatroom)
-            .set(signedHeader(token))
+            .set(signHeader(token))
             .then((res) => {
                 dispatch(
                     deletedChatroom({
@@ -55,10 +56,14 @@ export function createChatroom({ chatroom, token }) {
     return (dispatch) => {
         request
             .post(chatroomEndpoint)
-            .set(signedHeader(token))
+            .set(signHeader(token))
             .send({ chatroom })
             .then((res) => {
-                dispatch(createdChatroom({ chatroom: res.body.chatroom }));
+                dispatch(
+                    createdChatroom({
+                        chatroom: res.body.chatroom,
+                    })
+                );
             })
             .catch((err) => {
                 console.log(err);
