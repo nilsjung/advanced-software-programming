@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
-import * as actions from '../../actions/registerActions';
-
+import * as helperActions from '../../actions/helperAction';
+import * as registerActions from '../../actions/registerActions';
 import RegistrationForm from '../registration/RegistrationForm';
 
 class Registration extends React.Component {
@@ -32,9 +32,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        registerUser: (user) => dispatch(actions.registerUser(user)),
+        registerUser: (user) => dispatch(registerActions.registerUser(user)),
         reset: () => {
-            dispatch(actions.registrationIsSuccess(null));
+            dispatch(helperActions.isSuccess(null));
         },
     };
 }

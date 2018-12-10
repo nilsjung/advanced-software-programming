@@ -8,12 +8,15 @@ class InfoField extends React.Component {
 
         if (message) {
             message = message.toString();
-            if (isSuccess) {
+            if (isSuccess === true) {
                 alertClass += ' alert-success';
                 alertHeader = 'Success';
-            } else {
+            } else if (isSuccess === false) {
                 alertClass += ' alert-danger';
                 alertHeader = 'Error';
+            } else {
+                alertClass += ' alert-info';
+                alertHeader = 'Information';
             }
         }
 

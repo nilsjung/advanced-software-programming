@@ -1,6 +1,7 @@
 import request from 'superagent';
 import { HOST } from '../config/';
 import { loadChatHistory } from './messageActions';
+import { showPopup, isSuccess } from './helperAction';
 
 const chatroomEndpoint = HOST + 'chatroom/';
 
@@ -24,7 +25,9 @@ export function getChatroom({ chatroom, token }) {
             .then((result) =>
                 dispatch(loadChatHistory({ chatroom: result.chats }))
             )
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                dispatch(showPopup('Can not load chatrooms: ' + err));
+            });
     };
 }
 
@@ -58,17 +61,20 @@ export function createChatroom({ chatroom, token }) {
             .post(chatroomEndpoint)
             .set(signHeader(token))
             .send({ chatroom })
-            .then((res) => {
-                dispatch(
-                    createdChatroom({
-                        chatroom: res.body.chatroom,
-                    })
-                );
+            .then((err, res) => {
+                console.log(err);
+                dispatch(createdChatroom({ chatroom: res.body.chatroom }));
+                dispatch(showPopup(res.body.message));
+                dispatch(isSuccess(true));
             })
             .catch((err) => {
-                console.log(err);
-
-                //todo: add error dispatching
+                dispatch(isSuccess(false));
+                dispatch(
+                    showPopup(
+                        'An error occured while creating a chatroom: ' +
+                            err.response
+                    )
+                );
             });
     };
 }
@@ -80,9 +86,13 @@ export function changeChatroom(room, token) {
             .set({ 'Content-Type': 'application/json', Authorization: token })
             .then((result) => {
                 dispatch(loadChatHistory({ chats: result.body.chats }));
+                dispatch(isSuccess(true));
                 dispatch(changedChatroom(room));
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                dispatch(isSuccess(false));
+                dispatch(showPopup('Error while changing room: ' + err));
+            });
     };
 }
 

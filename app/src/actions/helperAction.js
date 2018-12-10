@@ -1,7 +1,24 @@
 export const SHOW_INFO_MESSAGE = 'show-info-message';
 export const RESET_INFO_MESSAGE = 'reset-info-message';
+export const IS_SUCCESS = 'is-success';
+export const IS_LOADING = 'is-loading';
+export const IS_AUTHENTICATED = 'is-authenticated';
 
-export const showPopup = (time = 3000) => {
+export const isAuthenticated = (bool) => {
+    return {
+        type: IS_AUTHENTICATED,
+        isAuthenticated: bool,
+    };
+};
+
+export const isLoading = (bool) => {
+    return {
+        type: IS_LOADING,
+        isLoading: bool,
+    };
+};
+
+export const showPopup = (message, time = 3000) => {
     let waitTime = time;
 
     // round display time into seconds
@@ -14,9 +31,20 @@ export const showPopup = (time = 3000) => {
     }
 
     return (dispatch) => {
+        if (message) {
+            dispatch(setInfoMessage(message));
+        }
+
         setTimeout(() => {
             dispatch(resetInfoMessage());
         }, waitTime);
+    };
+};
+
+export const isSuccess = (isSuccess) => {
+    return {
+        type: IS_SUCCESS,
+        isSuccess,
     };
 };
 
