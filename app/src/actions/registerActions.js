@@ -16,7 +16,10 @@ export function registerUser(user) {
             .set('Content-Type', 'application/json')
             .send(user)
             .then((res) => {
-                dispatch(isSuccess(true));
+                if (res.status === 200) {
+                    dispatch(isSuccess(true));
+                }
+
                 dispatch(showPopup(res.body.message));
                 dispatch(isLoading(false));
             })
