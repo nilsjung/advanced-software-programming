@@ -10,9 +10,9 @@ import RegistrationForm from '../registration/RegistrationForm';
 class Registration extends React.Component {
     render() {
         if (this.props.isSuccess) {
-            this.props.reset();
             return <Redirect to="/login" />;
         }
+
         return (
             <div className="container">
                 <div className="h2">Register</div>
@@ -32,9 +32,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        registerUser: (user) => dispatch(registerActions.registerUser(user)),
-        reset: () => {
-            dispatch(helperActions.isSuccess(null));
+        registerUser: (user) => {
+            dispatch(registerActions.registerUser(user));
+            dispatch(helperActions.isSuccess(null)); // reset the success status
         },
     };
 }
