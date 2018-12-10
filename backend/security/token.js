@@ -13,7 +13,14 @@ const sign = (mail) => {
 };
 
 const verify = (req) => {
-    const token = req.get('X-Custom-Authorisation');
+    let token;
+
+    if (req.get) {
+        token = req.get('X-Custom-Authorisation');
+    } else {
+        token = req;
+    }
+
     return new Promise((res, rej) => {
         jwt.verify(token, 'secret', function(err, decoded) {
             if (err) {
