@@ -74,6 +74,7 @@ router.post('/logout', (req, res) => {
  */
 router.get('/', (req, res) => {
     User.find({}, (err, users) => {
+        console.log(users);
         if (err) {
             res.end(err);
         }
@@ -94,7 +95,8 @@ router.get('/:id', (req, res) => {
 });
 
 /**
- * POST /users
+ * Create a user at registration
+ * POST /user
  */
 router.post('/', (req, res) => {
     var registerEmail = req.body.email;
@@ -108,7 +110,7 @@ router.post('/', (req, res) => {
             defined(password);
 
         if (!dataComplete) {
-            res.json({ message: 'data not complete' });
+            res.status(202).json({ message: 'data not complete' });
             return;
         }
 
@@ -122,7 +124,7 @@ router.post('/', (req, res) => {
             return user;
         });
 
-        res.json({ message: 'user created', user: newUser });
+        res.status(200).json({ message: 'user created', user: newUser });
     });
 });
 

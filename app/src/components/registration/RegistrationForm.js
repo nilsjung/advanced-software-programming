@@ -7,12 +7,10 @@ class RegistrationForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: {
-                firstname: '',
-                lastname: '',
-                password: '',
-                email: '',
-            },
+            firstname: '',
+            lastname: '',
+            password: '',
+            email: '',
         };
     }
 
@@ -20,15 +18,13 @@ class RegistrationForm extends React.Component {
         const newValue = value;
         this.setState(() => {
             return {
-                user: {
-                    [key]: newValue,
-                },
+                [key]: newValue,
             };
         });
     };
 
     handleSubmit = (event) => {
-        this.props.onSubmit({ user: this.state.user });
+        this.props.onSubmit({ ...this.state });
         event.preventDefault();
     };
 
