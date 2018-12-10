@@ -71,6 +71,11 @@ class Chat extends React.Component {
                             deleteChatroom={deleteChatroom}
                         />
                     </div>
+                    <div className="row">
+                        <div className="h6">
+                            Your Chatroom: {this.props.currentChatroom}
+                        </div>
+                    </div>
                     <div className="row">{this.renderInputAndMessages()}</div>
                 </div>
             </div>

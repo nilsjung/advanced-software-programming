@@ -61,8 +61,7 @@ export function createChatroom({ chatroom, token }) {
             .post(chatroomEndpoint)
             .set(signHeader(token))
             .send({ chatroom })
-            .then((err, res) => {
-                console.log(err);
+            .then((res) => {
                 dispatch(createdChatroom({ chatroom: res.body.chatroom }));
                 dispatch(showPopup(res.body.message));
                 dispatch(isSuccess(true));
