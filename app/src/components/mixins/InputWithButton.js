@@ -14,12 +14,7 @@ class InputWithButton extends React.Component {
 
     handleKeyPress = (event) => {
         if (event.which === 13) {
-            const value = this.state.value.trim();
-            this.setState({ value: '' }, () => {
-                if (value) {
-                    this.props.onSubmit(value);
-                }
-            });
+            this.handleClick(event);
         }
     };
 
