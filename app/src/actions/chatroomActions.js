@@ -20,35 +20,36 @@ export function getChatroom({ chatroom, token }) {
 }
 
 export function createChatroom({ chatroom, user, token }) {
+    const users = [];
+    users.push(user);
+    console.log(user);
     return (dispatch) => {
         request
             .post(chatroomEndpoint)
             .set({ 'Content-Type': 'application/json', Authorization: token })
-            .send({ chatroom, user })
+            .send({ chatroom, users })
             .then((res) => {
-                dispatch(createdChatroom({ chatroom: res.body.chatroom }));
+                console.log(res);
+                dispatch(createdChatroom(res.body.chatroom));
             })
             .catch((err) => {
-                console.log(err);
-
                 //todo: add error dispatching
             });
     };
 }
 
-export function createUserChat({ chatroom, token }) {
+export function createUserChat({ chatroom, users, token }) {
+    console.log(users);
     return (dispatch) => {
         request
             .post(chatroomEndpoint)
             .set({ 'Content-Type': 'application/json', Authorization: token })
-            .send({ chatroom })
+            .send({ chatroom, users })
             .then((res) => {
-                dispatch(createdChatroom({ chatroom: res.body.chatroom }));
+                dispatch(createdChatroom(res.body.chatroom));
             })
             .catch((err) => {
                 console.log(err);
-
-                //todo: add error dispatching
             });
     };
 }
@@ -73,7 +74,8 @@ function changedChatroom(room) {
     };
 }
 
-function createdChatroom({ chatroom }) {
+function createdChatroom(chatroom) {
+    console.log(chatroom);
     return {
         type: CREATE_CHATROOM,
         chatroom: chatroom,

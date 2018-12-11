@@ -79,9 +79,14 @@ export default function(state = initialState, action) {
             return { ...state, currentChatroom: action.currentChatroom };
 
         case CREATE_CHATROOM:
-            const newChatrooms = Object.create(state.chatrooms);
+            const newChatrooms = Array.of(...state.chatrooms);
+            console.log(newChatrooms);
             newChatrooms.push(action.chatroom);
-            return { ...state, chatrooms: newChatrooms };
+            return {
+                ...state,
+                chatrooms: newChatrooms,
+                currentChatroom: action.chatroom.name,
+            };
 
         case LOAD_HISTORY:
             return { ...state, messages: action.chats };
@@ -98,7 +103,6 @@ export default function(state = initialState, action) {
             };
         case SELECT_USERS:
             return { ...state, selectedUsers: action.users };
-
         default:
             return { ...state };
     }
