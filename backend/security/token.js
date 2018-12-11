@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 
-const sign = (mail) => {
+const sign = (email) => {
     return new Promise((res, rej) => {
-        jwt.sign({ mail: mail }, 'secret', function(err, token) {
+        jwt.sign({ email: email }, 'secret', function(err, token) {
             if (err) {
                 rej(err);
             } else {
@@ -12,15 +12,7 @@ const sign = (mail) => {
     });
 };
 
-const verify = (req) => {
-    let token;
-
-    if (req.get) {
-        token = req.get('X-Custom-Authorisation');
-    } else {
-        token = req;
-    }
-
+const verify = (token) => {
     return new Promise((res, rej) => {
         jwt.verify(token, 'secret', function(err, decoded) {
             if (err) {

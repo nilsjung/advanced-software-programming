@@ -13,6 +13,7 @@
 const token = require('../security/token');
 const express = require('express');
 const router = express.Router();
+const auth = require('../security/authMiddleware');
 
 const User = require('../model/user');
 const defined = require('../mixins/helper');
@@ -74,17 +75,15 @@ router.post('/logout', (req, res) => {
  */
 router.get('/', (req, res) => {
     User.find({}, (err, users) => {
-        console.log(users);
         if (err) {
-            res.end(err);
+            res.status(401).send(err);
         }
 
-        res.contentType('application/json');
         res.json(users);
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', auth, (req, res) => {
     User.findById(req.params.id, (err, user) => {
         if (err) {
             res.send(err);
@@ -131,7 +130,7 @@ router.post('/', (req, res) => {
 /**
  * DELETE /users
  */
-router.delete('/', (req, res) => {
+router.delete('/', auth, (req, res) => {
     User.remove({}, (err, result) => {
         if (err) {
             res.send(err);
@@ -144,7 +143,7 @@ router.delete('/', (req, res) => {
 /**
  * DELETE /users/:id
  */
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth, (req, res) => {
     let id = req.params.id;
 
     User.findByIdAndRemove({ _id: id }, (err, result) => {
