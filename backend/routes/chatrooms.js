@@ -73,24 +73,25 @@ router.post('/', (req, res) => {
         });
 });
 
-router.delete('/:name', (req, res) => {
-    const roomname = req.params.name;
+router.delete('/:name', auth, (req, res) => {
+    const chatroomName = req.params.name;
 
-    token
-        .verify(req)
-        .then((result) => {
-            Chatroom.deleteOne({ name: roomname }, (err, chatroom) => {
+    Chatroom.deleteOne({ name: chatroomName }, (err) => {
                 if (err) {
-                    res.send(err);
+            res.status(500).json({message: err});
                 } else {
-                    res.status(200).json({
-                        message: `Chatroom ${roomname} successfully deleted!`,
-                    });
+            Chatroom.find({}, (err, chatrooms) => {
+                if (err) {
+                    res.status(500).json({
+                        message: 'error while loading chatrooms after deletion'
+                    })
                 }
+                    res.status(200).json({
+                    message: `Chatroom ${chatroomName} successfully deleted!`,
+                    chatrooms: chatrooms,
             });
         })
-        .catch((err) => {
-            res.status(403).send({ message: 'authentication failed' });
+        }
         });
 });
 

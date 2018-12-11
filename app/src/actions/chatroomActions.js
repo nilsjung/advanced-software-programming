@@ -5,8 +5,9 @@ import { showPopup, isSuccess } from './helperAction';
 
 const chatroomEndpoint = HOST + 'chatroom/';
 
-export const CHANGE_ROOM = 'changeRoom';
-export const CREATE_CHATROOM = 'createChatroom';
+export const CHANGE_ROOM = 'change-chatroom';
+export const CREATE_CHATROOM = 'create-chatroom';
+export const UPDATE_CHATROOMS = 'update-chatrooms';
 export const DELETE_CHATROOM = 'delete-chatroom';
 
 // TODO store this at a global place to use signHeader with other actions-modules as well
@@ -15,6 +16,10 @@ const signHeader = (token) => {
         'Content-Type': 'application/json',
         'X-Custom-Authorisation': token,
     };
+};
+
+const getResponseError = (err) => {
+    return err.response.body.message || err.message;
 };
 
 export function getChatroom({ chatroom, token }) {
@@ -26,7 +31,7 @@ export function getChatroom({ chatroom, token }) {
                 dispatch(loadChatHistory({ chatroom: result.chats }))
             )
             .catch((err) => {
-                dispatch(showPopup('Can not load chatrooms: ' + err));
+                dispatch(showPopup(getResponseError(err)));
             });
     };
 }
@@ -37,20 +42,13 @@ export function deleteChatroom({ chatroom, token }) {
             .del(chatroomEndpoint + chatroom)
             .set(signHeader(token))
             .then((res) => {
-                dispatch(
-                    deletedChatroom({
-                        infoMessage: res.body.message,
-                        isSuccess: true,
-                    })
-                );
+                dispatch(deletedChatroom({ chatrooms: res.body.chatrooms }));
+                dispatch(isSuccess(true));
+                dispatch(showPopup(res.body.message));
             })
             .catch((err) => {
-                dispatch(
-                    deletedChatroom({
-                        infoMessage: err.message,
-                        isSuccess: false,
-                    })
-                );
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
             });
     };
 }
@@ -68,12 +66,7 @@ export function createChatroom({ chatroom, token }) {
             })
             .catch((err) => {
                 dispatch(isSuccess(false));
-                dispatch(
-                    showPopup(
-                        'An error occured while creating a chatroom: ' +
-                            err.response
-                    )
-                );
+                dispatch(showPopup(getResponseError(err)));
             });
     };
 }
@@ -90,7 +83,7 @@ export function changeChatroom(room, token) {
             })
             .catch((err) => {
                 dispatch(isSuccess(false));
-                dispatch(showPopup('Error while changing room: ' + err));
+                dispatch(showPopup(getResponseError(err)));
             });
     };
 }
@@ -102,11 +95,10 @@ function changedChatroom(room) {
     };
 }
 
-function deletedChatroom({ infoMessage, isSuccess }) {
+function deletedChatroom({ chatrooms }) {
     return {
         type: DELETE_CHATROOM,
-        infoMessage,
-        isSuccess,
+        chatrooms,
     };
 }
 

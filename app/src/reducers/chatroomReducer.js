@@ -1,8 +1,7 @@
 export const deleteChatroomReducer = (state, action) => {
     return {
         ...state,
-        isSuccess: action.isSuccess,
-        infoMessage: action.infoMessage,
+        chatrooms: action.chatrooms,
     };
 };
 
