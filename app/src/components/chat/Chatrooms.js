@@ -25,6 +25,7 @@ class Chatrooms extends React.Component {
             email: this.props.user.email,
             role: 'ADMIN',
         };
+        console.log(user);
         if (message) {
             this.props.createChatroom({
                 chatroom: message,
@@ -46,13 +47,20 @@ class Chatrooms extends React.Component {
     };
 
     renderChatrooms = () => {
-        return this.props.chatrooms.map((room) => {
+        const relevantChatrooms = this.props.chatrooms.filter((chatroom) => {
+            return chatroom.users.reduce(
+                (acc, curr) =>
+                    (curr !== null && curr.email === this.props.user.email) ||
+                    acc,
+                false
+            );
+        });
+        return relevantChatrooms.map((room) => {
             let navlinkClass = 'nav-link';
 
             if (room.name === this.props.currentChatroom) {
                 navlinkClass += ' active';
             }
-
             return (
                 <li key={room.name} className="nav-item">
                     <a

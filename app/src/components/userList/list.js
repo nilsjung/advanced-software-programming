@@ -12,15 +12,25 @@ class UserList extends React.Component {
         };
     }
 
-    handleItemClick = (user) => {
+    handleClick = (user) => {
+        console.log(user);
         const currentUser = {
             name: this.props.user.firstname + ' ' + this.props.user.lastname,
             email: this.props.user.email,
             role: 'ADMIN',
         };
+        const otherUser = this.props.users.filter(
+            (item) => item.email === user
+        );
+        const chatPartner = {
+            name: otherUser[0].firstname + ' ' + otherUser[0].lastname,
+            email: otherUser[0].email,
+            role: 'USER',
+        };
+
         this.props.handleItemClick({
-            chatroom: user,
-            user: currentUser,
+            chatroom: currentUser.name + ' + ' + chatPartner.name,
+            users: [currentUser, chatPartner],
             token: this.props.accessToken,
         });
     };
@@ -43,7 +53,7 @@ class UserList extends React.Component {
                 <li
                     key={user}
                     className="list-group-item"
-                    onClick={() => this.handleItemClick(user)}
+                    onClick={() => this.handleClick(user)}
                 >
                     {user}
                 </li>
@@ -67,8 +77,9 @@ class UserList extends React.Component {
     }
 }
 
-export default connect(({ users, selectedUsers, accessToken }) => ({
+export default connect(({ users, selectedUsers, accessToken, user }) => ({
     users,
     selectedUsers,
     accessToken,
+    user,
 }))(UserList);
