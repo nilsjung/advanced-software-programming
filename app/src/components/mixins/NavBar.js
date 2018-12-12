@@ -15,6 +15,26 @@ export default class NavBar extends React.Component {
         return '';
     };
 
+    renderLoginLogout = (isAuthenticated) => {
+        if (isAuthenticated) {
+            return (
+                <Link
+                    className="nav-item nav-link"
+                    onClick={this.props.logout}
+                    to="/"
+                >
+                    Logout
+                </Link>
+            );
+        }
+
+        return (
+            <Link className="nav-item nav-link" to="login">
+                Login
+            </Link>
+        );
+    };
+
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -32,10 +52,7 @@ export default class NavBar extends React.Component {
                             '/chat',
                             'Chat'
                         )}
-
-                        <Link className="nav-item nav-link" to="/login">
-                            {this.props.isAuthenticated ? '' : 'Login'}
-                        </Link>
+                        {this.renderLoginLogout(this.props.isAuthenticated)}
                         {this.renderLinkIfAuthenticated(
                             !this.props.isAuthenticated,
                             '/register',

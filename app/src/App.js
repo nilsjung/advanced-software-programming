@@ -61,7 +61,10 @@ class App extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-12">
-                        <NavBar isAuthenticated={this.props.isAuthenticated} />
+                        <NavBar
+                            logout={this.props.logout}
+                            isAuthenticated={this.props.isAuthenticated}
+                        />
                     </div>
                     <div className="col-12">
                         <Route path="/chat" exact render={this.renderChat} />
@@ -98,6 +101,7 @@ function mapDispatchToProps(dispatch) {
             addMessage: messageActionCreators.addMessage,
             updateMessage: messageActionCreators.updateMessage,
             login: userActionCreators.login,
+            logout: userActionCreators.logout,
         },
         dispatch
     );
