@@ -76,7 +76,7 @@ router.post('/logout', (req, res) => {
 /**
  * GET /users
  */
-router.get('/', (req, res) => {
+router.get('/', auth, (req, res) => {
     User.find({}, (err, users) => {
         if (err) {
             res.status(401).send(err);
@@ -87,7 +87,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', auth, (req, res) => {
-    const id = req.param.email;
+    const id = req.params.id;
     User.findById(id, (err, user) => {
         if (err) {
             res.send(err);
@@ -133,7 +133,7 @@ router.post('/', (req, res) => {
  * DELETE /users
  */
 router.delete('/', auth, (req, res) => {
-    User.remove({}, (err, result) => {
+    User.deleteMany({}, (err, result) => {
         if (err) {
             res.send(err);
         } else {
