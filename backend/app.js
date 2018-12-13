@@ -6,12 +6,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const config = require('config');
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const chatroomRouter = require('./routes/chatrooms');
+const apiRouter = require('./routes/index');
 const mongoose = require('mongoose');
-const token = require('./security/token');
-const chatroomService = require('./services/chatroomService');
 
 const app = express();
 
@@ -52,9 +48,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Disable CORS
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,DELETE,POST,PUT');
     res.header(
         'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+        'Origin, X-Requested-With, Content-Type, Accept, X-Custom-Authorisation'
     );
     next();
 });
@@ -62,9 +59,7 @@ app.use(function(req, res, next) {
 /**
  * define your endpoints
  */
-app.use('/', indexRouter);
-app.use('/user', usersRouter);
-app.use('/chatroom', chatroomRouter);
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -87,41 +82,12 @@ app.use(function(err, req, res) {
  */
 const port = process.env.PORT || '3000';
 
-const io = require('socket.io').listen(app.listen(port));
+const http = require('http').Server(app);
+const socket = require('./socket/socket');
+socket(http);
 
-let userId = 0;
-let connections = [];
-
-io.sockets.on('connection', function(socket) {
-    connections.push(socket);
-    userId += 1;
-    socket.emit('start', { userId });
-    socket.on('message', async (data) => {
-        const user = await token.verify(data.token);
-        const chatroom = data.chatroom;
-
-        //store message to chat
-        chatroomService
-            .storeMessageToChatroom(data.message, data.user, chatroom)
-            .then((result) => {
-                //console.log('successfully stored ' + result);
-            })
-            .catch((err) => console.log(err));
-
-        connections.forEach((connectedSocket) => {
-            if (connectedSocket !== socket) {
-                connectedSocket.emit('message', {
-                    message: data.message,
-                    user: data.user,
-                });
-            }
-        });
-    });
-
-    socket.on('disconnect', () => {
-        const index = connections.indexOf(socket);
-        connections.splice(index, 1);
-    });
+http.listen(port, () => {
+    console.log('server is listening on port: ', port);
 });
 
 // export for testing
