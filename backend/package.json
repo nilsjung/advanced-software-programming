@@ -8,7 +8,7 @@
     },
     "scripts": {
         "start": "NODE_ENV=dev && nodemon ./app.js",
-        "test": "mocha --timeout 10000"
+        "test": "nodemon --exec \"mocha --ui tdd\""
     },
     "dependencies": {
         "check-types": "^7.4.0",

@@ -1,11 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
+
+import InputWithButton from '../mixins/InputWithButton';
 
 class Chatrooms extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { chatroomName: '' };
-    }
+    onDelete = (room) => {
+        return () => {
+            this.props.deleteChatroom({
+                chatroom: room,
+                token: this.props.accessToken,
+            });
+        };
+    };
 
     handleChangeChatroom = (room) => {
         return () => {
@@ -13,38 +18,20 @@ class Chatrooms extends React.Component {
         };
     };
 
-    handleChange = (event) => {
-        this.setState({ chatroomName: event.target.value });
-    };
+    onSubmit = (value) => {
+        const roomName = value;
 
-    handleKeyPress = (event) => {
-        if (event.which === 13) {
-            const accessToken = this.props.accessToken;
-            const message = this.state.chatroomName.trim();
-            if (message) {
-                this.props.createChatroom({
-                    chatroom: message,
-                    token: accessToken,
-                });
-            }
-            event.preventDefault();
-        }
-    };
-
-    handleClick = (event) => {
-        const message = this.state.chatroomName.trim();
-        if (message) {
+        if (roomName) {
             this.props.createChatroom({
-                chatroom: message,
+                chatroom: roomName,
                 token: this.props.accessToken,
             });
         }
-        event.preventDefault();
     };
 
     renderChatrooms = () => {
         return this.props.chatrooms.map((room) => {
-            let navlinkClass = 'nav-link';
+            let navlinkClass = 'dropdown-item';
 
             if (room.name === this.props.currentChatroom) {
                 navlinkClass += ' active';
@@ -52,40 +39,58 @@ class Chatrooms extends React.Component {
 
             return (
                 <li key={room.name} className="nav-item">
-                    <a
-                        onClick={this.handleChangeChatroom(room.name)}
-                        className={navlinkClass}
-                        href="#"
-                    >
-                        {room.name}
-                    </a>
+                    <span className="row">
+                        <span className="col-8">
+                            <a
+                                onClick={this.handleChangeChatroom(room.name)}
+                                className={navlinkClass}
+                                href="#"
+                            >
+                                {room.name}
+                            </a>
+                        </span>
+                        <span className="col-4">
+                            <button
+                                onClick={this.onDelete(room.name)}
+                                className="btn btn-sm btn-danger"
+                            >
+                                <span>
+                                    <i className="fa fa-trash-o" />
+                                </span>
+                            </button>
+                        </span>
+                    </span>
                 </li>
             );
         });
     };
 
     render() {
+        const dropdownId = 'chatroom-dropdown';
+
         return (
             <div className="container">
-                <ul className="nav nav-tabs">{this.renderChatrooms()}</ul>
-                <div className="input-group mb-3">
-                    <input
-                        id="messageInput"
-                        className="form-control"
-                        type="text"
-                        value={this.state.chatroomName}
-                        onKeyPress={this.handleKeyPress}
-                        onChange={this.handleChange}
-                        placeholder="Create Chatroom..."
-                    />
-                    <div className="input-group-append">
-                        <button
-                            className="btn btn-primary"
-                            type="button"
-                            onClick={this.handleClick}
-                        >
-                            <i className="fa fa-plus-square" />
-                        </button>
+                <div className="dropdown">
+                    <button
+                        id={dropdownId}
+                        className="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        Select Chatroom
+                    </button>
+                    <div className="dropdown-menu" aria-labelledby={dropdownId}>
+                        <h6 className="dropdown-header">Create</h6>
+                        <InputWithButton
+                            onSubmit={this.onSubmit}
+                            onChange={this.onChange}
+                            icon="fa fa-plus-square-o"
+                        />
+                        <div className="dropdown-divider" />
+                        <h6 className="dropdown-header">Select</h6>
+                        {this.renderChatrooms()}
                     </div>
                 </div>
             </div>
@@ -93,7 +98,4 @@ class Chatrooms extends React.Component {
     }
 }
 
-export default connect(({ currentChatroom, accessToken }) => ({
-    currentChatroom,
-    accessToken,
-}))(Chatrooms);
+export default Chatrooms;
