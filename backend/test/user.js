@@ -7,6 +7,8 @@ let app = require('../app.js');
 
 let should = chai.should();
 
+const url = '/api';
+
 chai.use(chaiHttp);
 
 const MaxMusterman = {
@@ -23,13 +25,21 @@ describe('User', () => {
         });
     });
 
+    before((done) => {
+        chai.request(app)
+            .post(url + '/user')
+            .send(MaxMusterman)
+            .end((err, res) => {});
+        done();
+    });
+
     /**
      * Tests for GET all
      */
     describe('/GET user', () => {
         it('it should GET all users', (done) => {
             chai.request(app)
-                .get('/user')
+                .get(url + '/user')
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('array');
@@ -47,7 +57,7 @@ describe('User', () => {
             let user = new User(MaxMusterman);
             user.save((err, user) => {
                 chai.request(app)
-                    .get('/user/' + user.id)
+                    .get(url + '/user/' + user.id)
                     .send(user)
                     .end((err, res) => {
                         res.should.have.status(200);
@@ -69,7 +79,7 @@ describe('User', () => {
     describe('/Post user', () => {
         it('it creates a new user', (done) => {
             chai.request(app)
-                .post('/user')
+                .post(url + '/user')
                 .send(MaxMusterman)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -88,7 +98,7 @@ describe('User', () => {
             const user = new User(MaxMusterman);
             user.save(() => {
                 chai.request(app)
-                    .post('/user')
+                    .post(url + '/user')
                     .send(user)
                     .end((err, res) => {
                         res.should.have.status(200);
@@ -106,7 +116,7 @@ describe('User', () => {
             delete max.lastname;
 
             chai.request(app)
-                .post('/user')
+                .post(url + '/user')
                 .send(max)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -128,7 +138,7 @@ describe('User', () => {
 
         it('it should log in an existing user', (done) => {
             chai.request(app)
-                .post('/user/login')
+                .post(url + '/user/login')
                 .send(MaxMusterman)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -146,7 +156,7 @@ describe('User', () => {
         it('it should not log in an user with a wrong password', (done) => {
             let max = { ...MaxMusterman, password: 'wrongPassword' };
             chai.request(app)
-                .post('/user/login')
+                .post(url + '/user/login')
                 .send(max)
                 .end((err, res) => {
                     res.should.have.status(403);
@@ -167,7 +177,7 @@ describe('User', () => {
             };
 
             chai.request(app)
-                .post('/user/login')
+                .post(url + '/user/login')
                 .send(MaxMusterfrau)
                 .end((err, res) => {
                     res.should.have.status(404);
