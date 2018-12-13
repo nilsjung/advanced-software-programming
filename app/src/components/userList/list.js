@@ -6,7 +6,7 @@ import { selectUsers } from '../../actions/userActions';
 class UserList extends React.Component {
     constructor(props) {
         super(props);
-        this.props.loadUsers();
+        this.props.loadUsers(this.props.accessToken);
         this.state = {
             query: '',
         };
@@ -48,17 +48,19 @@ class UserList extends React.Component {
 
     renderUsers = () => {
         const list = [];
-        this.props.selectedUsers.forEach((user) => {
-            list.push(
-                <li
-                    key={user}
-                    className="list-group-item"
-                    onClick={() => this.handleClick(user)}
-                >
-                    {user}
-                </li>
-            );
-        });
+        if (this.props.selectedUsers !== undefined) {
+            this.props.selectedUsers.forEach((user) => {
+                list.push(
+                    <li
+                        key={user}
+                        className="list-group-item"
+                        onClick={() => this.handleClick(user)}
+                    >
+                        {user}
+                    </li>
+                );
+            });
+        }
         return list;
     };
 

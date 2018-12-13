@@ -1,19 +1,11 @@
-import {
-    registrationIsLoading,
-    registrationIsSuccess,
-} from './registerReducer';
+import {} from './registerReducer';
 
 import { messagesReducer, updateMessageReducer } from './messageReducer';
-import {
-    setUserIdReducer,
-    loginIsLoadingReducer,
-    isLoginSuccessfullReducer,
-} from './userReducer';
-
-import { setInfoMessage, resetInfoMessage } from './helperReducer';
+import { setUserIdReducer, isLoginSuccessfullReducer } from './userReducer';
 
 import {
     SET_USER_ID,
+    USER_LOGIN,
     FAILED,
     SUCCESS,
     LOADING,
@@ -23,6 +15,14 @@ import {
 } from '../actions/userActions';
 
 import {
+    setInfoMessage,
+    resetInfoMessage,
+    setIsSuccess,
+    setIsAuthenticated,
+    setIsLoading,
+} from './helperReducer';
+
+import {
     UPDATE_MESSAGE,
     ADD_MESSAGE,
     ADD_RESPONSE,
@@ -30,35 +30,42 @@ import {
 } from '../actions/messageActions';
 
 import {
-    REGISTRATION_FAILED,
-    REGISTRATION_SUCCESS,
+    SHOW_INFO_MESSAGE,
+    RESET_INFO_MESSAGE,
+    IS_SUCCESS,
+    IS_AUTHENTICATED,
     IS_LOADING,
-} from '../actions/registerActions';
+} from '../actions/helperAction';
 
-import { SHOW_INFO_MESSAGE, RESET_INFO_MESSAGE } from '../actions/helperAction';
-import { CHANGE_ROOM, CREATE_CHATROOM } from '../actions/chatroomActions';
+import {
+    CHANGE_ROOM,
+    CREATE_CHATROOM,
+    DELETE_CHATROOM,
+} from '../actions/chatroomActions';
 
 import initialState from '../store/';
+import {
+    deleteChatroomReducer,
+    createChatroomReducer,
+} from './chatroomReducer';
 
 /**
  * This is the main reducer. delegates the work to the specialized sub-reducer.
  */
 export default function(state = initialState, action) {
     switch (action.type) {
-        case REGISTRATION_FAILED || REGISTRATION_SUCCESS:
-            return registrationIsSuccess(state, action);
+        case IS_AUTHENTICATED:
+            return setIsAuthenticated(state, action);
 
         case IS_LOADING:
-            return registrationIsLoading(state, action);
+            return setIsLoading(state, action);
 
-        case LOADING:
-            return loginIsLoadingReducer(state, action);
-
-        case SUCCESS || FAILED:
+        case USER_LOGIN:
             return isLoginSuccessfullReducer(state, action);
 
-        case LOGOUT:
-            return initialState;
+        case LOGOUT: {
+            return { ...initialState, user: { userId: state.user.userId } };
+        }
 
         case ADD_MESSAGE || ADD_RESPONSE:
             return messagesReducer(state, action);
@@ -79,14 +86,10 @@ export default function(state = initialState, action) {
             return { ...state, currentChatroom: action.currentChatroom };
 
         case CREATE_CHATROOM:
-            const newChatrooms = Array.of(...state.chatrooms);
-            console.log(newChatrooms);
-            newChatrooms.push(action.chatroom);
-            return {
-                ...state,
-                chatrooms: newChatrooms,
-                currentChatroom: action.chatroom.name,
-            };
+            return createChatroomReducer(state, action);
+
+        case DELETE_CHATROOM:
+            return deleteChatroomReducer(state, action);
 
         case LOAD_HISTORY:
             return { ...state, messages: action.chats };
@@ -96,6 +99,7 @@ export default function(state = initialState, action) {
                 (user) => user.email !== state.user.email
             );
             const selectedUsers = users.map((user) => user.email);
+            console.log({ selectedUsers });
             return {
                 ...state,
                 users: users,
@@ -103,6 +107,9 @@ export default function(state = initialState, action) {
             };
         case SELECT_USERS:
             return { ...state, selectedUsers: action.users };
+        case IS_SUCCESS:
+            return setIsSuccess(state, action);
+
         default:
             return { ...state };
     }

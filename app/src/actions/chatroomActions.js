@@ -1,21 +1,49 @@
 import request from 'superagent';
 import { HOST } from '../config/';
 import { loadChatHistory } from './messageActions';
+import { showPopup, isSuccess } from './helperAction';
+import { signHeader } from '../helper/auth';
 
 const chatroomEndpoint = HOST + 'chatroom/';
 
-export const CHANGE_ROOM = 'changeRoom';
-export const CREATE_CHATROOM = 'createChatroom';
+export const CHANGE_ROOM = 'change-chatroom';
+export const CREATE_CHATROOM = 'create-chatroom';
+export const UPDATE_CHATROOMS = 'update-chatrooms';
+export const DELETE_CHATROOM = 'delete-chatroom';
+
+const getResponseError = (err) => {
+    console.log({ err });
+    return err.message || err.response.body.message;
+};
 
 export function getChatroom({ chatroom, token }) {
     return (dispatch) => {
         request
             .get(chatroomEndpoint + chatroom)
-            .set({ 'Content-Type': 'application/json', Authorization: token })
+            .set(signHeader(token))
             .then((result) =>
                 dispatch(loadChatHistory({ chatroom: result.chats }))
             )
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                dispatch(showPopup(getResponseError(err)));
+            });
+    };
+}
+
+export function deleteChatroom({ chatroom, token }) {
+    return (dispatch) => {
+        request
+            .del(chatroomEndpoint + chatroom)
+            .set(signHeader(token))
+            .then((res) => {
+                dispatch(deletedChatroom({ chatrooms: res.body.chatrooms }));
+                dispatch(isSuccess(true));
+                dispatch(showPopup(res.body.message));
+            })
+            .catch((err) => {
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
     };
 }
 
@@ -26,14 +54,16 @@ export function createChatroom({ chatroom, user, token }) {
     return (dispatch) => {
         request
             .post(chatroomEndpoint)
-            .set({ 'Content-Type': 'application/json', Authorization: token })
+            .set(signHeader(token))
             .send({ chatroom, users })
             .then((res) => {
-                console.log(res);
-                dispatch(createdChatroom(res.body.chatroom));
+                dispatch(createdChatroom({ chatroom: res.body.chatroom }));
+                dispatch(showPopup(res.body.message));
+                dispatch(isSuccess(true));
             })
             .catch((err) => {
-                //todo: add error dispatching
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
             });
     };
 }
@@ -43,10 +73,10 @@ export function createUserChat({ chatroom, users, token }) {
     return (dispatch) => {
         request
             .post(chatroomEndpoint)
-            .set({ 'Content-Type': 'application/json', Authorization: token })
+            .set(signHeader(token))
             .send({ chatroom, users })
             .then((res) => {
-                dispatch(createdChatroom(res.body.chatroom));
+                dispatch(createdChatroom({ chatroom: res.body.chatroom }));
             })
             .catch((err) => {
                 console.log(err);
@@ -58,12 +88,16 @@ export function changeChatroom(room, token) {
     return (dispatch) => {
         request
             .get(chatroomEndpoint + room)
-            .set({ 'Content-Type': 'application/json', Authorization: token })
+            .set(signHeader(token))
             .then((result) => {
                 dispatch(loadChatHistory({ chats: result.body.chats }));
+                dispatch(isSuccess(true));
                 dispatch(changedChatroom(room));
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
     };
 }
 
@@ -74,8 +108,14 @@ function changedChatroom(room) {
     };
 }
 
-function createdChatroom(chatroom) {
-    console.log(chatroom);
+function deletedChatroom({ chatrooms }) {
+    return {
+        type: DELETE_CHATROOM,
+        chatrooms,
+    };
+}
+
+function createdChatroom({ chatroom }) {
     return {
         type: CREATE_CHATROOM,
         chatroom: chatroom,

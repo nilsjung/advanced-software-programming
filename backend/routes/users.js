@@ -13,6 +13,7 @@
 const token = require('../security/token');
 const express = require('express');
 const router = express.Router();
+const auth = require('../security/authMiddleware');
 
 const User = require('../model/user');
 const defined = require('../mixins/helper');
@@ -34,7 +35,10 @@ router.post('/login', (req, res) => {
             return;
         } else if (user) {
             if (password !== user.password) {
-                res.status(403).json('invalid password');
+                res.status(403).json({
+                    message: 'invalid password',
+                    user: null,
+                });
             } else {
                 // create token
                 token
@@ -72,19 +76,19 @@ router.post('/logout', (req, res) => {
 /**
  * GET /users
  */
-router.get('/', (req, res) => {
+router.get('/', auth, (req, res) => {
     User.find({}, (err, users) => {
         if (err) {
-            res.end(err);
+            res.status(401).send(err);
         }
 
-        res.contentType('application/json');
         res.json(users);
     });
 });
 
-router.get('/:id', (req, res) => {
-    User.findById(req.params.id, (err, user) => {
+router.get('/:id', auth, (req, res) => {
+    const id = req.params.id;
+    User.findById(id, (err, user) => {
         if (err) {
             res.send(err);
         } else {
@@ -94,7 +98,8 @@ router.get('/:id', (req, res) => {
 });
 
 /**
- * POST /users
+ * Create a user at registration
+ * POST /user
  */
 router.post('/', (req, res) => {
     var registerEmail = req.body.email;
@@ -108,29 +113,27 @@ router.post('/', (req, res) => {
             defined(password);
 
         if (!dataComplete) {
-            res.json({ message: 'data not complete' });
+            res.status(400).json({ message: 'data not complete' });
             return;
         }
 
         if (user) {
-            res.json({ message: 'email already in use' });
+            res.json({ message: 'email already in use', user: user });
             return;
         }
 
         const newUser = new User(req.body);
         newUser.save((err, user) => {
-            return user;
+            res.status(200).json({ message: 'user created', user: user });
         });
-
-        res.json({ message: 'user created', user: newUser });
     });
 });
 
 /**
  * DELETE /users
  */
-router.delete('/', (req, res) => {
-    User.remove({}, (err, result) => {
+router.delete('/', auth, (req, res) => {
+    User.deleteMany({}, (err, result) => {
         if (err) {
             res.send(err);
         } else {
@@ -142,7 +145,7 @@ router.delete('/', (req, res) => {
 /**
  * DELETE /users/:id
  */
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth, (req, res) => {
     let id = req.params.id;
 
     User.findByIdAndRemove({ _id: id }, (err, result) => {
