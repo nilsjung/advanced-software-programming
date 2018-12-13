@@ -35,7 +35,10 @@ router.post('/login', (req, res) => {
             return;
         } else if (user) {
             if (password !== user.password) {
-                res.status(403).json('invalid password');
+                res.status(403).json({
+                    message: 'invalid password',
+                    user: null,
+                });
             } else {
                 // create token
                 token
@@ -84,7 +87,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', auth, (req, res) => {
-    User.findById(req.params.id, (err, user) => {
+    const id = req.param.email;
+    User.findById(id, (err, user) => {
         if (err) {
             res.send(err);
         } else {
@@ -109,21 +113,19 @@ router.post('/', (req, res) => {
             defined(password);
 
         if (!dataComplete) {
-            res.status(202).json({ message: 'data not complete' });
+            res.status(400).json({ message: 'data not complete' });
             return;
         }
 
         if (user) {
-            res.json({ message: 'email already in use' });
+            res.json({ message: 'email already in use', user: user });
             return;
         }
 
         const newUser = new User(req.body);
         newUser.save((err, user) => {
-            return user;
+            res.status(200).json({ message: 'user created', user: user });
         });
-
-        res.status(200).json({ message: 'user created', user: newUser });
     });
 });
 
