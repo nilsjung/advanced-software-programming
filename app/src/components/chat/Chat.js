@@ -1,10 +1,15 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as chatroomActionCreators from '../../actions/chatroomActions';
+
 import MessagesList from './MessagesList';
 import TextInput from './TextInput';
 import Chatrooms from './Chatrooms';
 
-export default class Chat extends React.Component {
+class Chat extends React.Component {
     renderInputAndMessages = () => {
         let {
             messages,
@@ -40,20 +45,17 @@ export default class Chat extends React.Component {
                     <p> Create a Chatroom first </p>
                 </div>
             );
-        } else {
-            return (
-                <div className="col-12">
-                    <p> Select a Chatroom </p>
-                </div>
-            );
         }
     };
+
     render() {
-        let {
+        const {
             changeChatroom,
             createChatroom,
             chatrooms,
             getChatroom,
+            deleteChatroom,
+            accessToken,
         } = this.props;
 
         return (
@@ -61,11 +63,18 @@ export default class Chat extends React.Component {
                 <div className="container">
                     <div className="row">
                         <Chatrooms
+                            accessToken={accessToken}
                             chatrooms={chatrooms}
                             createChatroom={createChatroom}
                             changeChatroom={changeChatroom}
                             getChatroom={getChatroom}
+                            deleteChatroom={deleteChatroom}
                         />
+                    </div>
+                    <div className="row">
+                        <div className="h6">
+                            Your Chatroom: {this.props.currentChatroom}
+                        </div>
                     </div>
                     <div className="row">{this.renderInputAndMessages()}</div>
                 </div>
@@ -73,3 +82,27 @@ export default class Chat extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        chatrooms: state.chatrooms,
+        currentChatroom: state.currentChatroom,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(
+        {
+            changeChatroom: chatroomActionCreators.changeChatroom,
+            createChatroom: chatroomActionCreators.createChatroom,
+            getChatroom: chatroomActionCreators.getChatroom,
+            deleteChatroom: chatroomActionCreators.deleteChatroom,
+        },
+        dispatch
+    );
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Chat);

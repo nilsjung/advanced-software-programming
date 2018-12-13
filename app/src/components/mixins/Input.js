@@ -1,23 +1,39 @@
 import React from 'react';
 
-export default class Input extends React.Component {
+class Input extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { value: '' };
+    }
+
     handleChange = (event) => {
-        this.props.onChange(event.target.value);
+        const newValue = event.target.value;
+
+        this.setState({ value: newValue }, () => {
+            this.props.onChange(this.state.value);
+        });
     };
 
     render() {
-        const { placeholder, Id, label, type } = this.props;
+        let { placeholder, Id, label, type } = this.props;
         const inputId = Id || Symbol('input');
-        const renderLabel = label ? (
-            <label htmlFor={inputId}>{label}</label>
-        ) : (
-            ''
-        );
+        let renderLabel = '';
+
+        if (label) {
+            renderLabel = <label htmlFor={inputId}>{label}</label>;
+        }
+
+        if (!type) {
+            type = 'text';
+        }
+
         return (
             <div className="form-group">
                 {renderLabel}
                 <input
+                    onChange={this.handleChange}
                     type={type}
+                    value={this.state.value}
                     className="form-control"
                     placeholder={placeholder}
                     id={inputId}
@@ -26,3 +42,5 @@ export default class Input extends React.Component {
         );
     }
 }
+
+export default Input;
