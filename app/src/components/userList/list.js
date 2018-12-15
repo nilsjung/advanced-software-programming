@@ -65,15 +65,34 @@ class UserList extends React.Component {
     };
 
     render() {
+        const dropdownId = 'user-dropdown';
+
         return (
             <div className="container">
-                <input
-                    className="form-control"
-                    type="text"
-                    onChange={this.handleChange}
-                    placeholder="Search for user.."
-                />
-                <ul className="list-group">{this.renderUsers()}</ul>
+                <div className="dropdown">
+                    <button
+                        id={dropdownId}
+                        className="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        Users
+                    </button>
+                    <div className="dropdown-menu" aria-labelledby={dropdownId}>
+                        <h6 className="dropdown-header">Search</h6>
+                        <input
+                            className="form-control"
+                            type="text"
+                            onChange={this.handleChange}
+                            placeholder="Search for user.."
+                        />
+                        <div className="dropdown-divider" />
+                        <h6 className="dropdown-header">Select</h6>
+                        {this.renderUsers()}
+                    </div>
+                </div>
             </div>
         );
     }
