@@ -9,41 +9,40 @@ const socket = (server) => {
 
     io.set('origins', 'localhost:*');
 
-    io.sockets.on('connection', function(socket) {
-        console.log({ Socket: socket });
-        connections.push(socket);
+    io.sockets.on('connection', function(sock) {
+        connections.push(sock);
         userId += 1;
-        socket.emit('start', { userId });
-        socket.on('message', (data) => messageService(data, connections));
+        sock.emit('start', { userId });
 
-        socket.on('disconnect', () => disconnectService(connections));
+        sock.on('message', async (data) => {
+            const user = await token.verify(data.token);
+            messageService(sock, data, connections);
+        });
+
+        sock.on('disconnect', () => disconnectService(connections));
     });
 
     return io;
 };
 
-const messageService = async (data, connections) => {
-    const user = await token.verify(data.token);
+const messageService = (sock, data, connections) => {
     const chatroom = data.chatroom;
-
+    console.log(connections.length);
     //store message to chat
     chatroomService
         .storeMessageToChatroom(data.message, data.user, chatroom)
         .then((result) => {})
         .catch((err) => console.warn(err));
-    connections.forEach((connectedSocket) => {
-        if (connectedSocket !== socket) {
-            connectedSocket.emit('message', {
-                message: data.message,
-                user: data.user,
-            });
-        }
+    sock.broadcast.emit('message', {
+        message: data.message,
+        user: data.user,
     });
 };
 
 const disconnectService = (connections) => {
     const index = connections.indexOf(socket);
     connections.splice(index, 1);
+    console.log(connections.length);
 };
 
 module.exports = socket;

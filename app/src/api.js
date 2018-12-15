@@ -24,6 +24,12 @@ export function chatMiddleware(store) {
     };
 }
 
+export function disconnect(store) {
+    if (socket !== null) {
+        socket.emit('disconnect');
+    }
+}
+
 /**
  * Creates a connection to the server via ws.
  *
@@ -35,6 +41,7 @@ export default function(store) {
     socket = io.connect('http://localhost:5001');
 
     socket.on('start', (data) => {
+        console.log('start');
         const user = {
             userId: data.userId,
         };
@@ -42,6 +49,7 @@ export default function(store) {
     });
 
     socket.on('message', (data) => {
+        console.log('message', { data });
         store.dispatch(messageActions.addResponse(data));
     });
 }

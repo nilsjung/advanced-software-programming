@@ -63,11 +63,13 @@ export default function(state = initialState, action) {
         case USER_LOGIN:
             return isLoginSuccessfullReducer(state, action);
 
-        case LOGOUT: {
+        case LOGOUT:
             return { ...initialState, user: { userId: state.user.userId } };
-        }
 
-        case ADD_MESSAGE || ADD_RESPONSE:
+        case ADD_MESSAGE:
+            return messagesReducer(state, action);
+
+        case ADD_RESPONSE:
             return messagesReducer(state, action);
 
         case UPDATE_MESSAGE:
