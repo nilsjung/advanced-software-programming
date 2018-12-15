@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Message from './Message';
 class MessagesList extends Component {
     render() {
         let { messages, user } = this.props;
@@ -12,7 +13,7 @@ class MessagesList extends Component {
                                 <Message
                                     className={'MessageItem ' + additionalClass}
                                     key={`message-${index}`}
-                                    timestamp={message.timestamp.toLocaleString()}
+                                    timestamp={message.timestamp}
                                     userName="Guest"
                                     text={message.text}
                                 />
@@ -27,7 +28,7 @@ class MessagesList extends Component {
                             <Message
                                 className={'MessageItem ' + additionalClass}
                                 key={`message-${index}`}
-                                timestamp={message.timestamp.toLocaleString()}
+                                timestamp={message.timestamp}
                                 userName={message.user.name}
                                 text={message.text}
                             />
@@ -38,17 +39,5 @@ class MessagesList extends Component {
         );
     }
 }
-
-const Message = (props) => {
-    return (
-        <li className={props.className}>
-            <small className="MessageHeader row">
-                <span className="TimeStamp col-4">{props.timestamp}</span>
-                <span className="MessageAuthor col-8">{props.userName}</span>
-            </small>
-            <div className="MessageBody">{props.text}</div>
-        </li>
-    );
-};
 
 export default MessagesList;
