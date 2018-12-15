@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import NavbarToggler from './NavbarToggler';
+import { messagesReducer } from '../../reducers/messageReducer';
+import { disconnect } from '../../api';
 
 export default class NavBar extends React.Component {
     renderLinkIfAuthenticated = (isAuthenticated, link, label) => {
@@ -15,12 +17,17 @@ export default class NavBar extends React.Component {
         return '';
     };
 
+    handleLogout = () => {
+        disconnect(this.props);
+        this.props.logout();
+    };
+
     renderLoginLogout = (isAuthenticated) => {
         if (isAuthenticated) {
             return (
                 <Link
                     className="nav-item nav-link"
-                    onClick={this.props.logout}
+                    onClick={this.handleLogout}
                     to="/"
                 >
                     Logout
