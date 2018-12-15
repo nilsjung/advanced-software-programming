@@ -5,23 +5,12 @@
  *  @param {Array} chats
  */
 
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const MessageSchema = require('./message').schema;
 
-/**
- *
- */
-var chatroomSchema = new mongoose.Schema({
+const chatroomSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    chats: [
-        {
-            user: {
-                name: String,
-                email: String,
-            },
-            text: String,
-            timestamp: Date,
-        },
-    ],
+    chats: [MessageSchema],
 });
 
 module.exports = mongoose.model('Chatroom', chatroomSchema);
