@@ -13,7 +13,6 @@ class UserList extends React.Component {
     }
 
     handleClick = (user) => {
-        console.log(user);
         const currentUser = {
             name: this.props.user.firstname + ' ' + this.props.user.lastname,
             email: this.props.user.email,

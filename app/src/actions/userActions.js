@@ -36,17 +36,13 @@ export function setUserId(user) {
 
 export function getUsers(token) {
     return (dispatch) => {
-        console.log('loading users');
         request
             .get(userEndpoint)
             .set(signHeader(token))
             .then((result) => {
-                console.log(result);
                 dispatch(loadUsers(result.body));
             })
-            .catch((err) => {
-                console.log(err);
-            });
+            .catch((err) => {});
     };
 }
 
@@ -103,7 +99,6 @@ export function logout() {
 }
 
 function loadUsers(users) {
-    console.log({ loaded: users });
     return {
         type: USERS,
         users: users,
