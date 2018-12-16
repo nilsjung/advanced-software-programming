@@ -27,7 +27,6 @@ const socket = (server) => {
 
 const messageService = (sock, data, connections) => {
     const chatroom = data.chatroom;
-    console.log(connections.length);
     //store message to chat
     chatroomService
         .storeMessageToChatroom(data.message, data.user, chatroom)
@@ -42,7 +41,6 @@ const messageService = (sock, data, connections) => {
 const disconnectService = (connections) => {
     const index = connections.indexOf(socket);
     connections.splice(index, 1);
-    console.log(connections.length);
 };
 
 module.exports = socket;

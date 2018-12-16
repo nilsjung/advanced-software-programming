@@ -10,7 +10,6 @@ import LoginForm from './LoginForm';
 
 class Login extends React.Component {
     componentDidMount() {
-        console.log('logging out');
         this.props.logout();
     }
 
