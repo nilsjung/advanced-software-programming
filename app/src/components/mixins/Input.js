@@ -1,17 +1,9 @@
 import React from 'react';
 
 class Input extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { value: '' };
-    }
-
     handleChange = (event) => {
         const newValue = event.target.value;
-
-        this.setState({ value: newValue }, () => {
-            this.props.onChange(this.state.value);
-        });
+        this.props.onChange(newValue);
     };
 
     render() {
@@ -20,7 +12,7 @@ class Input extends React.Component {
         let renderLabel = '';
 
         if (label) {
-            renderLabel = <label htmlFor={inputId}>{label}</label>;
+            renderLabel = <label htmlFor={inputId.toString()}>{label}</label>;
         }
 
         if (!type) {
@@ -33,10 +25,13 @@ class Input extends React.Component {
                 <input
                     onChange={this.handleChange}
                     type={type}
-                    value={this.state.value}
+                    defaultValue={this.props.defaultValue}
+                    ref={(input) => {
+                        return input;
+                    }}
                     className="form-control"
                     placeholder={placeholder}
-                    id={inputId}
+                    id={inputId.toString()}
                 />
             </div>
         );
