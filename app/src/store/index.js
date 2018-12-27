@@ -1,5 +1,3 @@
-import { onlinestatus } from '../config';
-
 const initialState = {
     isAuthenticated: false,
     user: {
