@@ -1,7 +1,9 @@
 import * as messageActions from './actions/messageActions';
 
-import { setUserId } from './actions/userActions';
 import io from 'socket.io-client';
+
+import { setUserId } from './actions/userActions';
+import { WS } from './config/';
 
 let socket = null;
 
@@ -27,12 +29,11 @@ export function chatMiddleware(store) {
 /**
  * Creates a connection to the server via ws.
  *
- * TODO save host as env or global var
  *
  * @param {Object} store the current store
  */
 export default function(store) {
-    socket = io.connect('http://localhost:5001');
+    socket = io.connect(WS);
 
     socket.on('start', (data) => {
         const user = {
