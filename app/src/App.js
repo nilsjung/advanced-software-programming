@@ -64,6 +64,15 @@ class App extends Component {
                     isAuthenticated={this.props.isAuthenticated}
                 />
                 <div className="container">
+                    <div className="row userInformation">
+                        <div className="col-2">
+                            {this.props.user.firstname}{' '}
+                            {this.props.user.lastname}
+                        </div>
+                        <div className="col-3">
+                            {this.props.user.onlinestatus}
+                        </div>
+                    </div>
                     <div className="row">
                         <div className="col-12">
                             <Route
@@ -75,11 +84,13 @@ class App extends Component {
                             <Route path="/register" component={Registration} />
                         </div>
                     </div>
-                    <div className="container bottom-align">
-                        <InfoField
-                            message={this.props.infoMessage}
-                            isSuccess={this.props.isSuccess}
-                        />
+                    <div className="row bottom-align">
+                        <col>
+                            <InfoField
+                                message={this.props.infoMessage}
+                                isSuccess={this.props.isSuccess}
+                            />
+                        </col>
                     </div>
                 </div>
             </div>

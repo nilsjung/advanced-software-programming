@@ -13,8 +13,7 @@ const socket = (server) => {
         connections.push(socket);
         userId += 1;
         socket.emit('start', { userId });
-        socket.on('message', (data) => messageService(data, connections));
-
+        socket.on('onlinestatus', (userid, onlinestatus) => onlineStatusService(socket, userid, onlinestatus))
         socket.on('disconnect', () => disconnectService(connections));
     });
 

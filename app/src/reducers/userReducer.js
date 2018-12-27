@@ -18,3 +18,10 @@ export function loginIsLoadingReducer(state, action) {
     const { isLoading } = action;
     return { ...state, isLoading };
 }
+
+export function setOnlineStatusReducer(state, action) {
+    return {
+        ...state,
+        user: { ...state.user, onlinestatus: action.onlinestatus },
+    };
+}

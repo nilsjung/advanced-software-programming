@@ -5,5 +5,4 @@ export let socket = null;
 
 export const initSocket = () => {
     socket = io.connect(WS);
-    return socket;
 };

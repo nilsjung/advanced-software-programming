@@ -1,7 +1,7 @@
 import * as messageActions from './../actions/messageActions';
 
 import { setUserId } from './../actions/userActions';
-import { initSocket } from './socket';
+import { initSocket, socket } from './socket';
 
 /**
  * Creates a connection to the server via ws.
@@ -10,7 +10,7 @@ import { initSocket } from './socket';
  * @param {Object} store the current store
  */
 export default function(store) {
-    const socket = initSocket();
+    initSocket();
 
     socket.on('start', (data) => {
         const user = {
