@@ -1,3 +1,5 @@
+import { onlinestatus } from '../config';
+
 const initialState = {
     isAuthenticated: false,
     user: {
@@ -6,6 +8,7 @@ const initialState = {
         firstname: '',
         lastname: '',
         password: '',
+        onlinestatus: onlinestatus.OFFLINE,
     },
     messages: [],
     currentMessage: '',
