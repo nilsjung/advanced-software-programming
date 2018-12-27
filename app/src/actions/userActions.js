@@ -72,9 +72,7 @@ export function login({ email, password }) {
                     chatrooms: chatroomResult.chatrooms,
                 })
             );
-            dispatch(
-                setOnlineStatus(loginResult.user, onlinestatus.ONLINE, socket)
-            );
+            dispatch(setOnlineStatus(loginResult.user, onlinestatus.ONLINE));
             dispatch(isSuccess(true));
             dispatch(isAuthenticated(true));
             dispatch(showPopup(loginResult.message)); // show the popup for default seconds
@@ -98,7 +96,7 @@ export function userLogin({ user, accessToken, chatrooms }) {
     };
 }
 
-const setOnlineStatus = (user, status, socket) => {
+export const setOnlineStatus = (user, status) => {
     socket.emit('onlinestatus', user, status);
     return {
         type: SET_ONLINESTATUS,
