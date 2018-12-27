@@ -12,6 +12,7 @@ import NavBar from './components/mixins/NavBar';
 import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
 import InfoField from './components/mixins/InfoField';
+import UserInformationField from './components/user/UserInformationField';
 
 class App extends Component {
     renderChat = () => {
@@ -64,15 +65,7 @@ class App extends Component {
                     isAuthenticated={this.props.isAuthenticated}
                 />
                 <div className="container">
-                    <div className="row userInformation">
-                        <div className="col-2">
-                            {this.props.user.firstname}{' '}
-                            {this.props.user.lastname}
-                        </div>
-                        <div className="col-3">
-                            {this.props.user.onlinestatus}
-                        </div>
-                    </div>
+                    <UserInformationField />
                     <div className="row">
                         <div className="col-12">
                             <Route
@@ -85,12 +78,12 @@ class App extends Component {
                         </div>
                     </div>
                     <div className="row bottom-align">
-                        <col>
+                        <div className="col">
                             <InfoField
                                 message={this.props.infoMessage}
                                 isSuccess={this.props.isSuccess}
                             />
-                        </col>
+                        </div>
                     </div>
                 </div>
             </div>
