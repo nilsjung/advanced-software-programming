@@ -8,7 +8,7 @@ const initialState = {
         firstname: '',
         lastname: '',
         password: '',
-        onlinestatus: onlinestatus.OFFLINE,
+        onlinestatus: '',
     },
     messages: [],
     currentMessage: '',

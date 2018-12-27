@@ -7,6 +7,9 @@ import {
     isAuthenticated,
 } from './helperAction';
 
+import { socket } from './../socket/socket';
+import { onlinestatus } from './../config';
+
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
 
@@ -16,6 +19,7 @@ export const USER_LOGIN = 'user-login';
 export const FAILED = 'failed';
 export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
+export const SET_ONLINESTATUS = 'set-onlinestatus';
 
 /**
  * Register a new client on the websocket
@@ -68,6 +72,9 @@ export function login({ email, password }) {
                     chatrooms: chatroomResult.chatrooms,
                 })
             );
+            dispatch(
+                setOnlineStatus(loginResult.user, onlinestatus.ONLINE, socket)
+            );
             dispatch(isSuccess(true));
             dispatch(isAuthenticated(true));
             dispatch(showPopup(loginResult.message)); // show the popup for default seconds
@@ -90,3 +97,11 @@ export function userLogin({ user, accessToken, chatrooms }) {
         chatrooms,
     };
 }
+
+const setOnlineStatus = (user, status, socket) => {
+    socket.emit('onlinestatus', user, status);
+    return {
+        type: SET_ONLINESTATUS,
+        onlinestatus: status,
+    };
+};
