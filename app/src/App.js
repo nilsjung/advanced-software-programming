@@ -13,31 +13,10 @@ import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
 import InfoField from './components/mixins/InfoField';
 import Settings from './components/user/Settings';
+import { PrivateRoute } from './components/mixins/PrivateRoute';
 
 class App extends Component {
-    renderChat = () => {
-        const {
-            user,
-            messages,
-            isAuthenticated,
-            currentMessage,
-            addMessage,
-            updateMessage,
-            accessToken,
-        } = this.props;
-
-        if (isAuthenticated) {
-            return (
-                <Chat
-                    accessToken={accessToken}
-                    messages={messages}
-                    user={user}
-                    currentMessage={currentMessage}
-                    addMessage={addMessage}
-                    updateMessage={updateMessage}
-                />
-            );
-        }
+    renderHome = () => {
         return (
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
@@ -65,10 +44,19 @@ class App extends Component {
                     isAuthenticated={this.props.isAuthenticated}
                 />
                 <div className="container mainContent">
-                    <Route path="/chat" exact render={this.renderChat} />
+                    <Route path="/" exact render={this.renderHome} />
                     <Route path="/login" component={Login} />
                     <Route path="/register" component={Registration} />
-                    <Route path="/settings" component={Settings} />
+                    <PrivateRoute
+                        authed={this.props.isAuthenticated}
+                        path="/chat"
+                        component={Chat}
+                    />
+                    <PrivateRoute
+                        authed={this.props.isAuthenticated}
+                        path="/settings"
+                        component={Settings}
+                    />
                 </div>
                 <div className="container bottom-align">
                     <InfoField
