@@ -1,7 +1,7 @@
 import request from 'superagent';
 import { HOST } from '../config/';
 import { loadChatHistory } from './messageActions';
-import { showPopup, isSuccess } from './helper';
+import { showPopup, isSuccess, getResponseError, signHeader } from './helper';
 
 const chatroomEndpoint = HOST + 'chatroom/';
 

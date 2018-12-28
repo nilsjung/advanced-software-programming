@@ -5,17 +5,19 @@ import {
     isLoading,
     isSuccess,
     isAuthenticated,
-} from './helperAction';
+    getResponseError,
+    signHeader,
+} from './helper';
 
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
+const userEndpoint = HOST + 'user';
 
 export const USER_LOGIN = 'user-login';
-
-// these should be generic for all request actions
 export const FAILED = 'failed';
 export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
+export const USER_UPDATE = 'user-update';
 
 /**
  * Register a new client on the websocket
@@ -76,6 +78,27 @@ export function login({ email, password }) {
     };
 }
 
+export function updateAction(user, token) {
+    return (dispatch) => {
+        dispatch(isLoading(true));
+
+        request
+            .post(userEndpoint)
+            .set(signHeader(token))
+            .send(user)
+            .then((result) => {
+                dispatch(isLoading(false));
+                dispatch(isSuccess(true));
+                dispatch(showPopup(result.body.message));
+            })
+            .catch((err) => {
+                dispatch(isLoading(false));
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
+    };
+}
+
 export function logout() {
     return {
         type: LOGOUT,
@@ -88,5 +111,12 @@ export function userLogin({ user, accessToken, chatrooms }) {
         user,
         accessToken,
         chatrooms,
+    };
+}
+
+export function userUpdate(user) {
+    return {
+        type: USER_UPDATE,
+        user,
     };
 }

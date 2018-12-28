@@ -52,6 +52,11 @@ export default class NavBar extends React.Component {
                             '/chat',
                             'Chat'
                         )}
+                        {this.renderLinkIfAuthenticated(
+                            this.props.isAuthenticated,
+                            '/settings',
+                            'Settings'
+                        )}
                         {this.renderLoginLogout(this.props.isAuthenticated)}
                         {this.renderLinkIfAuthenticated(
                             !this.props.isAuthenticated,
