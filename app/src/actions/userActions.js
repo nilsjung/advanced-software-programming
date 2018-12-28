@@ -11,7 +11,7 @@ import {
 
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
-const userEndpoint = HOST + 'user';
+const userEndpoint = HOST + 'user/';
 
 export const USER_LOGIN = 'user-login';
 export const FAILED = 'failed';
@@ -81,9 +81,8 @@ export function login({ email, password }) {
 export function updateAction(user, token) {
     return (dispatch) => {
         dispatch(isLoading(true));
-
         request
-            .post(userEndpoint)
+            .post(userEndpoint + user._id)
             .set(signHeader(token))
             .send(user)
             .then((result) => {

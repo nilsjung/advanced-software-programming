@@ -10,7 +10,7 @@ const userEndpoint = HOST + 'user';
 
 export function registerUser(user) {
     return (dispatch) => {
-        dispatch(isLoading({ isLoading: true }));
+        dispatch(isLoading(true));
         request
             .post(userEndpoint)
             .set('Content-Type', 'application/json')

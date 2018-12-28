@@ -11,6 +11,7 @@ class Settings extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            _id: this.props.user._id,
             firstname: this.props.user.firstname,
             lastname: this.props.user.lastname,
             password: this.props.user.password,
@@ -21,8 +22,9 @@ class Settings extends React.Component {
     }
 
     onSubmit = (event) => {
+
         event.preventDefault();
-        this.props.updateUser(this.state);
+        this.props.updateUser(this.state, this.props.authToken);
     };
 
     onChange = (key) => (value) => {
@@ -55,15 +57,13 @@ class Settings extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return {
-        user: state.user,
-        infoMessage: state.infoMessage,
-    };
+    return { user: state.user, authToken: state.accessToken };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        updateUser: (user) => dispatch(userActionCreators.updateAction(user)),
+        updateUser: (user, token) =>
+            dispatch(userActionCreators.updateAction(user, token)),
     };
 }
 
