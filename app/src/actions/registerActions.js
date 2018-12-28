@@ -4,7 +4,7 @@ export const REGISTER_USER = 'register-user';
 export const IS_LOADING = 'is-loading';
 
 import { HOST } from './../config/';
-import { showPopup, isSuccess, isLoading } from './helperAction';
+import { showPopup, isSuccess, isLoading } from './helper';
 
 const userEndpoint = HOST + 'user';
 
