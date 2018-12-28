@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as chatroomActionCreators from '../../actions/chatroomActions';
+import * as messageActionCreators from '../../actions/messageActions';
 
 import MessagesList from './MessagesList';
 import TextInput from './TextInput';
@@ -86,7 +87,11 @@ class Chat extends React.Component {
 function mapStateToProps(state) {
     return {
         chatrooms: state.chatrooms,
+        accessToken: state.accessToken,
+        messages: state.messages,
+        currentMessage: state.currentMessage,
         currentChatroom: state.currentChatroom,
+        user: state.user,
     };
 }
 
@@ -97,6 +102,8 @@ function mapDispatchToProps(dispatch) {
             createChatroom: chatroomActionCreators.createChatroom,
             getChatroom: chatroomActionCreators.getChatroom,
             deleteChatroom: chatroomActionCreators.deleteChatroom,
+            updateMessage: messageActionCreators.updateMessage,
+            addMessage: messageActionCreators.addMessage,
         },
         dispatch
     );

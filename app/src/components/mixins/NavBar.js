@@ -38,7 +38,7 @@ export default class NavBar extends React.Component {
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <Link className="navbar-brand" to="/chat">
+                <Link className="navbar-brand" to="/">
                     ChatApp
                 </Link>
                 <NavbarToggler />
