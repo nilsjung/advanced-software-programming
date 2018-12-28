@@ -1,7 +1,7 @@
 import request from 'superagent';
 import { HOST } from '../config/';
 import { loadChatHistory } from './messageActions';
-import { showPopup, isSuccess } from './helperAction';
+import { showPopup, isSuccess } from './helper';
 
 const chatroomEndpoint = HOST + 'chatroom/';
 
@@ -11,17 +11,6 @@ export const UPDATE_CHATROOMS = 'update-chatrooms';
 export const DELETE_CHATROOM = 'delete-chatroom';
 
 // TODO store this at a global place to use signHeader with other actions-modules as well
-const signHeader = (token) => {
-    return {
-        'Content-Type': 'application/json',
-        'X-Custom-Authorisation': token,
-    };
-};
-
-const getResponseError = (err) => {
-    return err.response.body.message || err.message;
-};
-
 export function getChatroom({ chatroom, token }) {
     return (dispatch) => {
         request

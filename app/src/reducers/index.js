@@ -26,7 +26,7 @@ import {
     IS_SUCCESS,
     IS_AUTHENTICATED,
     IS_LOADING,
-} from '../actions/helperAction';
+} from '../actions/helper';
 
 import {
     CHANGE_ROOM,
