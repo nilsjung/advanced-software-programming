@@ -1,7 +1,8 @@
 import moment from 'moment';
 import React from 'react';
+import { MultiLineParser } from 'text-emoji-parser';
 import { DateFormat } from '../../config';
-
+import { Emoji } from 'emoji-mart';
 const formatDate = (d) => {
     return moment(d).format(DateFormat);
 };
@@ -15,7 +16,18 @@ const Message = (props) => {
                 </span>
                 <span className="MessageAuthor col-8">{props.userName}</span>
             </small>
-            <div className="MessageBody">{props.text}</div>
+            <div className="MessageBody">
+                {MultiLineParser(
+                    props.text,
+                    {
+                        SplitLinesTag: 'p',
+                        Rule: /(?:\:[^\:]+\:(?:\:skin-tone-(?:\d)\:)?)/gi,
+                    },
+                    (Rule, ruleNumber) => {
+                        return <Emoji emoji={Rule} size={48} />;
+                    }
+                )}
+            </div>
             {retrieveYoutubeURLs(props.text)}
         </li>
     );

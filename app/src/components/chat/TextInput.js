@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import InputWithButton from '../mixins/InputWithButton';
+import EmojiPicker from '../mixins/EmojiPicker';
 
 class TextInput extends Component {
     onChange = (value) => {
@@ -29,6 +30,7 @@ class TextInput extends Component {
                     onSubmit={this.onSubmit}
                     onChange={this.onChange}
                 />
+                <EmojiPicker>onChange={this.onChange}</EmojiPicker>
             </div>
         );
     }
