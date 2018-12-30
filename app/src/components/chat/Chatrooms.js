@@ -26,7 +26,6 @@ class Chatrooms extends React.Component {
             email: this.props.user.email,
             role: 'ADMIN',
         };
-
         if (roomName && user) {
             this.props.createChatroom({
                 chatroom: roomName,
