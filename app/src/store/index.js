@@ -14,6 +14,7 @@ const initialState = {
     isSuccess: null,
     accessToken: '',
     chatrooms: [],
+    userchats: [],
     currentChatroom: '',
     users: [],
     selectedUsers: [],

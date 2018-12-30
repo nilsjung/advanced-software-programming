@@ -40,6 +40,7 @@ import {
 import {
     CHANGE_ROOM,
     CREATE_CHATROOM,
+    CREATE_USERCHAT,
     DELETE_CHATROOM,
 } from '../actions/chatroomActions';
 
@@ -47,6 +48,7 @@ import initialState from '../store/';
 import {
     deleteChatroomReducer,
     createChatroomReducer,
+    createUserChatReducer,
 } from './chatroomReducer';
 
 /**
@@ -89,6 +91,8 @@ export default function(state = initialState, action) {
 
         case CREATE_CHATROOM:
             return createChatroomReducer(state, action);
+        case CREATE_USERCHAT:
+            return createUserChatReducer(state, action);
 
         case DELETE_CHATROOM:
             return deleteChatroomReducer(state, action);
@@ -101,7 +105,6 @@ export default function(state = initialState, action) {
                 (user) => user.email !== state.user.email
             );
             const selectedUsers = users.map((user) => user.email);
-            console.log({ selectedUsers });
             return {
                 ...state,
                 users: users,

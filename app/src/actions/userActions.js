@@ -10,6 +10,7 @@ import { signHeader } from '../helper/auth';
 
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
+const userchatEndpoint = HOST + 'userchat';
 const userEndpoint = HOST + 'user';
 
 export const USER_LOGIN = 'user-login';
@@ -41,7 +42,6 @@ export function getUsers(token) {
             .get(userEndpoint)
             .set(signHeader(token))
             .then((result) => {
-                console.log(result);
                 dispatch(loadUsers(result.body));
             })
             .catch((err) => {
@@ -78,14 +78,22 @@ export function login({ email, password }) {
                 .set({ 'Content-Type': 'application/json' })
         );
 
+        requests.push(
+            request
+                .get(userchatEndpoint)
+                .set({ 'Content-Type': 'application/json' })
+        );
+
         Promise.all(requests).then((result) => {
             const loginResult = result[0].body;
             const chatroomResult = result[1].body;
+            const userchatResult = result[2].body;
             dispatch(
                 userLogin({
                     user: loginResult.user,
                     accessToken: loginResult.token,
                     chatrooms: chatroomResult.chatrooms,
+                    userchats: userchatResult.chats,
                 })
             );
             dispatch(isSuccess(true));
@@ -103,7 +111,6 @@ export function logout() {
 }
 
 function loadUsers(users) {
-    console.log({ loaded: users });
     return {
         type: USERS,
         users: users,
@@ -117,11 +124,12 @@ export function selectUsers(users) {
     };
 }
 
-export function userLogin({ user, accessToken, chatrooms }) {
+export function userLogin({ user, accessToken, chatrooms, userchats }) {
     return {
         type: USER_LOGIN,
         user,
         accessToken,
         chatrooms,
+        userchats,
     };
 }

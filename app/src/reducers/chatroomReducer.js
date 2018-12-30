@@ -10,3 +10,9 @@ export const createChatroomReducer = (state, action) => {
     newChatrooms.push(action.chatroom);
     return { ...state, chatrooms: newChatrooms };
 };
+
+export const createUserChatReducer = (state, action) => {
+    const newChatrooms = Array.from(state.userchats);
+    newChatrooms.push(action.userchat);
+    return { ...state, userchats: newChatrooms };
+};
