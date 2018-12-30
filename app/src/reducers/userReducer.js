@@ -5,7 +5,7 @@ export function setUserIdReducer(state, action) {
 }
 
 export function isLoginSuccessfullReducer(state, action) {
-    const { user, accessToken, chatrooms } = action;
+    const { user, accessToken, chatrooms, userchats } = action;
     const copiedState = Object.create(state);
     const newUser = copiedState.user;
     newUser.email = user.email;
@@ -16,6 +16,7 @@ export function isLoginSuccessfullReducer(state, action) {
         user: newUser,
         accessToken,
         chatrooms,
+        userchats,
     };
 }
 

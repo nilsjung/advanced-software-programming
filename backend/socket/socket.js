@@ -27,7 +27,6 @@ const socket = (server) => {
 
 const messageService = (sock, data, connections) => {
     const chatroom = data.chatroom;
-    console.log(connections.length);
     //store message to chat
     chatroomService
         .storeMessageToChatroom(data.message, data.user, chatroom)
