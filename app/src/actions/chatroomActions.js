@@ -15,7 +15,6 @@ export const DELETE_CHATROOM = 'delete-chatroom';
 export const CREATE_USERCHAT = 'create-userchat';
 
 const getResponseError = (err) => {
-    console.log({ err });
     return err.message || err.response.body.message;
 };
 
@@ -53,7 +52,6 @@ export function deleteChatroom({ chatroom, token }) {
 export function createChatroom({ chatroom, user, token }) {
     const users = [];
     users.push(user);
-    console.log(user);
     return (dispatch) => {
         request
             .post(chatroomEndpoint)
@@ -79,12 +77,9 @@ export function createUserChat({ users, token }) {
             .set(signHeader(token))
             .send({ users, chatId })
             .then((res) => {
-                console.log(res);
                 dispatch(createdUserChat({ userchat: res.body.userchat }));
             })
-            .catch((err) => {
-                console.log(err);
-            });
+            .catch((err) => {});
     };
 }
 

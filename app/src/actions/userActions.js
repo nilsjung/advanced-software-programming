@@ -37,16 +37,13 @@ export function setUserId(user) {
 
 export function getUsers(token) {
     return (dispatch) => {
-        console.log('loading users');
         request
             .get(userEndpoint)
             .set(signHeader(token))
             .then((result) => {
                 dispatch(loadUsers(result.body));
             })
-            .catch((err) => {
-                console.log(err);
-            });
+            .catch((err) => {});
     };
 }
 
