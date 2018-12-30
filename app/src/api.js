@@ -1,4 +1,5 @@
 import * as messageActions from './actions/messageActions';
+import * as chatroomActions from './actions/chatroomActions';
 
 import { setUserId } from './actions/userActions';
 import io from 'socket.io-client';
@@ -12,6 +13,11 @@ let socket = null;
  */
 export function chatMiddleware(store) {
     return (next) => (action) => {
+        if (socket && action.type === chatroomActions.CHANGE_ROOM) {
+            socket.emit('joinChatroom', {
+                chatroom: action.currentChatroom,
+            });
+        }
         if (socket && action.type === messageActions.ADD_MESSAGE) {
             socket.emit('message', {
                 message: action.message,

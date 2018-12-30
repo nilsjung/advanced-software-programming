@@ -19,6 +19,14 @@ const socket = (server) => {
             messageService(sock, data, connections);
         });
 
+        sock.on('joinChatroom', (data) => {
+            if (sock.room) {
+                sock.leave(sock.room);
+            }
+            sock.room = data.chatroom;
+            sock.join(data.chatroom);
+        });
+
         sock.on('disconnect', () => disconnectService(connections));
     });
 
@@ -27,12 +35,13 @@ const socket = (server) => {
 
 const messageService = (sock, data, connections) => {
     const chatroom = data.chatroom;
+
     //store message to chat
     chatroomService
         .storeMessageToChatroom(data.message, data.user, chatroom)
         .then((result) => {})
         .catch((err) => console.warn(err));
-    sock.broadcast.emit('message', {
+    sock.to(chatroom).emit('message', {
         message: data.message,
         user: data.user,
     });
