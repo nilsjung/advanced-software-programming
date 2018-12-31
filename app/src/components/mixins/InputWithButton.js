@@ -8,6 +8,12 @@ class InputWithButton extends React.Component {
         };
     }
 
+    updateMessage(message) {
+        this.setState({
+            value: this.state.value + message,
+        });
+    }
+
     handleChange = (event) => {
         this.setState({ value: event.target.value });
     };

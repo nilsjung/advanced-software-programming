@@ -11,8 +11,21 @@ class EmojiPicker extends React.Component {
         };
     }
 
-    closeMenu = (e) => {
-        if (this.emojiPicker !== null && !this.emojiPicker.contains(e.target)) {
+    addEmoji = (event) => {
+        this.setState(
+            {
+                value: event.colons,
+                showEmojis: false,
+            },
+            this.props.onSelect(event.colons)
+        );
+    };
+
+    closeMenu = (event) => {
+        if (
+            this.emojiPicker !== null &&
+            !this.emojiPicker.contains(event.target)
+        ) {
             this.setState(
                 {
                     showEmojis: false,
@@ -22,7 +35,7 @@ class EmojiPicker extends React.Component {
         }
     };
 
-    showEmojis = (e) => {
+    showEmojis = (event) => {
         this.setState(
             {
                 showEmojis: true,
