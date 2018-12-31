@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import InputWithButton from '../mixins/InputWithButton';
 import EmojiPicker from '../mixins/EmojiPicker';
+import InputWithButton from '../mixins/InputWithButton';
 
 class TextInput extends Component {
     onChange = (value) => {
@@ -23,14 +23,20 @@ class TextInput extends Component {
         }
     };
 
+    onSelect = (emoji) => {
+        this.refs.input.updateMessage(emoji);
+    };
+
     render() {
         return (
             <div className="container">
                 <InputWithButton
+                    ref="input"
                     onSubmit={this.onSubmit}
                     onChange={this.onChange}
+                    updateMessage={this.onChange}
                 />
-                <EmojiPicker>onChange={this.onChange}</EmojiPicker>
+                <EmojiPicker onSelect={this.onSelect} />
             </div>
         );
     }
