@@ -7,7 +7,6 @@
  */
 
 let mongoose = require('mongoose');
-
 /**
  *
  */
