@@ -33,7 +33,7 @@ const socket = (server) => {
     return io;
 };
 
-const messageService = (sock, data, connections) => {
+const messageService = (sock, data) => {
     const chatroom = data.chatroom;
     //store message to chat
     chatroomService

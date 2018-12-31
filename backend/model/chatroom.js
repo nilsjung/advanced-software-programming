@@ -7,17 +7,12 @@
 
 const mongoose = require('mongoose');
 const MessageSchema = require('./message').schema;
+const ChatUserSchema = require('./chatUser').schema;
 
 const chatroomSchema = new mongoose.Schema({
     name: { type: String, required: true },
     chats: [MessageSchema],
-    users: [
-        {
-            name: String,
-            email: String,
-            role: String,
-        },
-    ],
+    users: [ChatUserSchema],
 });
 
 module.exports = mongoose.model('Chatroom', chatroomSchema);

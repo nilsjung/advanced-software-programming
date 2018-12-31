@@ -79,8 +79,12 @@ export function createUserChat({ users, token }) {
             .then((res) => {
                 dispatch(createdUserChat({ userchat: res.body.userchat }));
                 dispatch(openUserChat(chatId, []));
+                dispatch(isSuccess(true));
             })
-            .catch((err) => {});
+            .catch((err) => {
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
     };
 }
 

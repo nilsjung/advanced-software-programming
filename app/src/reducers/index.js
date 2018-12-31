@@ -10,7 +10,7 @@ import {
     SUCCESS,
     LOADING,
     LOGOUT,
-    USERS,
+    LOAD_USERS,
     SELECT_USERS,
 } from '../actions/userActions';
 
@@ -100,7 +100,7 @@ export default function(state = initialState, action) {
         case LOAD_HISTORY:
             return { ...state, messages: action.chats };
 
-        case USERS:
+        case LOAD_USERS:
             const users = action.users.filter(
                 (user) => user.email !== state.user.email
             );

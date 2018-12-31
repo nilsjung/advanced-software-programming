@@ -19,7 +19,7 @@ export const USER_LOGIN = 'user-login';
 export const FAILED = 'failed';
 export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
-export const USERS = 'users';
+export const LOAD_USERS = 'load_users';
 export const SELECT_USERS = 'select_users';
 
 /**
@@ -109,7 +109,7 @@ export function logout() {
 
 function loadUsers(users) {
     return {
-        type: USERS,
+        type: LOAD_USERS,
         users: users,
     };
 }
