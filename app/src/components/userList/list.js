@@ -54,11 +54,11 @@ class UserList extends React.Component {
     handleChange = (event) => {
         this.setState({ query: event.target.value });
         const query = event.target.value.toLowerCase();
-        const users = this.props.users.map((user) => {
-            if (user.email.indexOf(query) !== -1) {
-                return user.email;
-            }
-        });
+        let users = this.props.users
+            .filter((user) => {
+                return user.email.indexOf(query) !== -1;
+            })
+            .map((user) => user.email);
         this.props.dispatch(selectUsers(users));
     };
 
@@ -69,10 +69,13 @@ class UserList extends React.Component {
                 list.push(
                     <li
                         key={user}
-                        className="list-group-item"
+                        className="list-group-item  clearfix"
                         onClick={() => this.handleClick(user)}
                     >
-                        {user}
+                        {user}{' '}
+                        <span class="pull-right badge badge-success badge-pill">
+                            online
+                        </span>
                     </li>
                 );
             });
@@ -85,30 +88,13 @@ class UserList extends React.Component {
 
         return (
             <div className="container">
-                <div className="dropdown">
-                    <button
-                        id={dropdownId}
-                        className="btn btn-secondary dropdown-toggle"
-                        type="button"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                    >
-                        Users
-                    </button>
-                    <div className="dropdown-menu" aria-labelledby={dropdownId}>
-                        <h6 className="dropdown-header">Search</h6>
-                        <input
-                            className="form-control"
-                            type="text"
-                            onChange={this.handleChange}
-                            placeholder="Search for user.."
-                        />
-                        <div className="dropdown-divider" />
-                        <h6 className="dropdown-header">Select</h6>
-                        {this.renderUsers()}
-                    </div>
-                </div>
+                <input
+                    className="form-control"
+                    type="text"
+                    onChange={this.handleChange}
+                    placeholder="Search for user.."
+                />
+                <ul class="list-group">{this.renderUsers()}</ul>
             </div>
         );
     }
