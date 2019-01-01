@@ -66,27 +66,41 @@ class Chat extends React.Component {
             <div className="ChatApp">
                 <div className="container">
                     <div className="row">
-                        <div className="col-sm">
+                        <div className="col-4">
+                            <Chatrooms
+                                accessToken={accessToken}
+                                chatrooms={chatrooms}
+                                createChatroom={createChatroom}
+                                changeChatroom={changeChatroom}
+                                getChatroom={getChatroom}
+                                deleteChatroom={deleteChatroom}
+                            />
+                        </div>
+                        <div className="col-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li
+                                        class="breadcrumb-item active"
+                                        aria-current="page"
+                                    >
+                                        Your Chatroom:{' '}
+                                        {this.props.currentChatroom}
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-4">
                             <UserList
                                 handleItemClick={createUserChat}
                                 loadUsers={loadUsers}
                             />
                         </div>
-                        <Chatrooms
-                            accessToken={accessToken}
-                            chatrooms={chatrooms}
-                            createChatroom={createChatroom}
-                            changeChatroom={changeChatroom}
-                            getChatroom={getChatroom}
-                            deleteChatroom={deleteChatroom}
-                        />
-                    </div>
-                    <div className="row">
-                        <div className="h6">
-                            Your Chatroom: {this.props.currentChatroom}
+                        <div className="col-8">
+                            {this.renderInputAndMessages()}
                         </div>
                     </div>
-                    <div className="row">{this.renderInputAndMessages()}</div>
                 </div>
             </div>
         );
