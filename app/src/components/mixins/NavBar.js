@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import NavbarToggler from './NavbarToggler';
-import { messagesReducer } from '../../reducers/messageReducer';
-import { disconnect } from '../../api';
+import { disconnect } from '../../socket/socket';
 
 export default class NavBar extends React.Component {
     renderLinkIfAuthenticated = (isAuthenticated, link, label) => {
