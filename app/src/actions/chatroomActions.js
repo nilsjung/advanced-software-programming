@@ -105,11 +105,20 @@ export function changeChatroom(room, token) {
     };
 }
 
-export function openUserChat(id, chats) {
+export function openUserChat(id, token) {
     return (dispatch) => {
-        dispatch(loadChatHistory({ chats: chats }));
-        dispatch(isSuccess(true));
-        dispatch(changedChatroom(id));
+        request
+            .get(userChatEndpoint + id)
+            .set(signHeader(token))
+            .then((result) => {
+                dispatch(loadChatHistory({ chats: result.body.chats }));
+                dispatch(isSuccess(true));
+                dispatch(changedChatroom(id));
+            })
+            .catch((err) => {
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
     };
 }
 
