@@ -26,6 +26,22 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id', (req, res) => {
+    const chatId = req.params.id;
+
+    if (!chatId) {
+        res.status(301).json({ message: 'no chatroom specified' });
+    }
+
+    Userchat.findOne({ id: chatId }, (err, chatroom) => {
+        if (err) {
+            res.json({ message: `could not find userchat with id ${chatId}` });
+        } else {
+            res.json(chatroom);
+        }
+    });
+});
+
 /**
  * POST /chatrooms
  */
