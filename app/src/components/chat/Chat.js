@@ -78,9 +78,9 @@ class Chat extends React.Component {
                         </div>
                         <div className="col-8">
                             <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
+                                <ol className="breadcrumb">
                                     <li
-                                        class="breadcrumb-item active"
+                                        className="breadcrumb-item active"
                                         aria-current="page"
                                     >
                                         Your Chatroom:{' '}

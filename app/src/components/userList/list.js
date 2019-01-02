@@ -70,7 +70,7 @@ class UserList extends React.Component {
                         onClick={() => this.handleClick(user)}
                     >
                         {user}{' '}
-                        <span class="pull-right badge badge-success badge-pill">
+                        <span className="pull-right badge badge-success badge-pill">
                             online
                         </span>
                     </li>
@@ -81,8 +81,6 @@ class UserList extends React.Component {
     };
 
     render() {
-        const dropdownId = 'user-dropdown';
-
         return (
             <div className="container">
                 <input
@@ -91,7 +89,7 @@ class UserList extends React.Component {
                     onChange={this.handleChange}
                     placeholder="Search for user.."
                 />
-                <ul class="list-group">{this.renderUsers()}</ul>
+                <ul className="list-group">{this.renderUsers()}</ul>
             </div>
         );
     }
