@@ -75,6 +75,14 @@ router.post('/', auth, (req, res) => {
     });
 });
 
+const isMember = (chatroom, user) => {
+    const member = chatroom.users.findIndex((member) => {
+        return member.email === user.email;
+    });
+
+    return member >= 0;
+};
+
 // add a user to a chatroom
 router.post('/:chatroomid/user/', auth, (req, res) => {
     const chatroomId = req.params.chatroomid;
@@ -90,19 +98,15 @@ router.post('/:chatroomid/user/', auth, (req, res) => {
                     return;
                 }
 
-                if (
-                    chatroom.users.findIndex(
-                        (member) => member.email === user.email
-                    ) < 0
-                ) {
-                    chatroom.users.push(user);
+                if (!isMember(chatroom, user)) {
+                    let member = { ...user._doc, role: 'USER' };
+                    chatroom.users.push(member);
+                    chatroom.save();
+                    res.status(200).json({
+                        message: 'user successfully added',
+                        chatroom: chatroom,
+                    });
                 }
-
-                chatroom.save();
-                res.status(200).json({
-                    message: 'user successfully added',
-                    chatroom: chatroom,
-                });
             });
         }
 

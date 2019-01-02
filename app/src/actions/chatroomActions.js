@@ -65,6 +65,23 @@ export function deleteChatroom({ chatroom, token }) {
     };
 }
 
+export function addUserToChatroom({ chatroom, token, userid }) {
+    return (dispatch) => {
+        request
+            .post(chatroomEndpoint + chatroom + '/user')
+            .set(signHeader(token))
+            .send({ userid: userid })
+            .then((res) => {
+                dispatch(isSuccess(true));
+                dispatch(showPopup(res.body.message));
+            })
+            .catch((err) => {
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
+    };
+}
+
 export function createChatroom({ chatroom, user, token }) {
     const users = [];
     users.push(user);

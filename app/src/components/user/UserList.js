@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { selectUsers } from '../../actions/userActions';
 import { createChatId } from '../../helper/chat';
-import { openUserChat } from '../../actions/chatroomActions';
+import { openUserChat, addUserToChatroom } from '../../actions/chatroomActions';
 
 class UserList extends React.Component {
     constructor(props) {
@@ -44,7 +44,7 @@ class UserList extends React.Component {
         }
         // else just open chat
         else {
-            this.props.dispatch(openUserChat(id, this.props.accessToken));
+            this.props.openUserChat(id, this.props.accessToken);
         }
     };
 
@@ -73,6 +73,23 @@ class UserList extends React.Component {
                         <span className="pull-right badge badge-success badge-pill">
                             online
                         </span>
+                        {this.props.currentChatroom !== '' ? (
+                            <button
+                                onClick={() =>
+                                    this.props.addUserToChatroom({
+                                        userid: user,
+                                        chatroom: this.props.currentChatroom,
+                                        token: this.props.accessToken,
+                                    })
+                                }
+                                className="btn btn-sm btn-secondary-outline"
+                            >
+                                <i className="fa fa-plus" />
+                                <span>add</span>
+                            </button>
+                        ) : (
+                            ''
+                        )}
                     </li>
                 );
             });
@@ -95,12 +112,25 @@ class UserList extends React.Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        currentChatroom: state.currentChatroom,
+        users: state.users,
+        selectedUsers: state.selectedUsers,
+        accessToken: state.accessToken,
+        user: state.user,
+        userchats: state.userchats,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        addUserToChatroom: (data) => dispatch(addUserToChatroom(data)),
+        openUserChat: (id, token) => dispatch(openUserChat(id, token)),
+    };
+}
+
 export default connect(
-    ({ users, selectedUsers, accessToken, user, userchats }) => ({
-        users,
-        selectedUsers,
-        accessToken,
-        user,
-        userchats,
-    })
+    mapStateToProps,
+    mapDispatchToProps
 )(UserList);
