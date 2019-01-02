@@ -2,7 +2,6 @@ const token = require('./../security/token');
 const chatroomService = require('./../services/chatroomService');
 
 const messageService = async (data, socket) => {
-    console.log({ data });
     const user = await token.verify(data.token);
     const chatroom = data.chatroom;
 
