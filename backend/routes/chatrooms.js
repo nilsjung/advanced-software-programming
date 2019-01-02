@@ -97,15 +97,16 @@ router.post('/:chatroomid/user/', auth, (req, res) => {
                     });
                     return;
                 }
-
-                if (!isMember(chatroom, user)) {
-                    let member = { ...user._doc, role: 'USER' };
-                    chatroom.users.push(member);
-                    chatroom.save();
-                    res.status(200).json({
-                        message: 'user successfully added',
-                        chatroom: chatroom,
-                    });
+                if (chatroom) {
+                    if (!isMember(chatroom, user)) {
+                        let member = { ...user._doc, role: 'USER' };
+                        chatroom.users.push(member);
+                        chatroom.save();
+                        res.status(200).json({
+                            message: 'user successfully added',
+                            chatroom: chatroom,
+                        });
+                    }
                 }
             });
         }
