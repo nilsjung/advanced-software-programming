@@ -10,9 +10,6 @@ import {
 import {
     SET_USER_ID,
     USER_LOGIN,
-    FAILED,
-    SUCCESS,
-    LOADING,
     LOGOUT,
     LOAD_USERS,
     SELECT_USERS,
@@ -46,6 +43,7 @@ import {
     CHANGE_ROOM,
     CREATE_CHATROOM,
     CREATE_USERCHAT,
+    UPDATE_CHATROOMS,
     DELETE_CHATROOM,
 } from '../actions/chatroomActions';
 
@@ -54,6 +52,7 @@ import {
     deleteChatroomReducer,
     createChatroomReducer,
     createUserChatReducer,
+    updateChatroomsReducer,
 } from './chatroomReducer';
 
 /**
@@ -99,6 +98,10 @@ export default function(state = initialState, action) {
 
         case CREATE_CHATROOM:
             return createChatroomReducer(state, action);
+
+        case UPDATE_CHATROOMS:
+            return updateChatroomsReducer(state, action);
+
         case CREATE_USERCHAT:
             return createUserChatReducer(state, action);
 

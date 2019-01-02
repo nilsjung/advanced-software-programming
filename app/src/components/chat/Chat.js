@@ -58,7 +58,6 @@ class Chat extends React.Component {
             getChatroom,
             deleteChatroom,
             accessToken,
-            users,
             createUserChat,
         } = this.props;
 
@@ -73,6 +72,7 @@ class Chat extends React.Component {
                                 createChatroom={createChatroom}
                                 changeChatroom={changeChatroom}
                                 getChatroom={getChatroom}
+                                getChatrooms={this.props.getChatrooms}
                                 deleteChatroom={deleteChatroom}
                             />
                         </div>
@@ -120,6 +120,7 @@ function mapDispatchToProps(dispatch) {
             changeChatroom: chatroomActionCreators.changeChatroom,
             createChatroom: chatroomActionCreators.createChatroom,
             getChatroom: chatroomActionCreators.getChatroom,
+            getChatrooms: chatroomActionCreators.getChatrooms,
             deleteChatroom: chatroomActionCreators.deleteChatroom,
         },
         dispatch
