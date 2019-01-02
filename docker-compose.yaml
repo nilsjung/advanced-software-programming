@@ -3,7 +3,7 @@ version: '3'
 services:
     backend:
         image: 'chat_app_backend'
-        container_name: "nodejs_server"
+        container_name: 'nodejs_server'
         build:
             context: ./backend
         volumes:
@@ -12,6 +12,7 @@ services:
         env_file: .env
         environment:
             PORT: 5001
+            WAIT_HOSTS: mongodb:27017
         links:
             - mongodb
         depends_on:
@@ -21,7 +22,7 @@ services:
 
     app:
         image: 'chatapp_app'
-        container_name: "react_app"
+        container_name: 'react_app'
         build:
             context: ./app
         volumes:
@@ -33,7 +34,7 @@ services:
 
     mongodb:
         image: mongo:4.0
-        container_name: "mongodb"
+        container_name: 'mongodb'
         restart: always
         env_file: .env
         volumes:
