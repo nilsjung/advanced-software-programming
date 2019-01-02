@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import InputWithButton from '../mixins/InputWithButton';
 
 class Chatrooms extends React.Component {
+    componentWillMount = () => {
+        this.props.getChatrooms({ token: this.props.accessToken });
+    };
+
     onDelete = (room) => {
         return () => {
             this.props.deleteChatroom({
