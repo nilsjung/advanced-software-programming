@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as messageActionCreators from './actions/messageActions';
 import * as userActionCreators from './actions/userActions';
+import * as chatroomActionCreators from './actions/chatroomActions';
 
 import Chat from './components/chat/Chat';
 import NavBar from './components/mixins/NavBar';
@@ -19,10 +20,18 @@ class App extends Component {
         const {
             user,
             messages,
-            isAuthenticated,
             currentMessage,
+            isAuthenticated,
             addMessage,
             updateMessage,
+            changeChatroom,
+            createChatroom,
+            chatrooms,
+            currentChatroom,
+            getChatroom,
+            loadUsers,
+            users,
+            createUserChat,
             accessToken,
         } = this.props;
 
@@ -35,6 +44,14 @@ class App extends Component {
                     currentMessage={currentMessage}
                     addMessage={addMessage}
                     updateMessage={updateMessage}
+                    changeChatroom={changeChatroom}
+                    createChatroom={createChatroom}
+                    chatrooms={chatrooms}
+                    currentChatroom={currentChatroom}
+                    getChatroom={getChatroom}
+                    loadUsers={loadUsers}
+                    users={users}
+                    createUserChat={createUserChat}
                 />
             );
         }
@@ -94,10 +111,12 @@ class App extends Component {
 function mapStateToProps(state) {
     return {
         isAuthenticated: state.isAuthenticated,
-        accessToken: state.accessToken,
         user: state.user,
         messages: state.messages,
         currentMessage: state.currentMessage,
+        chatrooms: state.chatrooms,
+        currentChatroom: state.currentChatroom,
+        users: state.users,
         infoMessage: state.infoMessage,
         isSuccess: state.isSuccess,
     };
@@ -109,6 +128,11 @@ function mapDispatchToProps(dispatch) {
             addMessage: messageActionCreators.addMessage,
             updateMessage: messageActionCreators.updateMessage,
             login: userActionCreators.login,
+            changeChatroom: chatroomActionCreators.changeChatroom,
+            createChatroom: chatroomActionCreators.createChatroom,
+            getChatroom: chatroomActionCreators.getChatroom,
+            loadUsers: userActionCreators.getUsers,
+            createUserChat: chatroomActionCreators.createUserChat,
             logout: userActionCreators.logout,
         },
         dispatch

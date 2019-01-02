@@ -15,7 +15,10 @@ const initialState = {
     isSuccess: null,
     accessToken: '',
     chatrooms: [],
+    userchats: [],
     currentChatroom: '',
+    users: [],
+    selectedUsers: [],
 };
 
 export default initialState;
