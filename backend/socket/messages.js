@@ -11,7 +11,7 @@ const messageService = async (data, socket) => {
         .then((result) => {})
         .catch((err) => console.warn(err));
 
-    socket.emit.broadcast('message', {
+    socket.to(chatroom).emit('message', {
         message: data.message,
         user: data.user,
     });

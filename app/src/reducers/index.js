@@ -8,19 +8,21 @@ import {
 } from './userReducer';
 
 import {
+    SET_USER_ID,
+    USER_LOGIN,
+    LOGOUT,
+    LOAD_USERS,
+    SELECT_USERS,
+    SET_ONLINESTATUS,
+} from '../actions/userActions';
+
+import {
     setInfoMessage,
     resetInfoMessage,
     setIsSuccess,
     setIsAuthenticated,
     setIsLoading,
 } from './helperReducer';
-
-import {
-    SET_USER_ID,
-    LOGOUT,
-    USER_LOGIN,
-    SET_ONLINESTATUS,
-} from '../actions/userActions';
 
 import {
     UPDATE_MESSAGE,
@@ -40,6 +42,8 @@ import {
 import {
     CHANGE_ROOM,
     CREATE_CHATROOM,
+    CREATE_USERCHAT,
+    UPDATE_CHATROOMS,
     DELETE_CHATROOM,
 } from '../actions/chatroomActions';
 
@@ -47,6 +51,8 @@ import initialState from '../store/';
 import {
     deleteChatroomReducer,
     createChatroomReducer,
+    createUserChatReducer,
+    updateChatroomsReducer,
 } from './chatroomReducer';
 
 /**
@@ -67,9 +73,12 @@ export default function(state = initialState, action) {
             return setOnlineStatusReducer(state, action);
 
         case LOGOUT:
-            return initialState;
+            return { ...initialState, user: { userId: state.user.userId } };
 
-        case ADD_MESSAGE || ADD_RESPONSE:
+        case ADD_MESSAGE:
+            return messagesReducer(state, action);
+
+        case ADD_RESPONSE:
             return messagesReducer(state, action);
 
         case UPDATE_MESSAGE:
@@ -90,12 +99,30 @@ export default function(state = initialState, action) {
         case CREATE_CHATROOM:
             return createChatroomReducer(state, action);
 
+        case UPDATE_CHATROOMS:
+            return updateChatroomsReducer(state, action);
+
+        case CREATE_USERCHAT:
+            return createUserChatReducer(state, action);
+
         case DELETE_CHATROOM:
             return deleteChatroomReducer(state, action);
 
         case LOAD_HISTORY:
             return { ...state, messages: action.chats };
 
+        case LOAD_USERS:
+            const users = action.users.filter(
+                (user) => user.email !== state.user.email
+            );
+            const selectedUsers = users.map((user) => user.email);
+            return {
+                ...state,
+                users: users,
+                selectedUsers: selectedUsers,
+            };
+        case SELECT_USERS:
+            return { ...state, selectedUsers: action.users };
         case IS_SUCCESS:
             return setIsSuccess(state, action);
 

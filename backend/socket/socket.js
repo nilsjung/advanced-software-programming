@@ -9,15 +9,28 @@ const socket = (server) => {
 
     io.set('origins', 'localhost:*');
 
-    io.sockets.on('connection', function(socket) {
-        connections.push(socket);
+    io.sockets.on('connection', function(sock) {
+        connections.push(sock);
         userId += 1;
-        socket.emit('start', { userId });
-        socket.on('message', (data) => messageService(data, socket));
-        socket.on('onlinestatus', (userid, onlinestatus) =>
-            onlineStatusService(socket, userid, onlinestatus)
+        sock.emit('start', { userId });
+
+        sock.on('message', async (data) => {
+            messageService(data, sock);
+        });
+
+        sock.on('onlinestatus', (userid, onlinestatus) =>
+            onlineStatusService(sock, userid, onlinestatus)
         );
-        socket.on('disconnect', () => disconnectService(connections));
+
+        sock.on('joinChatroom', (data) => {
+            if (sock.room) {
+                sock.leave(sock.room);
+            }
+            sock.room = data.chatroom;
+            sock.join(data.chatroom);
+        });
+
+        sock.on('disconnect', () => disconnectService(connections));
     });
 
     return io;
