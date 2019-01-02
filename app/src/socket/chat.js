@@ -1,6 +1,7 @@
 import * as messageActions from './../actions/messageActions';
 
 import { socket } from './socket';
+import * as chatroomActions from '../actions/chatroomActions';
 
 /**
  * Adds the chat middleware to send messages via ws to the server.
@@ -9,6 +10,11 @@ import { socket } from './socket';
  */
 export function chatMiddleware(store) {
     return (next) => (action) => {
+        if (socket && action.type === chatroomActions.CHANGE_ROOM) {
+            socket.emit('joinChatroom', {
+                chatroom: action.currentChatroom,
+            });
+        }
         if (socket && action.type === messageActions.ADD_MESSAGE) {
             socket.emit('message', {
                 message: action.message,

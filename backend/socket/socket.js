@@ -15,8 +15,7 @@ const socket = (server) => {
         sock.emit('start', { userId });
 
         sock.on('message', async (data) => {
-            const user = await token.verify(data.token);
-            messageService(sock, data, connections);
+            messageService(data, sock);
         });
 
         sock.on('onlinestatus', (userid, onlinestatus) =>
@@ -35,19 +34,6 @@ const socket = (server) => {
     });
 
     return io;
-};
-
-const messageService = (sock, data) => {
-    const chatroom = data.chatroom;
-    //store message to chat
-    chatroomService
-        .storeMessageToChatroom(data.message, data.user, chatroom)
-        .then((result) => {})
-        .catch((err) => console.warn(err));
-    sock.to(chatroom).emit('message', {
-        message: data.message,
-        user: data.user,
-    });
 };
 
 const disconnectService = (connections) => {

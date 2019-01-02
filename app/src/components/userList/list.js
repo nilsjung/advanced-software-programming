@@ -44,9 +44,6 @@ class UserList extends React.Component {
         }
         // else just open chat
         else {
-            const chats = this.props.userchats.filter(
-                (userchat) => userchat.id === id
-            )[0].chats;
             this.props.dispatch(openUserChat(id, this.props.accessToken));
         }
     };
