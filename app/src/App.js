@@ -13,6 +13,7 @@ import NavBar from './components/mixins/NavBar';
 import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
 import InfoField from './components/mixins/InfoField';
+import UserInformationField from './components/user/UserInformationField';
 
 class App extends Component {
     renderChat = () => {
@@ -75,25 +76,32 @@ class App extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <NavBar
-                            logout={this.props.logout}
-                            isAuthenticated={this.props.isAuthenticated}
-                        />
+            <div>
+                <NavBar
+                    logout={this.props.logout}
+                    isAuthenticated={this.props.isAuthenticated}
+                />
+                <div className="container">
+                    <UserInformationField />
+                    <div className="row">
+                        <div className="col-12">
+                            <Route
+                                path="/chat"
+                                exact
+                                render={this.renderChat}
+                            />
+                            <Route path="/login" component={Login} />
+                            <Route path="/register" component={Registration} />
+                        </div>
                     </div>
-                    <div className="col-12">
-                        <Route path="/chat" exact render={this.renderChat} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/register" component={Registration} />
+                    <div className="row bottom-align">
+                        <div className="col">
+                            <InfoField
+                                message={this.props.infoMessage}
+                                isSuccess={this.props.isSuccess}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="container bottom-align">
-                    <InfoField
-                        message={this.props.infoMessage}
-                        isSuccess={this.props.isSuccess}
-                    />
                 </div>
             </div>
         );

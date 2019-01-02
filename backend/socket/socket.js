@@ -1,5 +1,5 @@
-const token = require('./../security/token');
-const chatroomService = require('./../services/chatroomService');
+const messageService = require('./messages');
+const onlineStatusService = require('./onlinestatus');
 
 const socket = (server) => {
     let userId = 0;
@@ -18,6 +18,10 @@ const socket = (server) => {
             const user = await token.verify(data.token);
             messageService(sock, data, connections);
         });
+
+        sock.on('onlinestatus', (userid, onlinestatus) =>
+            onlineStatusService(socket, userid, onlinestatus)
+        );
 
         sock.on('joinChatroom', (data) => {
             if (sock.room) {
