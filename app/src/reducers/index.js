@@ -1,7 +1,11 @@
 import {} from './registerReducer';
 
 import { messagesReducer, updateMessageReducer } from './messageReducer';
-import { setUserIdReducer, isLoginSuccessfullReducer } from './userReducer';
+import {
+    setUserIdReducer,
+    isLoginSuccessfullReducer,
+    setOnlineStatusReducer,
+} from './userReducer';
 
 import {
     SET_USER_ID,
@@ -21,6 +25,13 @@ import {
     setIsAuthenticated,
     setIsLoading,
 } from './helperReducer';
+
+import {
+    SET_USER_ID,
+    LOGOUT,
+    USER_LOGIN,
+    SET_ONLINESTATUS,
+} from '../actions/userActions';
 
 import {
     UPDATE_MESSAGE,
@@ -64,6 +75,9 @@ export default function(state = initialState, action) {
 
         case USER_LOGIN:
             return isLoginSuccessfullReducer(state, action);
+
+        case SET_ONLINESTATUS:
+            return setOnlineStatusReducer(state, action);
 
         case LOGOUT:
             return { ...initialState, user: { userId: state.user.userId } };

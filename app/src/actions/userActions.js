@@ -8,6 +8,9 @@ import {
 } from './helperAction';
 import { signHeader } from '../helper/auth';
 
+import { socket } from './../socket/socket';
+import { onlinestatus } from './../config';
+
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
 const userchatEndpoint = HOST + 'userchat';
@@ -19,6 +22,7 @@ export const USER_LOGIN = 'user-login';
 export const FAILED = 'failed';
 export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
+export const SET_ONLINESTATUS = 'set-onlinestatus';
 export const LOAD_USERS = 'load_users';
 export const SELECT_USERS = 'select_users';
 
@@ -93,6 +97,7 @@ export function login({ email, password }) {
                     userchats: userchatResult.chats,
                 })
             );
+            dispatch(setOnlineStatus(loginResult.user, onlinestatus.ONLINE));
             dispatch(isSuccess(true));
             dispatch(isAuthenticated(true));
             dispatch(showPopup(loginResult.message)); // show the popup for default seconds
@@ -130,3 +135,11 @@ export function userLogin({ user, accessToken, chatrooms, userchats }) {
         userchats,
     };
 }
+
+export const setOnlineStatus = (user, status) => {
+    socket.emit('onlinestatus', user, status);
+    return {
+        type: SET_ONLINESTATUS,
+        onlinestatus: status,
+    };
+};
