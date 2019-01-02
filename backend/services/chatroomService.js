@@ -2,7 +2,6 @@ const Chatroom = require('../model/chatroom');
 const Userchat = require('../model/userchat');
 
 const storeMessageToChatroom = (message, user, chatroom) => {
-    console.log(message);
     return new Promise((resolve, reject) => {
         Chatroom.findOne({ name: chatroom }, (err, result) => {
             if (err) reject(err);
