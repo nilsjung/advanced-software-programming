@@ -12,6 +12,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../security/authMiddleware');
 const Chatroom = require('../model/chatroom');
+const User = require('../model/user');
 
 /**
  * GET /chatrooms
@@ -71,6 +72,43 @@ router.post('/', auth, (req, res) => {
             message: 'chatroom created',
             chatroom: newChatroom,
         });
+    });
+});
+
+// add a user to a chatroom
+router.post('/:chatroomid/user/', auth, (req, res) => {
+    const chatroomId = req.params.chatroomid;
+
+    User.findOne({ email: req.body.userid }, (err, user) => {
+        if (user) {
+            Chatroom.findOne({ name: chatroomId }, (err, chatroom) => {
+                if (err) {
+                    res.status(304).json({
+                        message: 'error while loading chatroom',
+                        err: err,
+                    });
+                    return;
+                }
+
+                if (
+                    chatroom.users.findIndex(
+                        (member) => member.email === user.email
+                    ) < 0
+                ) {
+                    chatroom.users.push(user);
+                }
+
+                chatroom.save();
+                res.status(200).json({
+                    message: 'user successfully added',
+                    chatroom: chatroom,
+                });
+            });
+        }
+
+        if (err) {
+            res.status(304).json({ message: 'user not found' });
+        }
     });
 });
 
