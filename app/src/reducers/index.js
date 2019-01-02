@@ -16,6 +16,7 @@ import {
     LOGOUT,
     LOAD_USERS,
     SELECT_USERS,
+    SET_ONLINESTATUS,
 } from '../actions/userActions';
 
 import {
@@ -25,13 +26,6 @@ import {
     setIsAuthenticated,
     setIsLoading,
 } from './helperReducer';
-
-import {
-    SET_USER_ID,
-    LOGOUT,
-    USER_LOGIN,
-    SET_ONLINESTATUS,
-} from '../actions/userActions';
 
 import {
     UPDATE_MESSAGE,

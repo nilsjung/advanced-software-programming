@@ -111,6 +111,7 @@ export function openUserChat(id, token) {
             .get(userChatEndpoint + id)
             .set(signHeader(token))
             .then((result) => {
+                console.log({ result });
                 dispatch(loadChatHistory({ chats: result.body.chats }));
                 dispatch(isSuccess(true));
                 dispatch(changedChatroom(id));
