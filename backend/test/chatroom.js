@@ -36,6 +36,14 @@ const chatroomTests = (app, chai, url) => {
         var token = '';
         const authHeader = 'X-Custom-Authorisation';
 
+        before((done) => {
+            let max = new User(MaxMusterman);
+            let chat = new Chatroom(newChatroom);
+            max.save();
+            chat.save();
+            done();
+        });
+
         // log in a user for token
         before((done) => {
             // register user
@@ -50,14 +58,6 @@ const chatroomTests = (app, chai, url) => {
                 .end((err, res) => {
                     token = res.body.token;
                 });
-            done();
-        });
-
-        before((done) => {
-            let max = new User(MaxMusterman);
-            let chat = new Chatroom(newChatroom);
-            max.save();
-            chat.save();
             done();
         });
 
@@ -95,9 +95,14 @@ const chatroomTests = (app, chai, url) => {
                             .eql(newChatroom.name);
                         res.body.chatroom.should.have.property('users');
                         res.body.chatroom.users.length.should.eql(1);
+                        res.body.chatroom.users[0].should.have.property('role');
+                        res.body.chatroom.users[0].should.have.property(
+                            'email'
+                        );
                         res.body.chatroom.users[0].email.should.eql(
                             MaxMusterman.email
                         );
+                        res.body.chatroom.users[0].role.should.eql('USER');
                         done();
                     });
             });

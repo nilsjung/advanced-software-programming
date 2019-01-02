@@ -8,7 +8,7 @@ import * as chatroomActionCreators from '../../actions/chatroomActions';
 import MessagesList from './MessagesList';
 import TextInput from './TextInput';
 import Chatrooms from './Chatrooms';
-import UserList from '../userList/list';
+import UserList from '../user/UserList';
 
 class Chat extends React.Component {
     renderInputAndMessages = () => {
