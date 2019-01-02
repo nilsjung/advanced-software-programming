@@ -19,7 +19,7 @@ const socket = (server) => {
         });
 
         sock.on('onlinestatus', (userid, onlinestatus) =>
-            onlineStatusService(socket, userid, onlinestatus)
+            onlineStatusService(sock, userid, onlinestatus)
         );
 
         sock.on('joinChatroom', (data) => {
