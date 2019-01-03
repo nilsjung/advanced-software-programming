@@ -22,7 +22,6 @@ class Settings extends React.Component {
     }
 
     onSubmit = (event) => {
-
         event.preventDefault();
         this.props.updateUser(this.state, this.props.authToken);
     };
@@ -63,7 +62,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         updateUser: (user, token) =>
-            dispatch(userActionCreators.updateAction(user, token)),
+            dispatch(userActionCreators.updateUserProfileAction(user, token)),
     };
 }
 
