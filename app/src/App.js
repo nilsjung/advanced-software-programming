@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as messageActionCreators from './actions/messageActions';
 import * as userActionCreators from './actions/userActions';
+import * as chatroomActionCreators from './actions/chatroomActions';
 
 import Chat from './components/chat/Chat';
 import NavBar from './components/mixins/NavBar';
@@ -14,6 +15,7 @@ import Registration from './components/registration/Registration';
 import InfoField from './components/mixins/InfoField';
 import Settings from './components/user/Settings';
 import { PrivateRoute } from './components/mixins/PrivateRoute';
+import {UserInformationField} from './components/user/UserInformationField';
 
 class App extends Component {
     renderHome = () => {
@@ -44,6 +46,8 @@ class App extends Component {
                     isAuthenticated={this.props.isAuthenticated}
                 />
                 <div className="container mainContent">
+                    <UserInformationField />
+
                     <Route path="/" exact render={this.renderHome} />
                     <Route path="/login" component={Login} />
                     <Route path="/register" component={Registration} />
@@ -57,12 +61,14 @@ class App extends Component {
                         path="/settings"
                         component={Settings}
                     />
-                </div>
-                <div className="container bottom-align">
-                    <InfoField
-                        message={this.props.infoMessage}
-                        isSuccess={this.props.isSuccess}
-                    />
+                    <div className="row bottom-align">
+                        <div className="col">
+                            <InfoField
+                                message={this.props.infoMessage}
+                                isSuccess={this.props.isSuccess}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -72,10 +78,12 @@ class App extends Component {
 function mapStateToProps(state) {
     return {
         isAuthenticated: state.isAuthenticated,
-        accessToken: state.accessToken,
         user: state.user,
         messages: state.messages,
         currentMessage: state.currentMessage,
+        chatrooms: state.chatrooms,
+        currentChatroom: state.currentChatroom,
+        users: state.users,
         infoMessage: state.infoMessage,
         isSuccess: state.isSuccess,
     };
@@ -87,6 +95,11 @@ function mapDispatchToProps(dispatch) {
             addMessage: messageActionCreators.addMessage,
             updateMessage: messageActionCreators.updateMessage,
             login: userActionCreators.login,
+            changeChatroom: chatroomActionCreators.changeChatroom,
+            createChatroom: chatroomActionCreators.createChatroom,
+            getChatroom: chatroomActionCreators.getChatroom,
+            loadUsers: userActionCreators.getUsers,
+            createUserChat: chatroomActionCreators.createUserChat,
             logout: userActionCreators.logout,
         },
         dispatch
