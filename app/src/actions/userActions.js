@@ -17,7 +17,6 @@ import { signHeader } from '../helper/auth';
 import { socket } from './../socket/socket';
 import { onlinestatus } from './../config';
 
-
 export const USER_LOGIN = 'user-login';
 export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
@@ -162,6 +161,7 @@ export function userUpdate(user) {
         user,
     };
 }
+
 export const setOnlineStatus = (user, status) => {
     socket.emit('onlinestatus', user, status);
     return {

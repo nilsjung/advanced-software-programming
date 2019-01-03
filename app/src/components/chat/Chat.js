@@ -54,7 +54,6 @@ class Chat extends React.Component {
         const {
             changeChatroom,
             createChatroom,
-            loadUsers,
             chatrooms,
             getChatroom,
             deleteChatroom,
@@ -93,10 +92,7 @@ class Chat extends React.Component {
                     </div>
                     <div className="row">
                         <div className="col-4">
-                            <UserList
-                                handleItemClick={createUserChat}
-                                loadUsers={loadUsers}
-                            />
+                            <UserList handleItemClick={createUserChat} />
                         </div>
                         <div className="col-8">
                             {this.renderInputAndMessages()}
@@ -129,6 +125,7 @@ function mapDispatchToProps(dispatch) {
             deleteChatroom: chatroomActionCreators.deleteChatroom,
             updateMessage: messageActionCreators.updateMessage,
             addMessage: messageActionCreators.addMessage,
+            createUserChat: chatroomActionCreators.createUserChat,
         },
         dispatch
     );

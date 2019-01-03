@@ -1,7 +1,7 @@
 import request from 'superagent';
 import { HOST } from '../config/';
 import { loadChatHistory } from './messageActions';
-import { showPopup, isSuccess } from './helperAction';
+import { showPopup, isSuccess } from './helper';
 import { signHeader } from '../helper/auth';
 import { createChatId } from '../helper/chat';
 
