@@ -155,13 +155,6 @@ export function userLogin({ user, accessToken, chatrooms, userchats }) {
     };
 }
 
-export function userUpdate(user) {
-    return {
-        type: USER_UPDATE,
-        user,
-    };
-}
-
 export const setOnlineStatus = (user, status) => {
     socket.emit('onlinestatus', user, status);
     return {
