@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
-import { isSuccess } from '../../actions/helper';
 import * as registerActions from '../../actions/registerActions';
 import RegistrationForm from '../registration/RegistrationForm';
 
@@ -34,7 +33,6 @@ function mapDispatchToProps(dispatch) {
     return {
         registerUser: (user) => {
             dispatch(registerActions.registerUser(user));
-            dispatch(isSuccess(null)); // reset the success status
         },
     };
 }
