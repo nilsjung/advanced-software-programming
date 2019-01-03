@@ -105,7 +105,7 @@ export function login({ email, password }) {
     };
 }
 
-export function updateAction(user, token) {
+export function updateUserProfileAction(user, token) {
     return (dispatch) => {
         dispatch(isLoading(true));
         request
