@@ -1,3 +1,5 @@
+import { onlinestatus } from '../config';
+
 export function setUserIdReducer(state, action) {
     let user = action.user;
 
@@ -13,6 +15,11 @@ export function isLoginSuccessfullReducer(state, action) {
         chatrooms,
         userchats,
     };
+}
+
+export function updateUserReducer(state, action) {
+    const { user } = action;
+    return { ...state, user: { ...user, onlinestatus: onlinestatus.ONLINE } };
 }
 
 export function loginIsLoadingReducer(state, action) {
