@@ -14,7 +14,8 @@ import './sass/main.scss';
 import thunk from 'redux-thunk';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import startChat, { chatMiddleware } from './api';
+import startChat from './socket';
+import { chatMiddleware } from './socket/chat';
 
 const createStoreWithMiddleware = applyMiddleware(chatMiddleware, thunk)(
     createStore

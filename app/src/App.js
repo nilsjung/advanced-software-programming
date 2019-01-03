@@ -6,22 +6,32 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as messageActionCreators from './actions/messageActions';
 import * as userActionCreators from './actions/userActions';
+import * as chatroomActionCreators from './actions/chatroomActions';
 
 import Chat from './components/chat/Chat';
 import NavBar from './components/mixins/NavBar';
 import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
 import InfoField from './components/mixins/InfoField';
+import UserInformationField from './components/user/UserInformationField';
 
 class App extends Component {
     renderChat = () => {
         const {
             user,
             messages,
-            isAuthenticated,
             currentMessage,
+            isAuthenticated,
             addMessage,
             updateMessage,
+            changeChatroom,
+            createChatroom,
+            chatrooms,
+            currentChatroom,
+            getChatroom,
+            loadUsers,
+            users,
+            createUserChat,
             accessToken,
         } = this.props;
 
@@ -34,6 +44,14 @@ class App extends Component {
                     currentMessage={currentMessage}
                     addMessage={addMessage}
                     updateMessage={updateMessage}
+                    changeChatroom={changeChatroom}
+                    createChatroom={createChatroom}
+                    chatrooms={chatrooms}
+                    currentChatroom={currentChatroom}
+                    getChatroom={getChatroom}
+                    loadUsers={loadUsers}
+                    users={users}
+                    createUserChat={createUserChat}
                 />
             );
         }
@@ -58,25 +76,32 @@ class App extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <NavBar
-                            logout={this.props.logout}
-                            isAuthenticated={this.props.isAuthenticated}
-                        />
+            <div>
+                <NavBar
+                    logout={this.props.logout}
+                    isAuthenticated={this.props.isAuthenticated}
+                />
+                <div className="container">
+                    <UserInformationField />
+                    <div className="row">
+                        <div className="col-12">
+                            <Route
+                                path="/chat"
+                                exact
+                                render={this.renderChat}
+                            />
+                            <Route path="/login" component={Login} />
+                            <Route path="/register" component={Registration} />
+                        </div>
                     </div>
-                    <div className="col-12">
-                        <Route path="/chat" exact render={this.renderChat} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/register" component={Registration} />
+                    <div className="row bottom-align">
+                        <div className="col">
+                            <InfoField
+                                message={this.props.infoMessage}
+                                isSuccess={this.props.isSuccess}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="container bottom-align">
-                    <InfoField
-                        message={this.props.infoMessage}
-                        isSuccess={this.props.isSuccess}
-                    />
                 </div>
             </div>
         );
@@ -86,10 +111,12 @@ class App extends Component {
 function mapStateToProps(state) {
     return {
         isAuthenticated: state.isAuthenticated,
-        accessToken: state.accessToken,
         user: state.user,
         messages: state.messages,
         currentMessage: state.currentMessage,
+        chatrooms: state.chatrooms,
+        currentChatroom: state.currentChatroom,
+        users: state.users,
         infoMessage: state.infoMessage,
         isSuccess: state.isSuccess,
     };
@@ -101,6 +128,11 @@ function mapDispatchToProps(dispatch) {
             addMessage: messageActionCreators.addMessage,
             updateMessage: messageActionCreators.updateMessage,
             login: userActionCreators.login,
+            changeChatroom: chatroomActionCreators.changeChatroom,
+            createChatroom: chatroomActionCreators.createChatroom,
+            getChatroom: chatroomActionCreators.getChatroom,
+            loadUsers: userActionCreators.getUsers,
+            createUserChat: chatroomActionCreators.createUserChat,
             logout: userActionCreators.logout,
         },
         dispatch
