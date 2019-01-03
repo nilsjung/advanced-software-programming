@@ -39,16 +39,16 @@ function retrieveYoutubeURLs(text) {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     let returnValue = [];
     if (urls != null) {
-        urls.forEach((element) => {
+        urls.forEach((element, index) => {
             const match = element.match(regExp);
             if (match && match[2].length == 11) {
                 const youtubeUrl = 'https://www.youtube.com/embed/' + match[2];
                 returnValue.push(
-                    <div class="plyr__video-embed" id="player">
+                    <div key={index} className="plyr__video-embed" id="player">
                         <iframe
                             src={youtubeUrl}
-                            allowfullscreen
-                            allowtransparency
+                            allowFullScreen
+                            allowtransparency={''}
                             allow="autoplay"
                         />
                     </div>
