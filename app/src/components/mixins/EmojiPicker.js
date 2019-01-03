@@ -44,24 +44,33 @@ class EmojiPicker extends React.Component {
         );
     };
 
+    renderEmojiPicker = () => {
+        if (this.state.showEmojis) {
+            return (
+                <span
+                    style={styles.emojiPicker}
+                    ref={(el) => {
+                        this.emojiPicker = el;
+                    }}
+                >
+                    <Picker onSelect={this.addEmoji} />
+                </span>
+            );
+        }
+        return '';
+    };
+
     render() {
+        const activeClass = this.state.showEmojis ? ' active' : '';
+
         return (
-            <div className="input-group-append">
-                {this.state.showEmojis ? (
-                    <span
-                        style={styles.emojiPicker}
-                        ref={(el) => (this.emojiPicker = el)}
-                    >
-                        <Picker onSelect={this.addEmoji} />
-                    </span>
-                ) : (
-                    <button
-                        style={styles.getEmojiButton}
-                        onClick={this.showEmojis}
-                    >
-                        {String.fromCodePoint(0x1f60a)}
-                    </button>
-                )}
+            <div
+                className={'btn btn-outline-secondary' + activeClass}
+                type="button"
+                onClick={this.showEmojis}
+            >
+                <i className="fa fa-smile-o" />
+                {this.renderEmojiPicker()}
             </div>
         );
     }
@@ -70,18 +79,8 @@ class EmojiPicker extends React.Component {
 export default EmojiPicker;
 
 const styles = {
-    getEmojiButton: {
-        cssFloat: 'right',
-        border: 'none',
-        margin: 0,
-        cursor: 'pointer',
-    },
     emojiPicker: {
-        display: 'flex',
         position: 'absolute',
-        bottom: 10,
-        right: 0,
-        cssFloat: 'right',
-        marginLeft: '200px',
+        bottom: 50,
     },
 };

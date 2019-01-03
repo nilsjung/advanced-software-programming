@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import EmojiPicker from '../mixins/EmojiPicker';
 import InputWithButton from '../mixins/InputWithButton';
 
 class TextInput extends Component {
@@ -31,12 +30,13 @@ class TextInput extends Component {
         return (
             <div className="container">
                 <InputWithButton
+                    showSmileyPicker={true}
                     ref="input"
                     onSubmit={this.onSubmit}
                     onChange={this.onChange}
                     updateMessage={this.onChange}
+                    onSelect={this.onSelect}
                 />
-                <EmojiPicker onSelect={this.onSelect} />
             </div>
         );
     }
