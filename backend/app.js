@@ -24,6 +24,9 @@ const db = mongoose.connection;
 db.once('open', function() {
     debug('succesfully loaded database');
 });
+db.on('error', function(err) {
+    debug('DB connection error: ' + err);
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,5 +1,5 @@
-const token = require('./../security/token');
-const chatroomService = require('./../services/chatroomService');
+const messageService = require('./messages');
+const onlineStatusService = require('./onlinestatus');
 
 const socket = (server) => {
     let userId = 0;
@@ -9,36 +9,31 @@ const socket = (server) => {
 
     io.set('origins', 'localhost:*');
 
-    io.sockets.on('connection', function(socket) {
-        connections.push(socket);
+    io.sockets.on('connection', function(sock) {
+        connections.push(sock);
         userId += 1;
-        socket.emit('start', { userId });
-        socket.on('message', (data) => messageService(data, connections));
+        sock.emit('start', { userId });
 
-        socket.on('disconnect', () => disconnectService(connections));
+        sock.on('message', async (data) => {
+            messageService(data, sock);
+        });
+
+        sock.on('onlinestatus', (userid, onlinestatus) =>
+            onlineStatusService(sock, userid, onlinestatus)
+        );
+
+        sock.on('joinChatroom', (data) => {
+            if (sock.room) {
+                sock.leave(sock.room);
+            }
+            sock.room = data.chatroom;
+            sock.join(data.chatroom);
+        });
+
+        sock.on('disconnect', () => disconnectService(connections));
     });
 
     return io;
-};
-
-const messageService = async (data, connections) => {
-    const user = await token.verify(data.token);
-    const chatroom = data.chatroom;
-
-    //store message to chat
-    chatroomService
-        .storeMessageToChatroom(data.message, data.user, chatroom)
-        .then((result) => {})
-        .catch((err) => console.warn(err));
-
-    connections.forEach((connectedSocket) => {
-        if (connectedSocket !== socket) {
-            connectedSocket.emit('message', {
-                message: data.message,
-                user: data.user,
-            });
-        }
-    });
 };
 
 const disconnectService = (connections) => {

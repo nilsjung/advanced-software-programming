@@ -5,16 +5,29 @@ export function setUserIdReducer(state, action) {
 }
 
 export function isLoginSuccessfullReducer(state, action) {
-    const { user, accessToken, chatrooms } = action;
+    const { user, accessToken, chatrooms, userchats } = action;
+    const copiedState = Object.create(state);
+    const newUser = copiedState.user;
+    newUser.email = user.email;
+    newUser.firstname = user.firstname;
+    newUser.lastname = user.lastname;
     return {
         ...state,
-        user,
+        user: newUser,
         accessToken,
         chatrooms,
+        userchats,
     };
 }
 
 export function loginIsLoadingReducer(state, action) {
     const { isLoading } = action;
     return { ...state, isLoading };
+}
+
+export function setOnlineStatusReducer(state, action) {
+    return {
+        ...state,
+        user: { ...state.user, onlinestatus: action.onlinestatus },
+    };
 }
