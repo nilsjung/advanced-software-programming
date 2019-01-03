@@ -15,7 +15,7 @@ import Registration from './components/registration/Registration';
 import InfoField from './components/mixins/InfoField';
 import Settings from './components/user/Settings';
 import { PrivateRoute } from './components/mixins/PrivateRoute';
-import {UserInformationField} from './components/user/UserInformationField';
+import UserInformationField from './components/user/UserInformationField';
 
 class App extends Component {
     renderHome = () => {
