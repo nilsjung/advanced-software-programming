@@ -22,12 +22,20 @@ class TextInput extends Component {
         }
     };
 
+    onSelect = (emoji) => {
+        this.refs.input.updateMessage(emoji);
+    };
+
     render() {
         return (
             <div className="container">
                 <InputWithButton
+                    showSmileyPicker={true}
+                    ref="input"
                     onSubmit={this.onSubmit}
                     onChange={this.onChange}
+                    updateMessage={this.onChange}
+                    onSelect={this.onSelect}
                 />
             </div>
         );

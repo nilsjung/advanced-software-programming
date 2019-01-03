@@ -61,6 +61,11 @@ module.exports = {
                 ],
             },
             {
+                test: /\.css$/,
+                exclude: /node_modules/,
+                loaders: ['style-loader', 'css-loader'],
+            },
+            {
                 test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
                 use: [
                     {
