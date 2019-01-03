@@ -20,7 +20,8 @@ import { onlinestatus } from './../config';
 export const USER_LOGIN = 'user-login';
 export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
-export const USER_UPDATE = 'user-update';
+export const UPDATE_USER = 'user-update';
+
 export const SET_ONLINESTATUS = 'set-onlinestatus';
 export const LOAD_USERS = 'load_users';
 export const SELECT_USERS = 'select_users';
@@ -116,6 +117,7 @@ export function updateUserProfileAction(user, token) {
                 dispatch(isLoading(false));
                 dispatch(isSuccess(true));
                 dispatch(showPopup(result.body.message));
+                dispatch(userUpdate(result.body.user));
             })
             .catch((err) => {
                 dispatch(isLoading(false));
@@ -152,6 +154,13 @@ export function userLogin({ user, accessToken, chatrooms, userchats }) {
         accessToken,
         chatrooms,
         userchats,
+    };
+}
+
+export function userUpdate(user) {
+    return {
+        type: UPDATE_USER,
+        user,
     };
 }
 
