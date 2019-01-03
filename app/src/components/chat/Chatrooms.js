@@ -1,8 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import InputWithButton from '../mixins/InputWithButton';
 
 class Chatrooms extends React.Component {
+    componentWillMount = () => {
+        this.props.getChatrooms({ token: this.props.accessToken });
+    };
+
     onDelete = (room) => {
         return () => {
             this.props.deleteChatroom({
@@ -20,17 +25,30 @@ class Chatrooms extends React.Component {
 
     onSubmit = (value) => {
         const roomName = value;
-
-        if (roomName) {
+        const user = {
+            name: this.props.user.firstname + ' ' + this.props.user.lastname,
+            email: this.props.user.email,
+            role: 'ADMIN',
+        };
+        if (roomName && user) {
             this.props.createChatroom({
                 chatroom: roomName,
+                user: user,
                 token: this.props.accessToken,
             });
         }
     };
 
     renderChatrooms = () => {
-        return this.props.chatrooms.map((room) => {
+        const relevantChatrooms = this.props.chatrooms.filter((chatroom) => {
+            return chatroom.users.reduce(
+                (acc, curr) =>
+                    (curr !== null && curr.email === this.props.user.email) ||
+                    acc,
+                false
+            );
+        });
+        return relevantChatrooms.map((room) => {
             let navlinkClass = 'dropdown-item';
 
             if (room.name === this.props.currentChatroom) {
@@ -98,4 +116,8 @@ class Chatrooms extends React.Component {
     }
 }
 
-export default Chatrooms;
+export default connect(({ currentChatroom, accessToken, user }) => ({
+    currentChatroom,
+    accessToken,
+    user,
+}))(Chatrooms);
