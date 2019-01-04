@@ -71,7 +71,7 @@ class UserList extends React.Component {
                     >
                         {user}{' '}
                         <span className="pull-right badge badge-success badge-pill">
-                            online
+                            {user.onlinestatus}
                         </span>
                         {this.props.currentChatroom !== '' ? (
                             <button

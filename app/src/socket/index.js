@@ -22,4 +22,10 @@ export default function(store) {
     socket.on('message', (data) => {
         store.dispatch(messageActions.addResponse(data));
     });
+    socket.on('onlinestatus', (data) => {
+        // todo: update user list
+        console.log(
+            'got onlinestatus: ' + data.user + ' is ' + data.onlinestatus
+        );
+    });
 }
