@@ -34,6 +34,7 @@ class Translator extends React.Component {
     };
 
     onTranslate = (event) => {
+        // this should call this.props.onSelect with the returned text, but the call is async and closes before the result is done, i tried async but bable doesnt like it ..not sure why..
         translateText(
             document.querySelector('#text').value,
             document.querySelector('#language').value
@@ -100,6 +101,7 @@ function translateText(text, language) {
         try {
             const json = JSON.parse(response);
             if (json.code == 200) {
+                //this could also just return the text
                 document.querySelector('#translatedText').innerHTML =
                     json.text[0];
             } else {
