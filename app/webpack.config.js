@@ -78,6 +78,10 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /\.(png|jpeg)$/,
+                loader: 'url-loader',
+            },
         ],
     },
 

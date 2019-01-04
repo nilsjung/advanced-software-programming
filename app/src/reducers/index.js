@@ -5,6 +5,7 @@ import {
     setUserIdReducer,
     isLoginSuccessfullReducer,
     setOnlineStatusReducer,
+    updateUserReducer,
 } from './userReducer';
 
 import {
@@ -12,6 +13,7 @@ import {
     USER_LOGIN,
     LOGOUT,
     LOAD_USERS,
+    UPDATE_USER,
     SELECT_USERS,
     SET_ONLINESTATUS,
 } from '../actions/userActions';
@@ -37,7 +39,7 @@ import {
     IS_SUCCESS,
     IS_AUTHENTICATED,
     IS_LOADING,
-} from '../actions/helperAction';
+} from '../actions/helper';
 
 import {
     CHANGE_ROOM,
@@ -116,11 +118,10 @@ export default function(state = initialState, action) {
                 (user) => user.email !== state.user.email
             );
             const selectedUsers = users.map((user) => user.email);
-            return {
-                ...state,
-                users: users,
-                selectedUsers: selectedUsers,
-            };
+            return { ...state, users: users, selectedUsers: selectedUsers };
+
+        case UPDATE_USER:
+            return updateUserReducer(state, action);
         case SELECT_USERS:
             return { ...state, selectedUsers: action.users };
         case IS_SUCCESS:

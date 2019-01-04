@@ -2,14 +2,6 @@ export const SHOW_INFO_MESSAGE = 'show-info-message';
 export const RESET_INFO_MESSAGE = 'reset-info-message';
 export const IS_SUCCESS = 'is-success';
 export const IS_LOADING = 'is-loading';
-export const IS_AUTHENTICATED = 'is-authenticated';
-
-export const isAuthenticated = (bool) => {
-    return {
-        type: IS_AUTHENTICATED,
-        isAuthenticated: bool,
-    };
-};
 
 export const isLoading = (bool) => {
     return {
