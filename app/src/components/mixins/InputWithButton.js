@@ -1,5 +1,6 @@
 import React from 'react';
 import EmojiPicker from './EmojiPicker';
+import Translator from './Translator';
 
 class InputWithButton extends React.Component {
     constructor(props) {
@@ -45,6 +46,13 @@ class InputWithButton extends React.Component {
                 {this.props.showSmileyPicker ? (
                     <div className="input-group-prepend">
                         <EmojiPicker onSelect={this.props.onSelect} />
+                    </div>
+                ) : (
+                    ''
+                )}
+                {this.props.showTranslation ? (
+                    <div className="input-group-prepend">
+                        <Translator onTranslate={this.props.onSelect} />
                     </div>
                 ) : (
                     ''
