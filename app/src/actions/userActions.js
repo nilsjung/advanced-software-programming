@@ -10,6 +10,7 @@ import { signHeader } from '../helper/auth';
 
 import { socket } from './../socket/socket';
 import { onlinestatus } from './../config';
+import { writeSessionToken } from '../helper/session';
 
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
@@ -97,6 +98,7 @@ export function login({ email, password }) {
                     userchats: userchatResult.chats,
                 })
             );
+            writeSessionToken(loginResult.token);
             dispatch(setOnlineStatus(loginResult.user, onlinestatus.ONLINE));
             dispatch(isSuccess(true));
             dispatch(isAuthenticated(true));

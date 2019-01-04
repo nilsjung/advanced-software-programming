@@ -10,6 +10,11 @@ const socket = (server) => {
     io.set('origins', 'localhost:*');
 
     io.sockets.on('connection', function(sock) {
+        const token = sock.request._query['token'];
+        if (token) {
+            console.log(token);
+        }
+
         connections.push(sock);
         userId += 1;
         sock.emit('start', { userId });
