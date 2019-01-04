@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { selectUsers } from '../../actions/userActions';
+import { selectUsers, getUsers } from '../../actions/userActions';
 import { createChatId } from '../../helper/chat';
 import { openUserChat, addUserToChatroom } from '../../actions/chatroomActions';
 
@@ -56,7 +56,7 @@ class UserList extends React.Component {
                 return user.email.indexOf(query) !== -1;
             })
             .map((user) => user.email);
-        this.props.dispatch(selectUsers(users));
+        this.props.selectUsers(users);
     };
 
     renderUsers = () => {
@@ -127,6 +127,8 @@ function mapDispatchToProps(dispatch) {
     return {
         addUserToChatroom: (data) => dispatch(addUserToChatroom(data)),
         openUserChat: (id, token) => dispatch(openUserChat(id, token)),
+        loadUsers: (user) => dispatch(getUsers(user)),
+        selectUsers: (users) => dispatch(selectUsers(users)),
     };
 }
 

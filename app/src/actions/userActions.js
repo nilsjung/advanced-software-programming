@@ -5,24 +5,25 @@ import {
     isLoading,
     isSuccess,
     isAuthenticated,
-} from './helperAction';
-import { signHeader } from '../helper/auth';
+    getResponseError,
+} from './helper';
 
-import { socket } from './../socket/socket';
-import { onlinestatus } from './../config';
 import { writeSessionToken } from '../helper/session';
 
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
+const userEndpoint = HOST + 'user/';
 const userchatEndpoint = HOST + 'userchat';
-const userEndpoint = HOST + 'user';
+
+import { signHeader } from '../helper/auth';
+import { socket } from './../socket/socket';
+import { onlinestatus } from './../config';
 
 export const USER_LOGIN = 'user-login';
-
-// these should be generic for all request actions
-export const FAILED = 'failed';
 export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
+export const UPDATE_USER = 'user-update';
+
 export const SET_ONLINESTATUS = 'set-onlinestatus';
 export const LOAD_USERS = 'load_users';
 export const SELECT_USERS = 'select_users';
@@ -108,6 +109,27 @@ export function login({ email, password }) {
     };
 }
 
+export function updateUserProfileAction(user, token) {
+    return (dispatch) => {
+        dispatch(isLoading(true));
+        request
+            .post(userEndpoint + user._id)
+            .set(signHeader(token))
+            .send(user)
+            .then((result) => {
+                dispatch(isLoading(false));
+                dispatch(isSuccess(true));
+                dispatch(showPopup(result.body.message));
+                dispatch(userUpdate(result.body.user));
+            })
+            .catch((err) => {
+                dispatch(isLoading(false));
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
+    };
+}
+
 export function logout() {
     return {
         type: LOGOUT,
@@ -135,6 +157,13 @@ export function userLogin({ user, accessToken, chatrooms, userchats }) {
         accessToken,
         chatrooms,
         userchats,
+    };
+}
+
+export function userUpdate(user) {
+    return {
+        type: UPDATE_USER,
+        user,
     };
 }
 
