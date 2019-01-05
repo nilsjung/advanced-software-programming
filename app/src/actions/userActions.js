@@ -23,6 +23,7 @@ export const LOGOUT = 'logout';
 export const UPDATE_USER = 'user-update';
 
 export const SET_ONLINESTATUS_LOCALUSER = 'set-onlinestatus-local';
+export const SET_ONLINESTATUS_USER = 'set-onlinestatus-user';
 export const LOAD_USERS = 'load_users';
 export const SELECT_USERS = 'select_users';
 
@@ -97,7 +98,9 @@ export function login({ email, password }) {
                     userchats: userchatResult.chats,
                 })
             );
-            dispatch(setLocalUserOnlineStatus(loginResult.user, onlinestatus.ONLINE));
+            dispatch(
+                setLocalUserOnlineStatus(loginResult.user, onlinestatus.ONLINE)
+            );
             dispatch(isSuccess(true));
             dispatch(isAuthenticated(true));
             dispatch(showPopup(loginResult.message)); // show the popup for default seconds
@@ -168,6 +171,14 @@ export const setLocalUserOnlineStatus = (user, status) => {
     socket.emit('onlinestatus', user, status);
     return {
         type: SET_ONLINESTATUS_LOCALUSER,
+        onlinestatus: status,
+    };
+};
+
+export const setUserOnlineStatus = (user, status) => {
+    return {
+        type: SET_ONLINESTATUS_USER,
+        user: user,
         onlinestatus: status,
     };
 };

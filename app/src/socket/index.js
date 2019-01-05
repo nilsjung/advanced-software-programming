@@ -1,6 +1,5 @@
 import * as messageActions from './../actions/messageActions';
-
-import { setUserId } from './../actions/userActions';
+import { setUserId, setUserOnlineStatus } from './../actions/userActions';
 import { initSocket, socket } from './socket';
 
 /**
@@ -23,9 +22,6 @@ export default function(store) {
         store.dispatch(messageActions.addResponse(data));
     });
     socket.on('onlinestatus', (data) => {
-        // todo: update user list
-        console.log(
-            'got onlinestatus: ' + data.user + ' is ' + data.onlinestatus
-        );
+        store.dispatch(setUserOnlineStatus(data.user, data.onlinestatus));
     });
 }
