@@ -53,10 +53,12 @@ import initialState from '../store/';
 import {
     deleteChatroomReducer,
     createChatroomReducer,
-    createUserChatReducer,
     updateChatroomsReducer,
-    updateUserChatsReducer,
 } from './chatroomReducer';
+import {
+    createUserChatReducer,
+    updateUserChatsReducer,
+} from './userChatReducer';
 
 /**
  * This is the main reducer. delegates the work to the specialized sub-reducer.

@@ -16,7 +16,8 @@ const userEndpoint = HOST + 'user/';
 import { signHeader } from '../helper/auth';
 import { socket } from './../socket/socket';
 import { onlinestatus } from './../config';
-import { getChatrooms, getUserChats } from './chatroomActions';
+import { getChatrooms } from './chatroomActions';
+import { getUserChats } from './userChatActions';
 
 export const USER_LOGIN = 'user-login';
 export const LOGOUT = 'logout';
@@ -34,7 +35,9 @@ export function getUsers(token) {
             .then((result) => {
                 dispatch(loadUsers(result.body));
             })
-            .catch((err) => {});
+            .catch((err) => {
+                dispatch(getResponseError(err));
+            });
     };
 }
 
@@ -69,7 +72,7 @@ export function login({ email, password }) {
                 dispatch(isLoading(false));
             })
             .catch((err) => {
-                dispatch(showPopup('Error while login: ' + err.message));
+                dispatch(showPopup(getResponseError(err)));
                 dispatch(isSuccess(false));
                 dispatch(isLoading(false));
             });

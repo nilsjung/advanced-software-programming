@@ -1,12 +1,11 @@
 import request from 'superagent';
 import { HOST } from '../config/';
-import { loadChatHistory } from './messageActions';
-import { showPopup, isSuccess } from './helper';
 import { signHeader } from '../helper/auth';
-import { createChatId } from '../helper/chat';
+import { isSuccess, showPopup, getResponseError } from './helper';
+import { loadChatHistory } from './messageActions';
 
 const chatroomEndpoint = HOST + 'chatroom/';
-const userChatEndpoint = HOST + 'userchat/';
+export const userChatEndpoint = HOST + 'userchat/';
 
 export const CHANGE_ROOM = 'change-chatroom';
 export const CREATE_CHATROOM = 'create-chatroom';
@@ -15,10 +14,6 @@ export const DELETE_CHATROOM = 'delete-chatroom';
 export const CREATE_USERCHAT = 'create-userchat';
 export const UPDATE_USER_CHAT = 'update-userchat';
 
-const getResponseError = (err) => {
-    return err.message || err.response.body.message;
-};
-
 export function getChatrooms({ token }) {
     return (dispatch) => {
         request
@@ -26,22 +21,6 @@ export function getChatrooms({ token }) {
             .set(signHeader(token))
             .then((result) => {
                 dispatch(updateChatrooms(result.body.chatrooms));
-                dispatch(isSuccess(true));
-            })
-            .catch((err) => {
-                dispatch(isSuccess(false));
-                dispatch(showPopup(getResponseError(err)));
-            });
-    };
-}
-
-export function getUserChats({ token }) {
-    return (dispatch) => {
-        request
-            .get(userChatEndpoint)
-            .set(signHeader(token))
-            .then((result) => {
-                dispatch(updateUserChats(result.body.chats));
                 dispatch(isSuccess(true));
             })
             .catch((err) => {
@@ -119,25 +98,6 @@ export function createChatroom({ chatroom, user, token }) {
     };
 }
 
-export function createUserChat({ users, token }) {
-    const chatId = createChatId(users);
-    return (dispatch) => {
-        request
-            .post(userChatEndpoint)
-            .set(signHeader(token))
-            .send({ users, chatId })
-            .then((res) => {
-                dispatch(createdUserChat({ userchat: res.body.userchat }));
-                dispatch(openUserChat(chatId, []));
-                dispatch(isSuccess(true));
-            })
-            .catch((err) => {
-                dispatch(isSuccess(false));
-                dispatch(showPopup(getResponseError(err)));
-            });
-    };
-}
-
 export function changeChatroom(room, token) {
     return (dispatch) => {
         request
@@ -155,23 +115,6 @@ export function changeChatroom(room, token) {
     };
 }
 
-export function openUserChat(id, token) {
-    return (dispatch) => {
-        request
-            .get(userChatEndpoint + id)
-            .set(signHeader(token))
-            .then((result) => {
-                dispatch(loadChatHistory({ chats: result.body.chats }));
-                dispatch(isSuccess(true));
-                dispatch(changedChatroom(id));
-            })
-            .catch((err) => {
-                dispatch(isSuccess(false));
-                dispatch(showPopup(getResponseError(err)));
-            });
-    };
-}
-
 function updateChatrooms(chatrooms) {
     return {
         type: UPDATE_CHATROOMS,
@@ -179,14 +122,7 @@ function updateChatrooms(chatrooms) {
     };
 }
 
-function updateUserChats(userchats) {
-    return {
-        type: UPDATE_USER_CHAT,
-        userchats: userchats,
-    };
-}
-
-function changedChatroom(room) {
+export function changedChatroom(room) {
     return {
         type: CHANGE_ROOM,
         currentChatroom: room,
@@ -204,12 +140,5 @@ function createdChatroom({ chatroom }) {
     return {
         type: CREATE_CHATROOM,
         chatroom: chatroom,
-    };
-}
-
-function createdUserChat({ userchat }) {
-    return {
-        type: CREATE_USERCHAT,
-        userchat: userchat,
     };
 }

@@ -4,7 +4,7 @@ export const REGISTER_USER = 'register-user';
 export const IS_LOADING = 'is-loading';
 
 import { HOST } from './../config/';
-import { showPopup, isSuccess, isLoading } from './helper';
+import { showPopup, isSuccess, isLoading, getResponseError } from './helper';
 
 const userEndpoint = HOST + 'user';
 
@@ -25,7 +25,7 @@ export function registerUser(user) {
             })
             .catch((err) => {
                 dispatch(isSuccess(false));
-                dispatch(showPopup('Error at registration: ' + err));
+                dispatch(showPopup(getResponseError(err)));
                 dispatch(isLoading(false));
             });
     };
