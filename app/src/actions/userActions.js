@@ -11,35 +11,20 @@ import {
 import { writeSessionToken } from '../helper/session';
 
 const loginEndpoint = HOST + 'user/login';
-const chatroomEndpoint = HOST + 'chatroom';
 const userEndpoint = HOST + 'user/';
-const userchatEndpoint = HOST + 'userchat';
 
 import { signHeader } from '../helper/auth';
 import { socket } from './../socket/socket';
 import { onlinestatus } from './../config';
+import { getChatrooms, getUserChats } from './chatroomActions';
 
 export const USER_LOGIN = 'user-login';
-export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
 export const UPDATE_USER = 'user-update';
 
 export const SET_ONLINESTATUS = 'set-onlinestatus';
 export const LOAD_USERS = 'load_users';
 export const SELECT_USERS = 'select_users';
-
-/**
- * Register a new client on the websocket
- *
- * @param {Object} user the user to register
- *
- */
-export function setUserId(user) {
-    return {
-        type: SET_USER_ID,
-        user,
-    };
-}
 
 export function getUsers(token) {
     return (dispatch) => {
@@ -62,50 +47,32 @@ export function getUsers(token) {
 export function login({ email, password }) {
     return (dispatch) => {
         dispatch(isLoading(true));
-
-        const requests = [];
-        requests.push(
-            request
-                .post(loginEndpoint)
-                .set('Content-Type', 'application/json')
-                .send({ email, password })
-                .catch((err) => {
-                    dispatch(showPopup('Error while login: ' + err.message));
-                    dispatch(isSuccess(false));
-                    dispatch(isLoading(false));
-                })
-        );
-        requests.push(
-            request
-                .get(chatroomEndpoint)
-                .set({ 'Content-Type': 'application/json' })
-        );
-
-        requests.push(
-            request
-                .get(userchatEndpoint)
-                .set({ 'Content-Type': 'application/json' })
-        );
-
-        Promise.all(requests).then((result) => {
-            const loginResult = result[0].body;
-            const chatroomResult = result[1].body;
-            const userchatResult = result[2].body;
-            dispatch(
-                userLogin({
-                    user: loginResult.user,
-                    accessToken: loginResult.token,
-                    chatrooms: chatroomResult.chatrooms,
-                    userchats: userchatResult.chats,
-                })
-            );
-            writeSessionToken(loginResult.token);
-            dispatch(setOnlineStatus(loginResult.user, onlinestatus.ONLINE));
-            dispatch(isSuccess(true));
-            dispatch(isAuthenticated(true));
-            dispatch(showPopup(loginResult.message)); // show the popup for default seconds
-            dispatch(isLoading(false));
-        });
+        request
+            .post(loginEndpoint)
+            .set('Content-Type', 'application/json')
+            .send({ email, password })
+            .then((result) => {
+                const { user, token, message } = result.body;
+                dispatch(
+                    userLogin({
+                        user: user,
+                        accessToken: token,
+                    })
+                );
+                writeSessionToken(token);
+                dispatch(getChatrooms({ token: token }));
+                dispatch(getUserChats({ token: token }));
+                dispatch(setOnlineStatus(user, onlinestatus.ONLINE));
+                dispatch(isSuccess(true));
+                dispatch(isAuthenticated(true));
+                dispatch(showPopup(message)); // show the popup for default seconds
+                dispatch(isLoading(false));
+            })
+            .catch((err) => {
+                dispatch(showPopup('Error while login: ' + err.message));
+                dispatch(isSuccess(false));
+                dispatch(isLoading(false));
+            });
     };
 }
 
@@ -150,13 +117,11 @@ export function selectUsers(users) {
     };
 }
 
-export function userLogin({ user, accessToken, chatrooms, userchats }) {
+export function userLogin({ user, accessToken }) {
     return {
         type: USER_LOGIN,
         user,
         accessToken,
-        chatrooms,
-        userchats,
     };
 }
 

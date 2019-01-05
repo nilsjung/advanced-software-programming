@@ -13,6 +13,7 @@ export const CREATE_CHATROOM = 'create-chatroom';
 export const UPDATE_CHATROOMS = 'update-chatrooms';
 export const DELETE_CHATROOM = 'delete-chatroom';
 export const CREATE_USERCHAT = 'create-userchat';
+export const UPDATE_USER_CHAT = 'update-userchat';
 
 const getResponseError = (err) => {
     return err.message || err.response.body.message;
@@ -25,6 +26,22 @@ export function getChatrooms({ token }) {
             .set(signHeader(token))
             .then((result) => {
                 dispatch(updateChatrooms(result.body.chatrooms));
+                dispatch(isSuccess(true));
+            })
+            .catch((err) => {
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
+    };
+}
+
+export function getUserChats({ token }) {
+    return (dispatch) => {
+        request
+            .get(userChatEndpoint)
+            .set(signHeader(token))
+            .then((result) => {
+                dispatch(updateUserChats(result.body.chats));
                 dispatch(isSuccess(true));
             })
             .catch((err) => {
@@ -159,6 +176,13 @@ function updateChatrooms(chatrooms) {
     return {
         type: UPDATE_CHATROOMS,
         chatrooms: chatrooms,
+    };
+}
+
+function updateUserChats(userchats) {
+    return {
+        type: UPDATE_USER_CHAT,
+        userchats: userchats,
     };
 }
 

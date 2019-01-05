@@ -1,7 +1,7 @@
 const initialState = {
     isAuthenticated: false,
     user: {
-        userId: '',
+        _id: '',
         email: '',
         firstname: '',
         lastname: '',

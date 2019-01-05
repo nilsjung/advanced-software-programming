@@ -14,12 +14,7 @@ export default function(store) {
     // search for cookie and submit token to server
     initSocket(getSessionToken());
 
-    socket.on('start', (data) => {
-        const user = {
-            userId: data.userId,
-        };
-        store.dispatch(setUserId(user));
-    });
+    socket.on('start', (data) => {});
 
     socket.on('message', (data) => {
         store.dispatch(messageActions.addResponse(data));
