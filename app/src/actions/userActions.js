@@ -97,7 +97,7 @@ export function login({ email, password }) {
                     userchats: userchatResult.chats,
                 })
             );
-            dispatch(setOnlineStatus(loginResult.user, onlinestatus.ONLINE));
+            dispatch(setLocalUserOnlineStatus(loginResult.user, onlinestatus.ONLINE));
             dispatch(isSuccess(true));
             dispatch(isAuthenticated(true));
             dispatch(showPopup(loginResult.message)); // show the popup for default seconds
@@ -164,7 +164,7 @@ export function userUpdate(user) {
     };
 }
 
-export const setOnlineStatus = (user, status) => {
+export const setLocalUserOnlineStatus = (user, status) => {
     socket.emit('onlinestatus', user, status);
     return {
         type: SET_ONLINESTATUS_LOCALUSER,
