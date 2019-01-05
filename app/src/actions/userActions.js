@@ -22,7 +22,7 @@ export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
 export const UPDATE_USER = 'user-update';
 
-export const SET_ONLINESTATUS = 'set-onlinestatus';
+export const SET_ONLINESTATUS_LOCALUSER = 'set-onlinestatus-local';
 export const LOAD_USERS = 'load_users';
 export const SELECT_USERS = 'select_users';
 
@@ -167,7 +167,7 @@ export function userUpdate(user) {
 export const setOnlineStatus = (user, status) => {
     socket.emit('onlinestatus', user, status);
     return {
-        type: SET_ONLINESTATUS,
+        type: SET_ONLINESTATUS_LOCALUSER,
         onlinestatus: status,
     };
 };

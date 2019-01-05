@@ -27,7 +27,7 @@ export function loginIsLoadingReducer(state, action) {
     return { ...state, isLoading };
 }
 
-export function setOnlineStatusReducer(state, action) {
+export function setLocalUserStatusReducer(state, action) {
     return {
         ...state,
         user: { ...state.user, onlinestatus: action.onlinestatus },

@@ -4,7 +4,7 @@ import { messagesReducer, updateMessageReducer } from './messageReducer';
 import {
     setUserIdReducer,
     isLoginSuccessfullReducer,
-    setOnlineStatusReducer,
+    setLocalUserStatusReducer,
     updateUserReducer,
 } from './userReducer';
 
@@ -15,7 +15,7 @@ import {
     LOAD_USERS,
     UPDATE_USER,
     SELECT_USERS,
-    SET_ONLINESTATUS,
+    SET_ONLINESTATUS_LOCALUSER,
 } from '../actions/userActions';
 
 import {
@@ -71,8 +71,8 @@ export default function(state = initialState, action) {
         case USER_LOGIN:
             return isLoginSuccessfullReducer(state, action);
 
-        case SET_ONLINESTATUS:
-            return setOnlineStatusReducer(state, action);
+        case SET_ONLINESTATUS_LOCALUSER:
+            return setLocalUserStatusReducer(state, action);
 
         case LOGOUT:
             return { ...initialState, user: { userId: state.user.userId } };

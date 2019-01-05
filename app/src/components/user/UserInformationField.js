@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { onlinestatus } from './../../config';
-import { setOnlineStatus } from '../../actions/userActions';
+import { setLocalUserOnlineStatus } from '../../actions/userActions';
 
 class UserInformationField extends React.Component {
     render() {
@@ -92,7 +92,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onStatusChange: (user, status) => {
-            dispatch(setOnlineStatus(user, status));
+            dispatch(setLocalUserOnlineStatus(user, status));
         },
     };
 };
