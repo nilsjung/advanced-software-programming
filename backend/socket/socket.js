@@ -1,5 +1,6 @@
 const messageService = require('./messages');
 const onlineStatusService = require('./onlinestatus');
+const validToken = require('./../security/token').validToken;
 
 const socket = (server) => {
     let userId = 0;
@@ -11,13 +12,13 @@ const socket = (server) => {
 
     io.sockets.on('connection', function(sock) {
         const token = sock.request._query['token'];
+        let user = null;
         if (token) {
-            console.log(token);
+            user = validToken.getUserByToken(token);
         }
 
         connections.push(sock);
-        userId += 1;
-        sock.emit('start', { userId });
+        sock.emit('start', { user });
 
         sock.on('message', async (data) => {
             messageService(data, sock);
