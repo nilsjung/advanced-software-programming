@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { selectUsers, getUsers } from '../../actions/userActions';
 import { createChatId } from '../../helper/chat';
 import { openUserChat, addUserToChatroom } from '../../actions/chatroomActions';
+import { socket } from '../../socket/socket.js';
 
 class UserList extends React.Component {
     constructor(props) {
@@ -12,6 +13,11 @@ class UserList extends React.Component {
         this.state = {
             query: '',
         };
+    }
+
+    componentDidMount() {
+        console.log('emitted user data request');
+        socket.emit('getUsersStatus');
     }
 
     handleClick = (user) => {

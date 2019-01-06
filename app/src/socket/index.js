@@ -24,4 +24,21 @@ export default function(store) {
     socket.on('onlinestatus', (data) => {
         store.dispatch(setUserOnlineStatus(data.user, data.onlinestatus));
     });
+    socket.on('getUsersStatus', (data) => {
+        console.log('users', data);
+        for (let user in data) {
+            console.log(
+                'dispatching ' +
+                    data[user]._id +
+                    ' with ' +
+                    data[user].onlinestatus
+            );
+            console.log(data[user]);
+            if (data[user]._id) {
+                store.dispatch(
+                    setUserOnlineStatus(data[user]._id, data[user].onlinestatus)
+                );
+            }
+        }
+    });
 }

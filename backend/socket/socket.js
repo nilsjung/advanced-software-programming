@@ -17,7 +17,7 @@ const socket = (server) => {
         });
 
         sock.on('onlinestatus', (userid, onlinestatus) => {
-            userStatus.updateUserStatusById(userid._id, onlinestatus);
+            userStatus.updateUserStatusById(sock, userid._id, onlinestatus);
             onlineStatusService(sock, userid._id, onlinestatus);
         });
 
@@ -30,9 +30,14 @@ const socket = (server) => {
         });
 
         sock.on('disconnect', () => {
-            userStatus.setUserOffline();
-            const currentUser = userStatus.getUser();
-            onlineStatusService(sock, currentUser.id, currentUser.status);
+            userStatus.setUserOffline(sock);
+            const currentUser = userStatus.getUser(sock);
+            onlineStatusService(sock, currentUser._id, currentUser.status);
+        });
+
+        sock.on('getUsersStatus', () => {
+            console.log('getUsersStatus', userStatus.getAll());
+            sock.emit('getUsersStatus', userStatus.getAll());
         });
     });
 
@@ -52,22 +57,24 @@ const userStatus = {
     getAll: function() {
         return this.users;
     },
-    getUser: function() {
-        return this.users[socket.id];
+    getUser: function(sock) {
+        return this.users[sock.id];
     },
-    getUserStatusById: function(id) {
-        return this.users[socket.id].status;
+    getUserStatusById: function(sock, id) {
+        return this.users[sock.id].status;
     },
-    updateUserStatusById: function(id, onlinestatus) {
-        this.users[socket.id] = {
-            id: id,
-            status: onlinestatus,
+    updateUserStatusById: function(sock, id, onlinestatus) {
+        // to do: add only, when _id is not already exisiting
+        this.users[sock.id] = {
+            _id: id,
+            onlinestatus: onlinestatus,
         };
+        console.log(socket.id);
     },
-    setUserOffline: function() {
-        this.users[socket.id] = {
-            ...this.users[socket.id],
-            status: 'offline',
+    setUserOffline: function(sock) {
+        this.users[sock.id] = {
+            ...this.users[sock.id],
+            onlinestatus: 'offline',
         };
     },
 };
