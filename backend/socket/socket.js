@@ -3,14 +3,12 @@ const onlineStatusService = require('./onlinestatus');
 
 const socket = (server) => {
     let userId = 0;
-    let connections = [];
 
     const io = require('socket.io')(server);
 
     io.set('origins', 'localhost:*');
 
     io.sockets.on('connection', function(sock) {
-        connections.push(sock);
         userId += 1;
         sock.emit('start', { userId });
 
@@ -30,15 +28,10 @@ const socket = (server) => {
             sock.join(data.chatroom);
         });
 
-        sock.on('disconnect', () => disconnectService(connections));
+        sock.on('disconnect', () => {});
     });
 
     return io;
-};
-
-const disconnectService = (connections) => {
-    const index = connections.indexOf(socket);
-    connections.splice(index, 1);
 };
 
 module.exports = socket;
