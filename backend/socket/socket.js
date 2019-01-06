@@ -16,9 +16,10 @@ const socket = (server) => {
             messageService(data, sock);
         });
 
-        sock.on('onlinestatus', (userid, onlinestatus) =>
-            onlineStatusService(sock, userid, onlinestatus)
-        );
+        sock.on('onlinestatus', (userid, onlinestatus) => {
+            userStatus.updateUserStatusById(userid._id, onlinestatus);
+            onlineStatusService(sock, userid._id, onlinestatus);
+        });
 
         sock.on('joinChatroom', (data) => {
             if (sock.room) {
@@ -32,6 +33,39 @@ const socket = (server) => {
     });
 
     return io;
+};
+
+/**
+ * keep track of all user status
+ * @param {Object} users all the users as key with their corresponding online status
+ * @param {function} getUser get current connected user
+ * @param {function} getUserStatusById return the onlinestatus to a given user
+ * @param {function} updateUserStatusById stores a status and socket with related user to the users-object
+ * @param {function} setUserOffline set status of current connected user to offline
+ */
+const userStatus = {
+    users: {},
+    getAll: function() {
+        return this.users;
+    },
+    getUser: function() {
+        return this.users[socket.id];
+    },
+    getUserStatusById: function(id) {
+        return this.users[socket.id].status;
+    },
+    updateUserStatusById: function(id, onlinestatus) {
+        this.users[socket.id] = {
+            id: id,
+            status: onlinestatus,
+        };
+    },
+    setUserOffline: function() {
+        this.users[socket.id] = {
+            ...this.users[socket.id],
+            status: 'offline',
+        };
+    },
 };
 
 module.exports = socket;
