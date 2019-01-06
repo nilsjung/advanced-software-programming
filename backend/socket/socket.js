@@ -29,7 +29,11 @@ const socket = (server) => {
             sock.join(data.chatroom);
         });
 
-        sock.on('disconnect', () => {});
+        sock.on('disconnect', () => {
+            userStatus.setUserOffline();
+            const currentUser = userStatus.getUser();
+            onlineStatusService(sock, currentUser.id, currentUser.status);
+        });
     });
 
     return io;
