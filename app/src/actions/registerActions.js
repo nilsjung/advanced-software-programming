@@ -4,13 +4,13 @@ export const REGISTER_USER = 'register-user';
 export const IS_LOADING = 'is-loading';
 
 import { HOST } from './../config/';
-import { showPopup, isSuccess, isLoading } from './helperAction';
+import { showPopup, isSuccess, isLoading } from './helper';
 
 const userEndpoint = HOST + 'user';
 
 export function registerUser(user) {
     return (dispatch) => {
-        dispatch(isLoading({ isLoading: true }));
+        dispatch(isLoading(true));
         request
             .post(userEndpoint)
             .set('Content-Type', 'application/json')

@@ -21,7 +21,7 @@ const authenticationMiddleware = (req, res, next) => {
                 next();
             })
             .catch(() => {
-                res.status(403).josn({
+                res.status(403).json({
                     success: false,
                     message: 'Not authorized',
                 });

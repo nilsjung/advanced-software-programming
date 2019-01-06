@@ -44,7 +44,7 @@ export default class NavBar extends React.Component {
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <Link className="navbar-brand" to="/chat">
+                <Link className="navbar-brand" to="/">
                     ChatApp
                 </Link>
                 <NavbarToggler />
@@ -57,6 +57,11 @@ export default class NavBar extends React.Component {
                             this.props.isAuthenticated,
                             '/chat',
                             'Chat'
+                        )}
+                        {this.renderLinkIfAuthenticated(
+                            this.props.isAuthenticated,
+                            '/settings',
+                            'Settings'
                         )}
                         {this.renderLoginLogout(this.props.isAuthenticated)}
                         {this.renderLinkIfAuthenticated(
