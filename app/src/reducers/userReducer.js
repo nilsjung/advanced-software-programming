@@ -37,8 +37,8 @@ export function setLocalUserStatusReducer(state, action) {
 export function setUserStatusReducer(state, action) {
     return Object.assign({}, state, {
         selectedUsers: state.selectedUsers.map((user, index) => {
-            let userMailToCheck = state.selectedUsers[index].email;
-            if (userMailToCheck === action.user.email) {
+            let userIDToCheck = state.selectedUsers[index]._id;
+            if (userIDToCheck === action.user) {
                 return Object.assign({}, user, {
                     onlinestatus: action.onlinestatus,
                 });

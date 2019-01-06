@@ -124,6 +124,7 @@ export default function(state = initialState, action) {
             );
             const selectedUsers = users.map((user) => {
                 return {
+                    _id: user._id,
                     email: user.email,
                     onlinestatus: user.onlinestatus || 'default',
                 };
