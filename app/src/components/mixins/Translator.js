@@ -29,17 +29,16 @@ class Translator extends React.Component {
         this.setState(
             {
                 showTranslator: true,
-            }
-            //,
-            //() => document.addEventListener('click', this.closeMenu)
+            },
+            () => document.addEventListener('click', this.closeMenu)
         );
     };
 
-    onTranslate = (event) => {
-        // this should call this.props.onSelect with the returned text, but the call is async and closes before the result is done, i tried async but bable doesnt like it ..not sure why..
+    translate = (event) => {
         translateText(
             document.querySelector('#text').value,
-            document.querySelector('#language').value
+            document.querySelector('#language').value,
+            this.props
         );
     };
     renderTranslator() {
@@ -61,16 +60,16 @@ class Translator extends React.Component {
                     <button
                         id="translate"
                         type="button"
-                        onClick={this.onTranslate}
+                        onClick={this.translate}
                     >
                         Translate
                     </button>
-                    <p id="translatedText" />
                 </div>
             );
         }
         return '';
     }
+
     render() {
         const activeClass = this.state.showTranslator ? ' active' : '';
 
@@ -87,7 +86,7 @@ class Translator extends React.Component {
     }
 }
 
-function translateText(text, language) {
+function translateText(text, language, props) {
     const request = new XMLHttpRequest(),
         textAPI = text,
         langAPI = language,
@@ -102,17 +101,15 @@ function translateText(text, language) {
         const response = this.responseText;
         try {
             const json = JSON.parse(response);
-            if (json.code == 200) {
-                //this could also just return the text
-                document.querySelector('#translatedText').innerHTML =
-                    json.text[0];
+            if (json.code == 200 && json.text[0]) {
+                console.log(json.text[0]);
+                props.onTranslate(json.text[0]);
+                request.abort();
             } else {
-                return 'woops something went wrong';
-                //woops something went wrong
+                // 'woops something went wrong'
             }
         } catch (error) {
-            return 'woops something went wrong';
-            //oh well
+            // 'woops something went wrong';
         }
     };
 }
