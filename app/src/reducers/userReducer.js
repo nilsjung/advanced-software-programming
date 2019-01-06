@@ -1,3 +1,5 @@
+import { onlinestatus } from '../config';
+
 export function setUserIdReducer(state, action) {
     let user = action.user;
 
@@ -6,18 +8,18 @@ export function setUserIdReducer(state, action) {
 
 export function isLoginSuccessfullReducer(state, action) {
     const { user, accessToken, chatrooms, userchats } = action;
-    const copiedState = Object.create(state);
-    const newUser = copiedState.user;
-    newUser.email = user.email;
-    newUser.firstname = user.firstname;
-    newUser.lastname = user.lastname;
     return {
         ...state,
-        user: newUser,
+        user: { ...user },
         accessToken,
         chatrooms,
         userchats,
     };
+}
+
+export function updateUserReducer(state, action) {
+    const { user } = action;
+    return { ...state, user: { ...user, onlinestatus: onlinestatus.ONLINE } };
 }
 
 export function loginIsLoadingReducer(state, action) {

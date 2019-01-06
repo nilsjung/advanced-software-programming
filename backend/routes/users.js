@@ -102,7 +102,7 @@ router.get('/:id', auth, (req, res) => {
  * POST /user
  */
 router.post('/', (req, res) => {
-    var registerEmail = req.body.email;
+    let registerEmail = req.body.email;
 
     User.findOne({ email: registerEmail }, (err, user) => {
         const { firstname, lastname, email, password } = req.body;
@@ -125,6 +125,52 @@ router.post('/', (req, res) => {
         const newUser = new User(req.body);
         newUser.save((err, user) => {
             res.status(200).json({ message: 'user created', user: user });
+        });
+    });
+});
+
+/**
+ * Update a user
+ * POST /user/:id
+ */
+router.post('/:id', auth, (req, res) => {
+    const userId = req.params.id;
+
+    const updateField = (key, field, model) => {
+        if (defined(field)) {
+            if (field != model[field]) {
+                model.set({ [key]: field });
+            }
+        }
+    };
+
+    User.findById(userId, (err, user) => {
+        if (err) {
+            res.status(301).json({
+                message: 'an error occured while loading user',
+            });
+            return;
+        }
+
+        const {
+            firstname,
+            lastname,
+            email,
+            password,
+            nickname,
+            avatar,
+        } = req.body;
+
+        updateField('firstname', firstname, user);
+        updateField('lastname', lastname, user);
+        updateField('email', email, user);
+        updateField('password', password, user);
+
+        user.save((err, updatedUser) => {
+            res.status(200).json({
+                message: 'successfully updated',
+                user: updatedUser,
+            });
         });
     });
 });
