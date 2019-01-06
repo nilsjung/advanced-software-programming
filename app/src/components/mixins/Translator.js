@@ -49,6 +49,7 @@ class Translator extends React.Component {
         );
     };
     renderTranslator() {
+        //i have chosen only those languages more are of course available
         if (this.state.showTranslator) {
             return (
                 <div>
@@ -109,8 +110,8 @@ function translateText(text, language, props) {
         try {
             const json = JSON.parse(response);
             if (json.code == 200 && json.text[0]) {
-                console.log(json.text[0]);
                 props.onTranslate(json.text[0]);
+                // for some reason we get multple responses from yandex so we abort the request on the first none empty result
                 request.abort();
             } else {
                 // 'woops something went wrong'
