@@ -15,6 +15,13 @@ class Translator extends React.Component {
     }
 
     closeMenu = (event) => {
+        if (
+            event.target.id === 'text' ||
+            event.target.id === 'language' ||
+            event.target.parentElement.id === 'language'
+        ) {
+            return;
+        }
         {
             this.setState(
                 {
