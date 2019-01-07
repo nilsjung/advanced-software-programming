@@ -9,7 +9,7 @@ import { socket } from '../../socket/socket.js';
 class UserList extends React.Component {
     constructor(props) {
         super(props);
-        this.props.loadUsers(this.props.accessToken);
+        this.props.getUsers(this.props.accessToken);
         this.state = {
             query: '',
         };
@@ -133,7 +133,7 @@ function mapDispatchToProps(dispatch) {
     return {
         addUserToChatroom: (data) => dispatch(addUserToChatroom(data)),
         openUserChat: (id, token) => dispatch(openUserChat(id, token)),
-        loadUsers: (user) => dispatch(getUsers(user)),
+        getUsers: (token) => dispatch(getUsers(token)),
         selectUsers: (users) => dispatch(selectUsers(users)),
     };
 }
