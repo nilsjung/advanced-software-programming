@@ -52,26 +52,45 @@ class Translator extends React.Component {
         //i have chosen only those languages more are of course available
         if (this.state.showTranslator) {
             return (
-                <div>
-                    <textarea
-                        defaultValue="Oh hello there how are you?"
-                        id="text"
-                    />
-                    <select defaultValue="de" name="to" id="language">
-                        <option value="en">English</option>
-                        <option value="es">Spanish</option>
-                        <option value="it">Italien</option>
-                        <option value="de">German</option>
-                        <option value="ru">Russian</option>
-                        <option value="fr">French</option>
-                    </select>
-                    <button
-                        id="translate"
-                        type="button"
-                        onClick={this.translate}
-                    >
-                        Translate
-                    </button>
+                <div className="c-translator popup-box">
+                    <form>
+                        <div className="form-group row">
+                            <div className="col-sm-12">
+                                <textarea
+                                    className="form-control"
+                                    defaultValue="Oh hello there how are you?"
+                                    id="text"
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-sm-6">
+                                <select
+                                    className="form-control"
+                                    defaultValue="de"
+                                    name="to"
+                                    id="language"
+                                >
+                                    <option value="en">English</option>
+                                    <option value="es">Spanish</option>
+                                    <option value="it">Italien</option>
+                                    <option value="de">German</option>
+                                    <option value="ru">Russian</option>
+                                    <option value="fr">French</option>
+                                </select>
+                            </div>
+                            <div className="col-sm-6">
+                                <button
+                                    className="btn btn-secondary"
+                                    id="translate"
+                                    type="button"
+                                    onClick={this.translate}
+                                >
+                                    Translate
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             );
         }
