@@ -3,6 +3,7 @@ import React from 'react';
 import { MultiLineParser } from 'text-emoji-parser';
 import { DateFormat } from '../../config';
 import { Emoji } from 'emoji-mart';
+import TranslatorPopup from './../mixins/TranslatorPopup';
 
 const formatDate = (d) => {
     return moment(d).format(DateFormat);
@@ -16,6 +17,9 @@ const Message = (props) => {
                     {formatDate(props.timestamp)}
                 </span>
                 <span className="MessageAuthor col-8">{props.userName}</span>
+                <div>
+                    <TranslatorPopup value={props.text} />
+                </div>
             </small>
             <div className="MessageBody">
                 {MultiLineParser(
