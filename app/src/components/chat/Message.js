@@ -3,6 +3,7 @@ import React from 'react';
 import { MultiLineParser } from 'text-emoji-parser';
 import { DateFormat } from '../../config';
 import { Emoji } from 'emoji-mart';
+
 const formatDate = (d) => {
     return moment(d).format(DateFormat);
 };
