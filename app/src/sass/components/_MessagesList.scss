@@ -2,12 +2,11 @@
     list-style: none;
 
     .MessageItem {
-
-        width: 80%;
-        margin: .3em;
+        width: 90%;
+        margin: 0.3em;
         border-radius: 5px;
         background: $gray-100;
-        padding: .5em;
+        padding: 0.5em;
         border: 1px $gray-400 solid;
     }
 
@@ -17,5 +16,8 @@
         color: $light;
         text-align: right;
     }
+}
 
+.message-container {
+    overflow-y: auto;
 }
