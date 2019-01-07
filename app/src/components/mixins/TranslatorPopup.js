@@ -1,8 +1,11 @@
 import React from 'react';
 
-import { YANDEX } from './../../config';
+//This is my privat key don't use to many translation or it wont work after a while ..or i get a bill! #Marc Engelmann
+const url = 'https://translate.yandex.net/api/v1.5/tr.json/translate',
+    keyAPI =
+        'trnsl.1.1.20190103T181139Z.7464426976138302.da0198e0cc346b526c18e9ffa40aa8144de2282d';
 
-class Translator extends React.Component {
+class TranslatorPopup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +18,8 @@ class Translator extends React.Component {
         if (
             event.target.id === 'text' ||
             event.target.id === 'language' ||
-            event.target.parentElement.id === 'language'
+            event.target.parentElement.id === 'language' ||
+            event.target.id === 'translate'
         ) {
             return;
         }
@@ -40,9 +44,8 @@ class Translator extends React.Component {
 
     translate = (event) => {
         translateText(
-            document.querySelector('#text').value,
-            document.querySelector('#language').value,
-            this.props
+            this.props.value,
+            document.querySelector('#language').value
         );
     };
     renderTranslator() {
@@ -53,11 +56,9 @@ class Translator extends React.Component {
                     <form>
                         <div className="form-group row">
                             <div className="col-sm-12">
-                                <textarea
-                                    className="form-control"
-                                    defaultValue="Oh hello there how are you?"
-                                    id="text"
-                                />
+                                <label className="form-control" id="text">
+                                    {this.props.value}
+                                </label>
                             </div>
                         </div>
                         <div className="form-group row">
@@ -86,6 +87,10 @@ class Translator extends React.Component {
                                     Translate
                                 </button>
                             </div>
+                            <label
+                                className="form-control"
+                                id="translatedText"
+                            />
                         </div>
                     </form>
                 </div>
@@ -96,7 +101,6 @@ class Translator extends React.Component {
 
     render() {
         const activeClass = this.state.showTranslator ? ' active' : '';
-
         return (
             <div
                 className={'btn btn-outline-secondary' + activeClass}
@@ -110,14 +114,11 @@ class Translator extends React.Component {
     }
 }
 
-function translateText(text, language, props) {
+function translateText(text, language) {
     const request = new XMLHttpRequest(),
-        keyAPI = YANDEX.apiKey,
-        url = YANDEX.url,
         textAPI = text,
         langAPI = language,
         data = 'key=' + keyAPI + '&text=' + textAPI + '&lang=' + langAPI;
-
     request.open('POST', url, true);
     request.setRequestHeader(
         'Content-type',
@@ -128,10 +129,11 @@ function translateText(text, language, props) {
         const response = this.responseText;
         try {
             const json = JSON.parse(response);
-            if (json.code == 200 && json.text[0]) {
-                props.onTranslate(json.text[0]);
+            if (json.code == 200) {
+                console.log(json.text[0]);
+                document.querySelector('#translatedText').innerHTML =
+                    json.text[0];
                 // for some reason we get multple responses from yandex so we abort the request on the first none empty result
-                request.abort();
             } else {
                 // 'woops something went wrong'
             }
@@ -141,4 +143,4 @@ function translateText(text, language, props) {
     };
 }
 
-export default Translator;
+export default TranslatorPopup;
