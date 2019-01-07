@@ -1,6 +1,6 @@
 import React from 'react';
 
-import YANDEX from './../../config';
+import { YANDEX } from './../../config';
 
 class Translator extends React.Component {
     constructor(props) {
