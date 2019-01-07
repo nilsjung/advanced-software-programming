@@ -1,4 +1,3 @@
-import '../../CSS/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 import React from 'react';
 
@@ -48,6 +47,7 @@ class EmojiPicker extends React.Component {
         if (this.state.showEmojis) {
             return (
                 <span
+                    className="popup-box"
                     style={styles.emojiPicker}
                     ref={(el) => {
                         this.emojiPicker = el;

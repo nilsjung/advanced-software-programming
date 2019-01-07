@@ -30,6 +30,7 @@ class TextInput extends Component {
         return (
             <div className="container">
                 <InputWithButton
+                    showTranslation={true}
                     showSmileyPicker={true}
                     ref="input"
                     onSubmit={this.onSubmit}
