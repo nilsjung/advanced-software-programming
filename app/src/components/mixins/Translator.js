@@ -1,9 +1,6 @@
 import React from 'react';
 
-//This is my privat key don't use to many translation or it wont work after a while ..or i get a bill! #Marc Engelmann
-const url = 'https://translate.yandex.net/api/v1.5/tr.json/translate',
-    keyAPI =
-        'trnsl.1.1.20190103T181139Z.7464426976138302.da0198e0cc346b526c18e9ffa40aa8144de2282d';
+import YANDEX from './../../config';
 
 class Translator extends React.Component {
     constructor(props) {
@@ -115,9 +112,12 @@ class Translator extends React.Component {
 
 function translateText(text, language, props) {
     const request = new XMLHttpRequest(),
+        keyAPI = YANDEX.apiKey,
+        url = YANDEX.url,
         textAPI = text,
         langAPI = language,
         data = 'key=' + keyAPI + '&text=' + textAPI + '&lang=' + langAPI;
+
     request.open('POST', url, true);
     request.setRequestHeader(
         'Content-type',
