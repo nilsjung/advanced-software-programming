@@ -5,7 +5,7 @@ class MessagesList extends Component {
     render() {
         let { messages, user } = this.props;
         return (
-            <div className="container">
+            <div className="container message-container">
                 <ul className="messages">
                     {messages.map((message, index) => {
                         if (!message.user) {

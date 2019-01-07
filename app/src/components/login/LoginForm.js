@@ -31,7 +31,7 @@ export default class LoginForm extends React.Component {
             </span>
         );
         return (
-            <form>
+            <form className="c-login-form">
                 <Input
                     placeholder="Enter your E-mail..."
                     label="Email"
@@ -51,6 +51,7 @@ export default class LoginForm extends React.Component {
                     onClick={this.handleSubmit}
                     additionalClassName="login"
                     buttonColor="btn-info"
+                    type={'submit'}
                 />
             </form>
         );
