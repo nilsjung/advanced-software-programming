@@ -3,21 +3,23 @@
 
     .MessageItem {
         width: 90%;
-        margin: 0.3em;
-        border-radius: 5px;
-        background: $gray-100;
+        margin: 1em 0.3em;
+        border-radius: 2px;
+        background: lighten($teal, 20%);
         padding: 0.5em;
         border: 1px $gray-400 solid;
+        box-shadow: 2px 3px 5px darken(teal, 5%);
     }
 
     .MessageItem.is-response {
         right: 0;
-        background: $blue;
-        color: $light;
+        background: lighten($cyan, 20%);
+        color: $dark;
         text-align: right;
     }
 }
 
 .message-container {
+    height: 600px;
     overflow-y: auto;
 }
