@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { selectUsers, getUsers } from '../../actions/userActions';
 import { createChatId } from '../../helper/chat';
-import { openUserChat, addUserToChatroom } from '../../actions/chatroomActions';
-
+import { addUserToChatroom } from '../../actions/chatroomActions';
+import { openUserChat } from '../../actions/userChatActions';
 class UserList extends React.Component {
     constructor(props) {
         super(props);

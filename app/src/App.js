@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import * as messageActionCreators from './actions/messageActions';
 import * as userActionCreators from './actions/userActions';
 import * as chatroomActionCreators from './actions/chatroomActions';
+import * as userChatActionCreator from './actions/userChatActions';
 
 import Chat from './components/chat/Chat';
 import NavBar from './components/mixins/NavBar';
@@ -99,7 +100,7 @@ function mapDispatchToProps(dispatch) {
             createChatroom: chatroomActionCreators.createChatroom,
             getChatroom: chatroomActionCreators.getChatroom,
             loadUsers: userActionCreators.getUsers,
-            createUserChat: chatroomActionCreators.createUserChat,
+            createUserChat: userChatActionCreator.createUserChat,
             logout: userActionCreators.logout,
         },
         dispatch

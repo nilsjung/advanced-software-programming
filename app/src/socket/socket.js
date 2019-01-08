@@ -3,8 +3,11 @@ import { WS } from './../config/';
 
 export let socket = null;
 
-export const initSocket = () => {
-    socket = io.connect(WS);
+export const initSocket = (token = null) => {
+    socket = io.connect(
+        WS,
+        { query: 'token=' + token }
+    );
 };
 
 export function disconnect() {

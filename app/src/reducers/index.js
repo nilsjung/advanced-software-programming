@@ -2,14 +2,13 @@ import {} from './registerReducer';
 
 import { messagesReducer, updateMessageReducer } from './messageReducer';
 import {
-    setUserIdReducer,
     isLoginSuccessfullReducer,
     setOnlineStatusReducer,
     updateUserReducer,
+    loadUserReducer,
 } from './userReducer';
 
 import {
-    SET_USER_ID,
     USER_LOGIN,
     LOGOUT,
     LOAD_USERS,
@@ -47,15 +46,19 @@ import {
     CREATE_USERCHAT,
     UPDATE_CHATROOMS,
     DELETE_CHATROOM,
+    UPDATE_USER_CHAT,
 } from '../actions/chatroomActions';
 
 import initialState from '../store/';
 import {
     deleteChatroomReducer,
     createChatroomReducer,
-    createUserChatReducer,
     updateChatroomsReducer,
 } from './chatroomReducer';
+import {
+    createUserChatReducer,
+    updateUserChatsReducer,
+} from './userChatReducer';
 
 /**
  * This is the main reducer. delegates the work to the specialized sub-reducer.
@@ -75,7 +78,7 @@ export default function(state = initialState, action) {
             return setOnlineStatusReducer(state, action);
 
         case LOGOUT:
-            return { ...initialState, user: { userId: state.user.userId } };
+            return { ...initialState };
 
         case ADD_MESSAGE:
             return messagesReducer(state, action);
@@ -85,9 +88,6 @@ export default function(state = initialState, action) {
 
         case UPDATE_MESSAGE:
             return updateMessageReducer(state, action);
-
-        case SET_USER_ID:
-            return setUserIdReducer(state, action);
 
         case SHOW_INFO_MESSAGE:
             return setInfoMessage(state, action);
@@ -107,6 +107,9 @@ export default function(state = initialState, action) {
         case CREATE_USERCHAT:
             return createUserChatReducer(state, action);
 
+        case UPDATE_USER_CHAT:
+            return updateUserChatsReducer(state, action);
+
         case DELETE_CHATROOM:
             return deleteChatroomReducer(state, action);
 
@@ -114,16 +117,14 @@ export default function(state = initialState, action) {
             return { ...state, messages: action.chats };
 
         case LOAD_USERS:
-            const users = action.users.filter(
-                (user) => user.email !== state.user.email
-            );
-            const selectedUsers = users.map((user) => user.email);
-            return { ...state, users: users, selectedUsers: selectedUsers };
+            return loadUserReducer(state, action);
 
         case UPDATE_USER:
             return updateUserReducer(state, action);
+
         case SELECT_USERS:
             return { ...state, selectedUsers: action.users };
+
         case IS_SUCCESS:
             return setIsSuccess(state, action);
 

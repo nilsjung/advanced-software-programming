@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as chatroomActionCreators from '../../actions/chatroomActions';
+import * as userChatActionCreator from '../../actions/userChatActions';
 import * as messageActionCreators from '../../actions/messageActions';
 
 import MessagesList from './MessagesList';
@@ -125,7 +126,7 @@ function mapDispatchToProps(dispatch) {
             deleteChatroom: chatroomActionCreators.deleteChatroom,
             updateMessage: messageActionCreators.updateMessage,
             addMessage: messageActionCreators.addMessage,
-            createUserChat: chatroomActionCreators.createUserChat,
+            createUserChat: userChatActionCreator.createUserChat,
         },
         dispatch
     );

@@ -42,7 +42,7 @@ router.post('/login', (req, res) => {
             } else {
                 // create token
                 token
-                    .sign(email)
+                    .sign(user)
                     .then((result) => {
                         res.status(200).json({
                             message: 'successfully logged in',
