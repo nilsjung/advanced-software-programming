@@ -16,10 +16,10 @@ const Message = (props) => {
                 <span className="TimeStamp col-4">
                     {formatDate(props.timestamp)}
                 </span>
-                <span className="MessageAuthor col-8">{props.userName}</span>
-                <div>
+                <span className="MessageAuthor col-5">{props.userName}</span>
+                <span className="col-1">
                     <TranslatorPopup value={props.text} />
-                </div>
+                </span>
             </small>
             <div className="MessageBody">
                 {MultiLineParser(

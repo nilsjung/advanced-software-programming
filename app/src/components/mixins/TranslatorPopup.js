@@ -52,7 +52,10 @@ class TranslatorPopup extends React.Component {
         //i have chosen only those languages more are of course available
         if (this.state.showTranslator) {
             return (
-                <div className="c-translator popup-box">
+                <div
+                    style={{ right: '-200px' }}
+                    className="c-translator popup-box"
+                >
                     <form>
                         <div className="form-group row">
                             <div className="col-sm-12">
@@ -87,10 +90,15 @@ class TranslatorPopup extends React.Component {
                                     Translate
                                 </button>
                             </div>
-                            <label
-                                className="form-control"
-                                id="translatedText"
-                            />
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-sm-12">
+                                <input
+                                    className="form-control"
+                                    id="translatedText"
+                                    type="text"
+                                />
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -103,7 +111,7 @@ class TranslatorPopup extends React.Component {
         const activeClass = this.state.showTranslator ? ' active' : '';
         return (
             <div
-                className={'btn btn-outline-secondary' + activeClass}
+                className={'btn btn-sm btn-info' + activeClass}
                 type="button"
                 onClick={this.showTranslator}
             >
@@ -131,8 +139,7 @@ function translateText(text, language) {
             const json = JSON.parse(response);
             if (json.code == 200) {
                 console.log(json.text[0]);
-                document.querySelector('#translatedText').innerHTML =
-                    json.text[0];
+                document.querySelector('#translatedText').value = json.text[0];
                 // for some reason we get multple responses from yandex so we abort the request on the first none empty result
             } else {
                 // 'woops something went wrong'
