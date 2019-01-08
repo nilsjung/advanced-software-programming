@@ -10,17 +10,36 @@ const socket = (server) => {
     io.set('origins', 'localhost:*');
 
     io.sockets.on('connection', function(sock) {
-        connections.push(sock);
         userId += 1;
         sock.emit('start', { userId });
+
+        sock.on('login', (user) => {
+            if (
+                connections.find((e) => e.user._id === user._id) === undefined
+            ) {
+                connections.push({
+                    user: user,
+                    onlinestatus: '',
+                });
+            }
+        });
 
         sock.on('message', async (data) => {
             messageService(data, sock);
         });
 
-        sock.on('onlinestatus', (userid, onlinestatus) =>
-            onlineStatusService(sock, userid, onlinestatus)
-        );
+        sock.on('onlinestatus', (user, onlinestatus) => {
+            connections = connections.map((connection) => {
+                if (connection.user._id === user._id) {
+                    onlineStatusService(sock, user._id, onlinestatus);
+                    return {
+                        ...connection,
+                        onlinestatus: onlinestatus,
+                    };
+                }
+                return connection;
+            });
+        });
 
         sock.on('joinChatroom', (data) => {
             if (sock.room) {
@@ -30,15 +49,12 @@ const socket = (server) => {
             sock.join(data.chatroom);
         });
 
-        sock.on('disconnect', () => disconnectService(connections));
+        sock.on('disconnect', (user) => {
+            // TODO remove user from connections
+        });
     });
 
     return io;
-};
-
-const disconnectService = (connections) => {
-    const index = connections.indexOf(socket);
-    connections.splice(index, 1);
 };
 
 module.exports = socket;
