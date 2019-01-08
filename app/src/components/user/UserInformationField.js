@@ -8,10 +8,6 @@ class UserInformationField extends React.Component {
     render() {
         const { user } = this.props;
 
-        if (!user.onlinestatus) {
-            return '';
-        }
-
         return (
             <div className="row userInformation">
                 <div className="col-2">

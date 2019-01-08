@@ -5,8 +5,9 @@ import { initSocket, socket } from './socket';
 import { getSessionToken } from '../helper/session';
 import { getChatrooms } from '../actions/chatroomActions';
 import { getUserChats } from '../actions/userChatActions';
-import { userLogin } from '../actions/userActions';
+import { userLogin, setOnlineStatus } from '../actions/userActions';
 import { isAuthenticated } from '../actions/helper';
+import { onlinestatus } from '../config';
 
 /**
  * Creates a connection to the server via ws.
@@ -23,6 +24,7 @@ export default function(store) {
         // token was found.
         if (data.user) {
             store.dispatch(userLogin({ user: data.user, accessToken: token }));
+            store.dispatch(setOnlineStatus(data.user, onlinestatus.ONLINE));
             store.dispatch(isAuthenticated(true));
             store.dispatch(getChatrooms({ token }));
             store.dispatch(getUserChats);
