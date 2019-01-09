@@ -25,6 +25,7 @@ const socket = (server) => {
             ) {
                 connections.push({
                     user: user,
+                    socketID: sock.id,
                     onlinestatus: onlinestatus,
                 });
             }
@@ -35,6 +36,8 @@ const socket = (server) => {
                         onlineStatusService(sock, user._id, onlinestatus);
                         return {
                             ...connection,
+                            // override with new socket
+                            socketID: sock.id,
                             onlinestatus: onlinestatus,
                         };
                     }
