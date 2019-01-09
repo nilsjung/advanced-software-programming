@@ -5,20 +5,24 @@ import {
     isLoading,
     isSuccess,
     isAuthenticated,
-} from './helperAction';
-import { signHeader } from '../helper/auth';
+    getResponseError,
+} from './helper';
 
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
+const userEndpoint = HOST + 'user/';
 const userchatEndpoint = HOST + 'userchat';
-const userEndpoint = HOST + 'user';
+
+import { signHeader } from '../helper/auth';
+import { socket } from './../socket/socket';
+import { onlinestatus } from './../config';
 
 export const USER_LOGIN = 'user-login';
-
-// these should be generic for all request actions
-export const FAILED = 'failed';
 export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
+export const UPDATE_USER = 'user-update';
+
+export const SET_ONLINESTATUS = 'set-onlinestatus';
 export const LOAD_USERS = 'load_users';
 export const SELECT_USERS = 'select_users';
 
@@ -93,11 +97,33 @@ export function login({ email, password }) {
                     userchats: userchatResult.chats,
                 })
             );
+            dispatch(setOnlineStatus(loginResult.user, onlinestatus.ONLINE));
             dispatch(isSuccess(true));
             dispatch(isAuthenticated(true));
             dispatch(showPopup(loginResult.message)); // show the popup for default seconds
             dispatch(isLoading(false));
         });
+    };
+}
+
+export function updateUserProfileAction(user, token) {
+    return (dispatch) => {
+        dispatch(isLoading(true));
+        request
+            .post(userEndpoint + user._id)
+            .set(signHeader(token))
+            .send(user)
+            .then((result) => {
+                dispatch(isLoading(false));
+                dispatch(isSuccess(true));
+                dispatch(showPopup(result.body.message));
+                dispatch(userUpdate(result.body.user));
+            })
+            .catch((err) => {
+                dispatch(isLoading(false));
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
     };
 }
 
@@ -130,3 +156,18 @@ export function userLogin({ user, accessToken, chatrooms, userchats }) {
         userchats,
     };
 }
+
+export function userUpdate(user) {
+    return {
+        type: UPDATE_USER,
+        user,
+    };
+}
+
+export const setOnlineStatus = (user, status) => {
+    socket.emit('onlinestatus', user, status);
+    return {
+        type: SET_ONLINESTATUS,
+        onlinestatus: status,
+    };
+};

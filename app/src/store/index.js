@@ -6,6 +6,7 @@ const initialState = {
         firstname: '',
         lastname: '',
         password: '',
+        onlinestatus: '',
     },
     messages: [],
     currentMessage: '',

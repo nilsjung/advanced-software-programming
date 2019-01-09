@@ -1,17 +1,21 @@
 import {} from './registerReducer';
 
 import { messagesReducer, updateMessageReducer } from './messageReducer';
-import { setUserIdReducer, isLoginSuccessfullReducer } from './userReducer';
+import {
+    setUserIdReducer,
+    isLoginSuccessfullReducer,
+    setOnlineStatusReducer,
+    updateUserReducer,
+} from './userReducer';
 
 import {
     SET_USER_ID,
     USER_LOGIN,
-    FAILED,
-    SUCCESS,
-    LOADING,
     LOGOUT,
     LOAD_USERS,
+    UPDATE_USER,
     SELECT_USERS,
+    SET_ONLINESTATUS,
 } from '../actions/userActions';
 
 import {
@@ -35,12 +39,13 @@ import {
     IS_SUCCESS,
     IS_AUTHENTICATED,
     IS_LOADING,
-} from '../actions/helperAction';
+} from '../actions/helper';
 
 import {
     CHANGE_ROOM,
     CREATE_CHATROOM,
     CREATE_USERCHAT,
+    UPDATE_CHATROOMS,
     DELETE_CHATROOM,
 } from '../actions/chatroomActions';
 
@@ -49,6 +54,7 @@ import {
     deleteChatroomReducer,
     createChatroomReducer,
     createUserChatReducer,
+    updateChatroomsReducer,
 } from './chatroomReducer';
 
 /**
@@ -64,6 +70,9 @@ export default function(state = initialState, action) {
 
         case USER_LOGIN:
             return isLoginSuccessfullReducer(state, action);
+
+        case SET_ONLINESTATUS:
+            return setOnlineStatusReducer(state, action);
 
         case LOGOUT:
             return { ...initialState, user: { userId: state.user.userId } };
@@ -91,6 +100,10 @@ export default function(state = initialState, action) {
 
         case CREATE_CHATROOM:
             return createChatroomReducer(state, action);
+
+        case UPDATE_CHATROOMS:
+            return updateChatroomsReducer(state, action);
+
         case CREATE_USERCHAT:
             return createUserChatReducer(state, action);
 
@@ -105,11 +118,10 @@ export default function(state = initialState, action) {
                 (user) => user.email !== state.user.email
             );
             const selectedUsers = users.map((user) => user.email);
-            return {
-                ...state,
-                users: users,
-                selectedUsers: selectedUsers,
-            };
+            return { ...state, users: users, selectedUsers: selectedUsers };
+
+        case UPDATE_USER:
+            return updateUserReducer(state, action);
         case SELECT_USERS:
             return { ...state, selectedUsers: action.users };
         case IS_SUCCESS:

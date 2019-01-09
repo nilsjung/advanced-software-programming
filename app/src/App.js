@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,47 +13,12 @@ import NavBar from './components/mixins/NavBar';
 import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
 import InfoField from './components/mixins/InfoField';
+import Settings from './components/user/Settings';
+import { PrivateRoute } from './components/mixins/PrivateRoute';
+import UserInformationField from './components/user/UserInformationField';
 
 class App extends Component {
-    renderChat = () => {
-        const {
-            user,
-            messages,
-            currentMessage,
-            isAuthenticated,
-            addMessage,
-            updateMessage,
-            changeChatroom,
-            createChatroom,
-            chatrooms,
-            currentChatroom,
-            getChatroom,
-            loadUsers,
-            users,
-            createUserChat,
-            accessToken,
-        } = this.props;
-
-        if (isAuthenticated) {
-            return (
-                <Chat
-                    accessToken={accessToken}
-                    messages={messages}
-                    user={user}
-                    currentMessage={currentMessage}
-                    addMessage={addMessage}
-                    updateMessage={updateMessage}
-                    changeChatroom={changeChatroom}
-                    createChatroom={createChatroom}
-                    chatrooms={chatrooms}
-                    currentChatroom={currentChatroom}
-                    getChatroom={getChatroom}
-                    loadUsers={loadUsers}
-                    users={users}
-                    createUserChat={createUserChat}
-                />
-            );
-        }
+    renderHome = () => {
         return (
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
@@ -75,25 +40,35 @@ class App extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <NavBar
-                            logout={this.props.logout}
-                            isAuthenticated={this.props.isAuthenticated}
-                        />
-                    </div>
-                    <div className="col-12">
-                        <Route path="/chat" exact render={this.renderChat} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/register" component={Registration} />
-                    </div>
-                </div>
-                <div className="container bottom-align">
-                    <InfoField
-                        message={this.props.infoMessage}
-                        isSuccess={this.props.isSuccess}
+            <div className="main">
+                <NavBar
+                    logout={this.props.logout}
+                    isAuthenticated={this.props.isAuthenticated}
+                />
+                <div className="container mainContent">
+                    <UserInformationField />
+
+                    <Route path="/" exact render={this.renderHome} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/register" component={Registration} />
+                    <PrivateRoute
+                        authed={this.props.isAuthenticated}
+                        path="/chat"
+                        component={Chat}
                     />
+                    <PrivateRoute
+                        authed={this.props.isAuthenticated}
+                        path="/settings"
+                        component={Settings}
+                    />
+                    <div className="row bottom-align">
+                        <div className="col">
+                            <InfoField
+                                message={this.props.infoMessage}
+                                isSuccess={this.props.isSuccess}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         );

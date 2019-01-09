@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as chatroomActionCreators from '../../actions/chatroomActions';
+import * as messageActionCreators from '../../actions/messageActions';
 
 import MessagesList from './MessagesList';
 import TextInput from './TextInput';
 import Chatrooms from './Chatrooms';
-import UserList from '../userList/list';
+import UserList from '../user/UserList';
 
 class Chat extends React.Component {
     renderInputAndMessages = () => {
@@ -53,12 +54,10 @@ class Chat extends React.Component {
         const {
             changeChatroom,
             createChatroom,
-            loadUsers,
             chatrooms,
             getChatroom,
             deleteChatroom,
             accessToken,
-            users,
             createUserChat,
         } = this.props;
 
@@ -73,14 +72,15 @@ class Chat extends React.Component {
                                 createChatroom={createChatroom}
                                 changeChatroom={changeChatroom}
                                 getChatroom={getChatroom}
+                                getChatrooms={this.props.getChatrooms}
                                 deleteChatroom={deleteChatroom}
                             />
                         </div>
                         <div className="col-8">
                             <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
+                                <ol className="breadcrumb">
                                     <li
-                                        class="breadcrumb-item active"
+                                        className="breadcrumb-item active"
                                         aria-current="page"
                                     >
                                         Your Chatroom:{' '}
@@ -92,10 +92,7 @@ class Chat extends React.Component {
                     </div>
                     <div className="row">
                         <div className="col-4">
-                            <UserList
-                                handleItemClick={createUserChat}
-                                loadUsers={loadUsers}
-                            />
+                            <UserList handleItemClick={createUserChat} />
                         </div>
                         <div className="col-8">
                             {this.renderInputAndMessages()}
@@ -110,7 +107,11 @@ class Chat extends React.Component {
 function mapStateToProps(state) {
     return {
         chatrooms: state.chatrooms,
+        accessToken: state.accessToken,
+        messages: state.messages,
+        currentMessage: state.currentMessage,
         currentChatroom: state.currentChatroom,
+        user: state.user,
     };
 }
 
@@ -120,7 +121,11 @@ function mapDispatchToProps(dispatch) {
             changeChatroom: chatroomActionCreators.changeChatroom,
             createChatroom: chatroomActionCreators.createChatroom,
             getChatroom: chatroomActionCreators.getChatroom,
+            getChatrooms: chatroomActionCreators.getChatrooms,
             deleteChatroom: chatroomActionCreators.deleteChatroom,
+            updateMessage: messageActionCreators.updateMessage,
+            addMessage: messageActionCreators.addMessage,
+            createUserChat: chatroomActionCreators.createUserChat,
         },
         dispatch
     );

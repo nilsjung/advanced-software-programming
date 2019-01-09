@@ -1,7 +1,7 @@
 import request from 'superagent';
 import { HOST } from '../config/';
 import { loadChatHistory } from './messageActions';
-import { showPopup, isSuccess } from './helperAction';
+import { showPopup, isSuccess } from './helper';
 import { signHeader } from '../helper/auth';
 import { createChatId } from '../helper/chat';
 
@@ -17,6 +17,22 @@ export const CREATE_USERCHAT = 'create-userchat';
 const getResponseError = (err) => {
     return err.message || err.response.body.message;
 };
+
+export function getChatrooms({ token }) {
+    return (dispatch) => {
+        request
+            .get(chatroomEndpoint)
+            .set(signHeader(token))
+            .then((result) => {
+                dispatch(updateChatrooms(result.body.chatrooms));
+                dispatch(isSuccess(true));
+            })
+            .catch((err) => {
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
+    };
+}
 
 export function getChatroom({ chatroom, token }) {
     return (dispatch) => {
@@ -39,6 +55,23 @@ export function deleteChatroom({ chatroom, token }) {
             .set(signHeader(token))
             .then((res) => {
                 dispatch(deletedChatroom({ chatrooms: res.body.chatrooms }));
+                dispatch(isSuccess(true));
+                dispatch(showPopup(res.body.message));
+            })
+            .catch((err) => {
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
+    };
+}
+
+export function addUserToChatroom({ chatroom, token, userid }) {
+    return (dispatch) => {
+        request
+            .post(chatroomEndpoint + chatroom + '/user')
+            .set(signHeader(token))
+            .send({ userid: userid })
+            .then((res) => {
                 dispatch(isSuccess(true));
                 dispatch(showPopup(res.body.message));
             })
@@ -105,11 +138,27 @@ export function changeChatroom(room, token) {
     };
 }
 
-export function openUserChat(id, chats) {
+export function openUserChat(id, token) {
     return (dispatch) => {
-        dispatch(loadChatHistory({ chats: chats }));
-        dispatch(isSuccess(true));
-        dispatch(changedChatroom(id));
+        request
+            .get(userChatEndpoint + id)
+            .set(signHeader(token))
+            .then((result) => {
+                dispatch(loadChatHistory({ chats: result.body.chats }));
+                dispatch(isSuccess(true));
+                dispatch(changedChatroom(id));
+            })
+            .catch((err) => {
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
+    };
+}
+
+function updateChatrooms(chatrooms) {
+    return {
+        type: UPDATE_CHATROOMS,
+        chatrooms: chatrooms,
     };
 }
 

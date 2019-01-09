@@ -1,4 +1,6 @@
 import React from 'react';
+import EmojiPicker from './EmojiPicker';
+import Translator from './Translator';
 
 class InputWithButton extends React.Component {
     constructor(props) {
@@ -6,6 +8,12 @@ class InputWithButton extends React.Component {
         this.state = {
             value: '',
         };
+    }
+
+    updateMessage(message) {
+        this.setState({
+            value: this.state.value + message,
+        });
     }
 
     handleChange = (event) => {
@@ -35,6 +43,20 @@ class InputWithButton extends React.Component {
 
         return (
             <div className="input-group mb-3">
+                {this.props.showSmileyPicker ? (
+                    <div className="input-group-prepend">
+                        <EmojiPicker onSelect={this.props.onSelect} />
+                    </div>
+                ) : (
+                    ''
+                )}
+                {this.props.showTranslation ? (
+                    <div className="input-group-prepend">
+                        <Translator onTranslate={this.props.onSelect} />
+                    </div>
+                ) : (
+                    ''
+                )}
                 <input
                     className="form-control"
                     type="text"

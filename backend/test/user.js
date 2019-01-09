@@ -150,6 +150,12 @@ const userTests = (app, chai, url) => {
                     .get(path)
                     .set(authHeader, token);
 
+            const securePostRequest = (path) =>
+                chai
+                    .request(app)
+                    .post(path)
+                    .set(authHeader, token);
+
             before((done) => {
                 chai.request(app)
                     .post(userEndpoint)
@@ -205,13 +211,51 @@ const userTests = (app, chai, url) => {
                 });
             });
 
-            describe('DELETE /user/:id', () => {
-                it('it should delete the user with given ID', (done) => {
-                    done();
+            describe('POST /user/:id', () => {
+                it('should not change anything if nothing is updated', (done) => {
+                    let user = new User(MaxMusterman);
+                    user.save((err, user) => {
+                        securePostRequest(userEndpoint + user._id).end(
+                            (err, res) => {
+                                res.should.have.status(200);
+                                res.body.should.have.property('user');
+                                res.body.user.should.have
+                                    .property('_id')
+                                    .eq(user.id);
+                                res.body.user.should.have
+                                    .property('firstname')
+                                    .eq(user.firstname);
+                                res.body.user.should.have
+                                    .property('lastname')
+                                    .eq(user.lastname);
+                                res.body.user.should.have
+                                    .property('email')
+                                    .eq(user.email);
+                                done();
+                            }
+                        );
+                    });
                 });
 
-                it('it should inform if no user is found', (done) => {
-                    done();
+                it('should update the entry `firstname`', (done) => {
+                    const user = new User(MaxMusterman);
+                    const newFirstname = 'Mathis';
+
+                    user.save((err, user) => {
+                        securePostRequest(userEndpoint + user._id)
+                            .send({ firstname: newFirstname })
+                            .end((err, res) => {
+                                res.should.have.status(200);
+                                res.body.should.have.property('user');
+                                res.body.should.have
+                                    .property('message')
+                                    .eq('successfully updated');
+                                res.body.user.should.have
+                                    .property('firstname')
+                                    .eq(newFirstname);
+                                done();
+                            });
+                    });
                 });
             });
         });
