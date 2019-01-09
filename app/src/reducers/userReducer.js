@@ -27,9 +27,23 @@ export function loginIsLoadingReducer(state, action) {
     return { ...state, isLoading };
 }
 
-export function setOnlineStatusReducer(state, action) {
+export function setLocalUserStatusReducer(state, action) {
     return {
         ...state,
         user: { ...state.user, onlinestatus: action.onlinestatus },
     };
+}
+
+export function setUserStatusReducer(state, action) {
+    return Object.assign({}, state, {
+        selectedUsers: state.selectedUsers.map((user, index) => {
+            let userIDToCheck = state.selectedUsers[index]._id;
+            if (userIDToCheck === action.user._id) {
+                return Object.assign({}, user, {
+                    onlinestatus: action.onlinestatus,
+                });
+            }
+            return user;
+        }),
+    });
 }

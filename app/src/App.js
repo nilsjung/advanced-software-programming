@@ -44,6 +44,7 @@ class App extends Component {
                 <NavBar
                     logout={this.props.logout}
                     isAuthenticated={this.props.isAuthenticated}
+                    user={this.props.user}
                 />
                 <div className="container mainContent">
                     <UserInformationField />

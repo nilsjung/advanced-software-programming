@@ -4,7 +4,8 @@ import { messagesReducer, updateMessageReducer } from './messageReducer';
 import {
     setUserIdReducer,
     isLoginSuccessfullReducer,
-    setOnlineStatusReducer,
+    setLocalUserStatusReducer,
+    setUserStatusReducer,
     updateUserReducer,
 } from './userReducer';
 
@@ -15,7 +16,8 @@ import {
     LOAD_USERS,
     UPDATE_USER,
     SELECT_USERS,
-    SET_ONLINESTATUS,
+    SET_ONLINESTATUS_LOCALUSER,
+    SET_ONLINESTATUS_USER,
 } from '../actions/userActions';
 
 import {
@@ -71,8 +73,11 @@ export default function(state = initialState, action) {
         case USER_LOGIN:
             return isLoginSuccessfullReducer(state, action);
 
-        case SET_ONLINESTATUS:
-            return setOnlineStatusReducer(state, action);
+        case SET_ONLINESTATUS_LOCALUSER:
+            return setLocalUserStatusReducer(state, action);
+
+        case SET_ONLINESTATUS_USER:
+            return setUserStatusReducer(state, action);
 
         case LOGOUT:
             return { ...initialState, user: { userId: state.user.userId } };
@@ -117,7 +122,13 @@ export default function(state = initialState, action) {
             const users = action.users.filter(
                 (user) => user.email !== state.user.email
             );
-            const selectedUsers = users.map((user) => user.email);
+            const selectedUsers = users.map((user) => {
+                return {
+                    _id: user._id,
+                    email: user.email,
+                    onlinestatus: user.onlinestatus || 'default',
+                };
+            });
             return { ...state, users: users, selectedUsers: selectedUsers };
 
         case UPDATE_USER:

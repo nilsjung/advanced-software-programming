@@ -7,8 +7,9 @@ export const initSocket = () => {
     socket = io.connect(WS);
 };
 
-export function disconnect() {
+export function disconnect(data) {
     if (socket !== null) {
-        socket.emit('disconnect');
+        socket.emit('disconnect', data.user);
+        socket.disconnect();
     }
 }

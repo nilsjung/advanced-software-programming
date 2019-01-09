@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { onlinestatus } from './../../config';
-import { setOnlineStatus } from '../../actions/userActions';
+import { setLocalUserOnlineStatus } from '../../actions/userActions';
 
 class UserInformationField extends React.Component {
     render() {
@@ -20,6 +20,7 @@ class UserInformationField extends React.Component {
                 <OnlineStatusSelect
                     onStatusChange={this.props.onStatusChange}
                     onlinestatus={user.onlinestatus}
+                    user={user}
                 />
             </div>
         );
@@ -28,7 +29,16 @@ class UserInformationField extends React.Component {
 
 class OnlineStatusSelect extends React.Component {
     onClick = (status) => () => {
-        return this.props.onStatusChange(this.props.user, status);
+        // exclude password of user
+        const user = {
+            _id: this.props.user._id,
+            firstname: this.props.user.firstname,
+            lastname: this.props.user.lastname,
+            email: this.props.user.email,
+            __v: this.props.user.__v,
+            onlinestatus: this.props.user.onlinestatus,
+        };
+        return this.props.onStatusChange(user, status);
     };
 
     renderItems = () => {
@@ -81,8 +91,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onStatusChange: (user, status) =>
-            dispatch(setOnlineStatus(user, status)),
+        onStatusChange: (user, status) => {
+            dispatch(setLocalUserOnlineStatus(user, status));
+        },
     };
 };
 

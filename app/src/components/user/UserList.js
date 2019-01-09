@@ -65,19 +65,19 @@ class UserList extends React.Component {
             this.props.selectedUsers.forEach((user) => {
                 list.push(
                     <li
-                        key={user}
+                        key={user.email}
                         className="list-group-item  clearfix"
                         onClick={() => this.handleClick(user)}
                     >
-                        {user}{' '}
+                        {user.email}{' '}
                         <span className="pull-right badge badge-success badge-pill">
-                            online
+                            {user.onlinestatus}
                         </span>
                         {this.props.currentChatroom !== '' ? (
                             <button
                                 onClick={() =>
                                     this.props.addUserToChatroom({
-                                        userid: user,
+                                        userid: user.email,
                                         chatroom: this.props.currentChatroom,
                                         token: this.props.accessToken,
                                     })

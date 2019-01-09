@@ -1,6 +1,5 @@
 import * as messageActions from './../actions/messageActions';
-
-import { setUserId } from './../actions/userActions';
+import { setUserId, setUserOnlineStatus } from './../actions/userActions';
 import { initSocket, socket } from './socket';
 
 /**
@@ -21,5 +20,18 @@ export default function(store) {
 
     socket.on('message', (data) => {
         store.dispatch(messageActions.addResponse(data));
+    });
+    socket.on('onlinestatus', (data) => {
+        store.dispatch(setUserOnlineStatus(data.user, data.onlinestatus));
+    });
+    socket.on('onlinestatusAll', (data) => {
+        for (let index in data) {
+            const elem = data[index];
+            if (elem) {
+                store.dispatch(
+                    setUserOnlineStatus(elem.user, elem.onlinestatus)
+                );
+            }
+        }
     });
 }
