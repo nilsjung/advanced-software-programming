@@ -13,36 +13,39 @@ const socket = (server) => {
         userId += 1;
         sock.emit('start', { userId });
 
-        sock.on('login', (user) => {
-            if (
-                connections.find((e) => e.user._id === user._id) === undefined
-            ) {
-                connections.push({
-                    user: user,
-                    onlinestatus: '',
-                });
-            }
-        });
-
         sock.on('message', async (data) => {
             messageService(data, sock);
         });
 
         sock.on('onlinestatus', (user, onlinestatus) => {
-            connections = connections.map((connection) => {
-                if (connection.user._id === user._id) {
-                    onlineStatusService(sock, user._id, onlinestatus);
-                    return {
-                        ...connection,
-                        onlinestatus: onlinestatus,
-                    };
-                }
-                return connection;
-            });
+            // check if user is new
+            if (
+                connections.find((e) => e.user && e.user._id === user._id) ===
+                undefined
+            ) {
+                connections.push({
+                    user: user,
+                    onlinestatus: onlinestatus,
+                });
+            }
+            // user is existing
+            else {
+                connections = connections.map((connection) => {
+                    if (connection.user && connection.user._id === user._id) {
+                        onlineStatusService(sock, user._id, onlinestatus);
+                        return {
+                            ...connection,
+                            onlinestatus: onlinestatus,
+                        };
+                    }
+                    return connection;
+                });
+            }
         });
+
         sock.on('onlinestatusAll', () => {
             sock.emit('onlinestatusAll', connections);
-        })
+        });
 
         sock.on('joinChatroom', (data) => {
             if (sock.room) {
