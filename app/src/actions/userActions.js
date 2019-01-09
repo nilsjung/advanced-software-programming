@@ -47,6 +47,7 @@ export function getUsers(token) {
             .set(signHeader(token))
             .then((result) => {
                 dispatch(loadUsers(result.body));
+                socket.emit('onlinestatusAll');
             })
             .catch((err) => {});
     };

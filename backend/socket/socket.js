@@ -40,6 +40,9 @@ const socket = (server) => {
                 return connection;
             });
         });
+        sock.on('onlinestatusAll', () => {
+            sock.emit('onlinestatusAll', connections);
+        })
 
         sock.on('joinChatroom', (data) => {
             if (sock.room) {
