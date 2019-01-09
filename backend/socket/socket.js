@@ -18,6 +18,33 @@ const socket = (server) => {
         });
 
         sock.on('onlinestatus', (user, onlinestatus) => {
+            statusUpdate(sock, user, onlinestatus);
+        });
+
+        sock.on('onlinestatusAll', () => {
+            sock.emit('onlinestatusAll', connections);
+        });
+
+        sock.on('joinChatroom', (data) => {
+            if (sock.room) {
+                sock.leave(sock.room);
+            }
+            sock.room = data.chatroom;
+            sock.join(data.chatroom);
+        });
+
+        sock.on('disconnect', (data) => {
+            setStatusOffline(sock, data);
+        });
+
+        const setStatusOffline = (sock, user) => {
+            const index = connections.findIndex((c) => c.socketID === sock.id);
+            if (index !== -1) {
+                onlineStatusService(sock, connections[index].user, 'offline');
+                connections.splice(index, 1);
+            }
+        };
+        const statusUpdate = (sock, user, onlinestatus) => {
             // check if user is new
             if (
                 connections.find((e) => e.user && e.user._id === user._id) ===
@@ -33,7 +60,6 @@ const socket = (server) => {
             else {
                 connections = connections.map((connection) => {
                     if (connection.user && connection.user._id === user._id) {
-                        onlineStatusService(sock, user._id, onlinestatus);
                         return {
                             ...connection,
                             // override with new socket
@@ -44,23 +70,8 @@ const socket = (server) => {
                     return connection;
                 });
             }
-        });
-
-        sock.on('onlinestatusAll', () => {
-            sock.emit('onlinestatusAll', connections);
-        });
-
-        sock.on('joinChatroom', (data) => {
-            if (sock.room) {
-                sock.leave(sock.room);
-            }
-            sock.room = data.chatroom;
-            sock.join(data.chatroom);
-        });
-
-        sock.on('disconnect', (user) => {
-            // TODO remove user from connections
-        });
+            sock.broadcast.emit('onlinestatusAll', connections);
+        };
     });
 
     return io;
