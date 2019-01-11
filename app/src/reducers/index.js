@@ -5,8 +5,6 @@
  * and maybe prefix the reducer and actions.
  */
 
-import {} from './registerReducer';
-
 import { messagesReducer, updateMessageReducer } from './messageReducer';
 import {
     setUserIdReducer,
