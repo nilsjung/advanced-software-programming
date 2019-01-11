@@ -1,0 +1,93 @@
+\documentclass[25pt, a1paper]{tikzposter}
+\usepackage[utf8]{inputenc}
+
+\usepackage{pgfpages}
+\pgfpagesuselayout{resize to}[a2paper]
+
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{authblk}
+
+\usepackage[backend=bibtex]{biblatex}
+%\addbibresource{references.bib}
+
+\title{Chat Application}
+
+\author{Nils Jung}
+\author{Jule Martensen}
+\author{Marc Engelmann}
+\author{Jan Steeg}
+
+\affil{University of Applied Sciences Kiel}
+\date{\today}
+
+\usepackage{blindtext}
+\usepackage{comment}
+
+\usepackage{tikz}
+
+\usetheme{Simple}
+
+\makeatletter
+\def\maketitle{\AB@maketitle}
+\makeatother
+\begin{document}
+	\maketitle
+	
+	\begin{columns}
+		\column{0.5}
+	\block{Idea}
+	{
+		\begin{itemize}
+			\item \blindtext
+		\end{itemize}
+	}
+
+			\column{0.5}
+	\block{Requierments}
+	{
+		\begin{itemize}
+			\item some stuff
+		\end{itemize}
+	}
+
+	\end{columns}
+	
+	\begin{columns}
+		\column{0.5}
+		\block{More Stuff}
+		{
+			blablabla
+		}
+		
+		\column{0.5}
+		\block{Stuff}
+		{
+			\blindtext
+		}
+		\block{Sub tuff}
+		{
+			
+			
+		}
+	\end{columns}
+
+	
+	\begin{columns}	
+		\column{0.5}
+		\block{Pictures}
+		{
+			
+		}
+		\column{0.5}
+		\block{}
+		{
+			
+			
+		}
+	\end{columns}
+
+	
+
+	
+\end{document}
