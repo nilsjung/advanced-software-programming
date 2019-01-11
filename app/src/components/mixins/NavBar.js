@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import NavbarToggler from './NavbarToggler';
 import { disconnect } from '../../socket/socket';
 
+/**
+ * This renders the bootstrap navigation.
+ */
 export default class NavBar extends React.Component {
     renderLinkIfAuthenticated = (isAuthenticated, link, label) => {
         if (isAuthenticated) {

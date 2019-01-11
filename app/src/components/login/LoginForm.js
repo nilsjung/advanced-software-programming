@@ -2,6 +2,11 @@ import React from 'react';
 import Input from '../mixins/Input';
 import Button from '../mixins/Button';
 
+/**
+ * This renders the **LoginForm Component**
+ *
+ * This contains both input fields for username and password as well as the login button.
+ */
 export default class LoginForm extends React.Component {
     constructor() {
         super();

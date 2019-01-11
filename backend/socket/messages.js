@@ -15,6 +15,7 @@ const messageService = async (data, socket) => {
         .storeMessageToChatroom(data.message, data.user, chatroom)
         .then((result) => {})
         .catch((err) => console.warn(err));
+
     // inform the clients about the recieved message. send them just to the namespace 'chatroom'
     socket.to(chatroom).emit('message', {
         message: data.message,

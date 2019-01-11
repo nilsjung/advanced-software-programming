@@ -8,7 +8,8 @@ import App from './App';
 // imports the bootstrap js part installed via dependencies
 import 'bootstrap';
 
-// this is the entry-point for our styles. no further loading neccessary
+// this is the entry-point for our styles.
+// no further loading of other resources neccessary
 import './sass/main.scss';
 
 import thunk from 'redux-thunk';
@@ -25,6 +26,7 @@ const store = createStoreWithMiddleware(
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
+// inform the socket about starting chat.
 startChat(store);
 
 ReactDOM.render(

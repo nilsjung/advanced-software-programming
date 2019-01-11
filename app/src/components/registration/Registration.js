@@ -6,6 +6,12 @@ import { withRouter, Redirect } from 'react-router-dom';
 import * as registerActions from '../../actions/registerActions';
 import RegistrationForm from '../registration/RegistrationForm';
 
+/**
+ * This renders the **Registration Component**
+ *
+ * This contains the registration formular.
+ * redirects to `login` if the registration has been successfull.
+ */
 class Registration extends React.Component {
     render() {
         if (this.props.isSuccess) {

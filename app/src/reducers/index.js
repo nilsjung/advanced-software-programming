@@ -1,3 +1,10 @@
+/**
+ * The Redix reducers are registered here.
+ * In this file the delegation to the `./reducers/*` takes place.
+ * If this becomes too large, devide the reducer into seperate files
+ * and maybe prefix the reducer and actions.
+ */
+
 import {} from './registerReducer';
 
 import { messagesReducer, updateMessageReducer } from './messageReducer';

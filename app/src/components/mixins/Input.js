@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * This represents a bootstrap input field with label boxed in a 'form-group'.
+ */
 class Input extends React.Component {
     handleChange = (event) => {
         const newValue = event.target.value;

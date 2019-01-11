@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Renders a bootstrap button with predefined color $primary
+ */
 const Button = (props) => {
     let buttonClassName = 'btn';
     let buttonColor = 'btn-primary';

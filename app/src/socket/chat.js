@@ -4,7 +4,7 @@ import { socket } from './socket';
 import * as chatroomActions from '../actions/chatroomActions';
 
 /**
- * Adds the chat middleware to send messages via ws to the server.
+ * Adds the chat middleware to send messages via websocket to the server.
  *
  * @param {Object} store the current store
  */

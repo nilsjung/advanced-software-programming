@@ -197,7 +197,7 @@ router.post('/:id', auth, (req, res) => {
 });
 
 /**
- * D`ELETE /api/user`
+ * `DELETE /api/user`
  * on success it removes all stored user in the database
  */
 router.delete('/', auth, (req, res) => {

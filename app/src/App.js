@@ -17,6 +17,9 @@ import Settings from './components/user/Settings';
 import { PrivateRoute } from './components/mixins/PrivateRoute';
 import UserInformationField from './components/user/UserInformationField';
 
+/**
+ * Renders the application.
+ */
 class App extends Component {
     renderHome = () => {
         return (

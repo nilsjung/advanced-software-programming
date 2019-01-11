@@ -8,6 +8,11 @@ import { showPopup, isSuccess, isLoading } from './helper';
 
 const userEndpoint = HOST + 'user';
 
+/**
+ * registers a user at the server.
+ *
+ * @param {Object} user object with firstname, lastname, password and email as content.
+ */
 export function registerUser(user) {
     return (dispatch) => {
         dispatch(isLoading(true));
