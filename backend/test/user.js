@@ -1,3 +1,10 @@
+/**
+ * Define the user tests
+ *
+ * @param {Object} app the server
+ * @param {Object} chai the test framework chai object
+ * @param {Object} url the url path before the user route. eg '/api/'
+ */
 const userTests = (app, chai, url) => {
     let User = require('../model/user');
     const userEndpoint = url + '/user/';

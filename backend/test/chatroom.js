@@ -1,3 +1,10 @@
+/**
+ * Define the tests for the route `chatroom`
+ *
+ * @param {Object} app the server
+ * @param {Object} chai the test framework chai object
+ * @param {Object} url the url path before the chatroom route. eg '/api/'
+ */
 const chatroomTests = (app, chai, url) => {
     const Chatroom = require('../model/chatroom');
     const User = require('../model/user');
@@ -44,14 +51,14 @@ const chatroomTests = (app, chai, url) => {
             done();
         });
 
-        // log in a user for token
+        // log in a user to generate a token
         before((done) => {
-            // register user
+            // register user ...
             chai.request(app)
                 .post(userEndpoint)
                 .send(MaxMusterman)
                 .end();
-            // login in for token
+            // ... and log the user in
             chai.request(app)
                 .post(userEndpoint + 'login')
                 .send(MaxMusterman)

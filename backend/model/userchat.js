@@ -1,14 +1,12 @@
-/**
- * The userchat model.
- * A userchat has:
- *  @param {String} id
- *  @param {Array} users
- *  @param {Array} chats
- */
-
 let mongoose = require('mongoose');
+
 /**
+ * The userchat schema to store a conversation between just two user.
  *
+ *  **Userchat**
+ *  * id _string_
+ *  * users _Array_ of user
+ *  * chats _Array_ of chat
  */
 var userchatSchema = new mongoose.Schema({
     id: String,

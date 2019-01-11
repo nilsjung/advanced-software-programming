@@ -1,16 +1,14 @@
-/**
- * The user model.
- * A user has:
- *  @param {String} firstname
- *  @param {String} lastname
- *  @param {String} email
- *  @param {String} password
- */
-
 let mongoose = require('mongoose');
 
 /**
+ * The user schema to store informations about the member
  *
+ * **User**
+ *  * firstname _String_
+ *  * lastname _String_
+ *  * email _String_
+ *  * password _String_
+ *  * nickname _String_
  */
 var userSchema = new mongoose.Schema({
     firstname: { type: String, required: true },
