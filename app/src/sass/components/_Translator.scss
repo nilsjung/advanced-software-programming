@@ -1,0 +1,15 @@
+.c-translator {
+    position: absolute;
+    display: inline-block;
+    bottom: 50px;
+    width: 400px;
+    background-color: $light;
+    padding: 25px;
+}
+
+.popup-box {
+    border: 1pt $input-border-color solid;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: $box-shadow;
+}

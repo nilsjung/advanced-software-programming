@@ -5,17 +5,26 @@ import {
     isLoading,
     isSuccess,
     isAuthenticated,
-} from './helperAction';
+    getResponseError,
+} from './helper';
 
 const loginEndpoint = HOST + 'user/login';
 const chatroomEndpoint = HOST + 'chatroom';
+const userEndpoint = HOST + 'user/';
+const userchatEndpoint = HOST + 'userchat';
+
+import { signHeader } from '../helper/auth';
+import { socket } from './../socket/socket';
+import { onlinestatus } from './../config';
 
 export const USER_LOGIN = 'user-login';
-
-// these should be generic for all request actions
-export const FAILED = 'failed';
 export const SET_USER_ID = 'set-user-id';
 export const LOGOUT = 'logout';
+export const UPDATE_USER = 'user-update';
+
+export const SET_ONLINESTATUS = 'set-onlinestatus';
+export const LOAD_USERS = 'load_users';
+export const SELECT_USERS = 'select_users';
 
 /**
  * Register a new client on the websocket
@@ -27,6 +36,18 @@ export function setUserId(user) {
     return {
         type: SET_USER_ID,
         user,
+    };
+}
+
+export function getUsers(token) {
+    return (dispatch) => {
+        request
+            .get(userEndpoint)
+            .set(signHeader(token))
+            .then((result) => {
+                dispatch(loadUsers(result.body));
+            })
+            .catch((err) => {});
     };
 }
 
@@ -58,21 +79,51 @@ export function login({ email, password }) {
                 .set({ 'Content-Type': 'application/json' })
         );
 
+        requests.push(
+            request
+                .get(userchatEndpoint)
+                .set({ 'Content-Type': 'application/json' })
+        );
+
         Promise.all(requests).then((result) => {
             const loginResult = result[0].body;
             const chatroomResult = result[1].body;
+            const userchatResult = result[2].body;
             dispatch(
                 userLogin({
                     user: loginResult.user,
                     accessToken: loginResult.token,
                     chatrooms: chatroomResult.chatrooms,
+                    userchats: userchatResult.chats,
                 })
             );
+            dispatch(setOnlineStatus(loginResult.user, onlinestatus.ONLINE));
             dispatch(isSuccess(true));
             dispatch(isAuthenticated(true));
             dispatch(showPopup(loginResult.message)); // show the popup for default seconds
             dispatch(isLoading(false));
         });
+    };
+}
+
+export function updateUserProfileAction(user, token) {
+    return (dispatch) => {
+        dispatch(isLoading(true));
+        request
+            .post(userEndpoint + user._id)
+            .set(signHeader(token))
+            .send(user)
+            .then((result) => {
+                dispatch(isLoading(false));
+                dispatch(isSuccess(true));
+                dispatch(showPopup(result.body.message));
+                dispatch(userUpdate(result.body.user));
+            })
+            .catch((err) => {
+                dispatch(isLoading(false));
+                dispatch(isSuccess(false));
+                dispatch(showPopup(getResponseError(err)));
+            });
     };
 }
 
@@ -82,11 +133,41 @@ export function logout() {
     };
 }
 
-export function userLogin({ user, accessToken, chatrooms }) {
+function loadUsers(users) {
+    return {
+        type: LOAD_USERS,
+        users: users,
+    };
+}
+
+export function selectUsers(users) {
+    return {
+        type: SELECT_USERS,
+        users: users,
+    };
+}
+
+export function userLogin({ user, accessToken, chatrooms, userchats }) {
     return {
         type: USER_LOGIN,
         user,
         accessToken,
         chatrooms,
+        userchats,
     };
 }
+
+export function userUpdate(user) {
+    return {
+        type: UPDATE_USER,
+        user,
+    };
+}
+
+export const setOnlineStatus = (user, status) => {
+    socket.emit('onlinestatus', user, status);
+    return {
+        type: SET_ONLINESTATUS,
+        onlinestatus: status,
+    };
+};
