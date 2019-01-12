@@ -14,7 +14,8 @@ const token = require('../security/token');
 const express = require('express');
 const router = express.Router();
 const auth = require('../security/authMiddleware');
-
+const bcrypt = require('bcryptjs');
+const config = require('config');
 const User = require('../model/user');
 const defined = require('../mixins/helper');
 
@@ -37,7 +38,7 @@ router.post('/login', (req, res) => {
             res.json({ error: err });
             return;
         } else if (user) {
-            if (password !== user.password) {
+            if (!bcrypt.compareSync(password, user.password)) {
                 res.status(403).json({
                     message: 'invalid password',
                     user: null,
@@ -132,8 +133,9 @@ router.post('/', (req, res) => {
             res.json({ message: 'email already in use', user: user });
             return;
         }
-
+        req.body.password = bcrypt.hashSync(password);
         const newUser = new User(req.body);
+
         newUser.save((err, user) => {
             res.status(200).json({ message: 'user created', user: user });
         });
