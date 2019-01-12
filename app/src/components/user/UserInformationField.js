@@ -4,6 +4,11 @@ import { connect } from 'react-redux';
 import { onlinestatus } from './../../config';
 import { setOnlineStatus } from '../../actions/userActions';
 
+/**
+ * Renders the **UserInformationField Component**
+ *
+ * This represents the status information to the current user above the chatroom-dropdown.
+ */
 class UserInformationField extends React.Component {
     render() {
         const { user } = this.props;
@@ -26,6 +31,11 @@ class UserInformationField extends React.Component {
     }
 }
 
+/**
+ * Private Component **OnlineStatusSelect**
+ *
+ * Handles the dropdown for the online status change and the representation of the current online status.
+ */
 class OnlineStatusSelect extends React.Component {
     onClick = (status) => () => {
         return this.props.onStatusChange(this.props.user, status);

@@ -5,10 +5,22 @@ import { DateFormat } from '../../config';
 import { Emoji } from 'emoji-mart';
 import TranslatorPopup from './../mixins/TranslatorPopup';
 
+/**
+ * This functions returns the formatted date given by the format in the configs
+ *
+ * @param {string} d the date to format, recieved from the message stored on the server
+ */
 const formatDate = (d) => {
     return moment(d).format(DateFormat);
 };
 
+/**
+ * Renders a **Message Component**
+ *
+ * containing the message header and the message body.
+ * could be stored in seperated components
+ *
+ */
 const Message = (props) => {
     return (
         <li className={props.className}>
@@ -38,6 +50,13 @@ const Message = (props) => {
     );
 };
 
+/**
+ * This function parses the message input text for a youtube link.
+ * Returns a Array with the plyr-video-player for each link that could be found.
+ *
+ * @param {string} text the input text to parse
+ * @returns The array with plyr-containers if a link was found. Otherwise returns an empty array.
+ */
 function retrieveYoutubeURLs(text) {
     const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
     const urls = text.match(urlRegex);

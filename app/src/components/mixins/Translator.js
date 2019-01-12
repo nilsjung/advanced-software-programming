@@ -2,6 +2,12 @@ import React from 'react';
 
 import { YANDEX } from './../../config';
 
+/**
+ * This renders the **Translator Component**
+ *
+ * This is the popup window when pressed the translation button.
+ * TODO make generic and combine with `TranslatorPopup`
+ */
 class Translator extends React.Component {
     constructor(props) {
         super(props);

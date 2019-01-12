@@ -7,6 +7,12 @@ import profileDummy from './../../assets/profileDummy.png';
 import Button from '../mixins/Button';
 import SettingsForm from './SettingsForm';
 
+/**
+ * Renders the **Settings Component*
+ *
+ * This is the setting frame beneath the route `/settings`
+ * Contains the logic for settings
+ */
 class Settings extends React.Component {
     constructor(props) {
         super(props);

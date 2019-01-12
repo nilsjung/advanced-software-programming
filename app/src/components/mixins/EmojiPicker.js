@@ -1,6 +1,11 @@
 import { Picker } from 'emoji-mart';
 import React from 'react';
 
+/**
+ * Renders the **EmojiPicker Component**
+ *
+ *
+ */
 class EmojiPicker extends React.Component {
     constructor(props) {
         super(props);

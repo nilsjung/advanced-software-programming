@@ -3,6 +3,11 @@ import React from 'react';
 import Input from '../mixins/Input';
 import Button from '../mixins/Button';
 
+/**
+ * Renders the **RegistrationForm Component**
+ *
+ * This contains the input fields for registration and the submit button.
+ */
 class RegistrationForm extends React.Component {
     constructor(props) {
         super(props);

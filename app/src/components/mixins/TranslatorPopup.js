@@ -5,6 +5,11 @@ const url = 'https://translate.yandex.net/api/v1.5/tr.json/translate',
     keyAPI =
         'trnsl.1.1.20190103T181139Z.7464426976138302.da0198e0cc346b526c18e9ffa40aa8144de2282d';
 
+/**
+ * **TranslatorPopup**
+ * This is the Tranlation Popup in the Message Field.
+ * TODO combine with `Translator`
+ */
 class TranslatorPopup extends React.Component {
     constructor(props) {
         super(props);

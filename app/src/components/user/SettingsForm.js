@@ -2,6 +2,10 @@ import React from 'react';
 import Button from '../mixins/Button';
 import Input from '../mixins/Input';
 
+/**
+ * Renders the SettingsForm Component as Container for the input fields
+ * Contains just the representation
+ */
 export default class SettingsForm extends React.Component {
     render() {
         const { user } = this.props;

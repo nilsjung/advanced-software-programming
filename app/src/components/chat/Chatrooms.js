@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 import InputWithButton from '../mixins/InputWithButton';
 
+/**
+ * This is the Chatroom Component. This renders the chatroom select-dropdown.
+ */
 class Chatrooms extends React.Component {
     componentWillMount = () => {
         this.props.getChatrooms({ token: this.props.accessToken });

@@ -1,10 +1,10 @@
 /**
- * Userchat Route
+ * The _Userchat Routes_ to enable operations on the mongoose `Userchat` model.
  *
- * Methods:
- * GET /userchats
- * GET /userchats/:id
- * POST /userchats
+ * **Methods**
+ * * GET /userchats
+ * * GET /userchats/:id
+ * * POST /userchats
  */
 
 const express = require('express');
@@ -13,7 +13,8 @@ const auth = require('../security/authMiddleware');
 const Userchat = require('../model/userchat');
 
 /**
- * GET /userchats
+ * `GET /api/userchat/`
+ * on success it returns the stored userchats
  */
 router.get('/', (req, res) => {
     Userchat.find({}, (err, chats) => {
@@ -26,6 +27,10 @@ router.get('/', (req, res) => {
     });
 });
 
+/**
+ * `GET /api/userchat/:id`
+ * on success it returns the chatroom with id `:id`
+ */
 router.get('/:id', (req, res) => {
     const chatId = req.params.id;
 
@@ -43,7 +48,9 @@ router.get('/:id', (req, res) => {
 });
 
 /**
- * POST /chatrooms
+ * `POST /api/userchat`
+ * expects the userchat-name as payload with key `chatId`
+ * on success it creates a new userchat
  */
 router.post('/', auth, (req, res) => {
     Userchat.findOne({ id: req.body.chatId }, (err, chatroom) => {

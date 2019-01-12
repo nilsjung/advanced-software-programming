@@ -1,11 +1,11 @@
 /**
- * Chatroom Route
+ * The _Chatroom Route_ to enable operations on the mongoose `Chatroom` model.
  *
- * Methods:
- * GET /chatroom
- * GET /chatroom/:id
- * POST /chatroom
- * PUT /chatroom/:id
+ * **Methods**:
+ * * GET /chatroom
+ * * GET /chatroom/:id
+ * * POST /chatroom
+ * * PUT /chatroom/:id
  */
 
 const express = require('express');
@@ -15,7 +15,9 @@ const Chatroom = require('../model/chatroom');
 const User = require('../model/user');
 
 /**
- * GET /chatrooms
+ * `GET /api/chatroom`
+ *
+ * on success it returns all stored chatrooms
  */
 router.get('/', (req, res) => {
     Chatroom.find({}, (err, chatrooms) => {
@@ -45,7 +47,10 @@ router.get('/:name', (req, res) => {
 });
 
 /**
- * POST /chatrooms
+ * `POST /api/chatrooms`
+ *
+ * expects the chatroom name as payload.
+ * on success it creates a new chatroom
  */
 router.post('/', auth, (req, res) => {
     const chatroomName = req.body.chatroom;
@@ -75,17 +80,30 @@ router.post('/', auth, (req, res) => {
     });
 });
 
-const isMember = (chatroom, user) => {
-    const member = chatroom.users.findIndex((member) => {
-        return member.email === user.email;
-    });
-
-    return member >= 0;
-};
-
-// add a user to a chatroom
+/**
+ * `POST /api/chatroom/:chatroomid/user`
+ *
+ * expects the userid as payload
+ * on success it adds the given user to the chatroom with id `:chatroomid`
+ */
 router.post('/:chatroomid/user/', auth, (req, res) => {
     const chatroomId = req.params.chatroomid;
+
+    /**
+     * local function to check if a user is member of a chatroom.
+     * if needed extract this function to `./mixins/helper.js`
+     *
+     * @param {Object} chatroom the chatroom to check for users
+     * @param {Object} user the user to check for
+     * @returns true, if the given user is member, else false.
+     */
+    const isMember = (chatroom, user) => {
+        const member = chatroom.users.findIndex((member) => {
+            return member.email === user.email;
+        });
+
+        return member >= 0;
+    };
 
     User.findOne({ email: req.body.userid }, (err, user) => {
         if (user) {
@@ -117,6 +135,11 @@ router.post('/:chatroomid/user/', auth, (req, res) => {
     });
 });
 
+/**
+ * `DELETE /api/chatroom/:name`
+ *
+ * on success it deletes the chatroom `:name` from the database
+ */
 router.delete('/:name', auth, (req, res) => {
     const chatroomName = req.params.name;
 

@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import InputWithButton from '../mixins/InputWithButton';
 
+/**
+ * This renders the **TextInput Component**
+ *
+ * This represents the input field where the user can enter his text.
+ */
 class TextInput extends Component {
     onChange = (value) => {
         this.props.onChange(value);
