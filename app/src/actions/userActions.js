@@ -27,7 +27,7 @@ export const LOAD_USERS = 'load_users';
 export const SELECT_USERS = 'select_users';
 
 /**
- * Register a new client on the websocket
+ * Register a new client on the websocket (depricated)
  *
  * @param {Object} user the user to register
  *
@@ -39,6 +39,11 @@ export function setUserId(user) {
     };
 }
 
+/**
+ * This action requests the users that are registered at the server.
+ *
+ * @param {string} token jwt of the current user
+ */
 export function getUsers(token) {
     return (dispatch) => {
         request
@@ -106,6 +111,13 @@ export function login({ email, password }) {
     };
 }
 
+/**
+ * This action requests to update the user with given user information.
+ * Mainly dispatch the userUpdate action.
+ *
+ * @param {Object} user the updated user information
+ * @param {string} token the jwt stored for the current user
+ */
 export function updateUserProfileAction(user, token) {
     return (dispatch) => {
         dispatch(isLoading(true));

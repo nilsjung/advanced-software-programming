@@ -11,6 +11,11 @@ import TextInput from './TextInput';
 import Chatrooms from './Chatrooms';
 import UserList from '../user/UserList';
 
+/**
+ * This renders the **Chat Component**.
+ *
+ * This is the container for the **UserList**, the **ChatroomSelection Component** and the **Chat Messages**
+ */
 class Chat extends React.Component {
     renderInputAndMessages = () => {
         let {

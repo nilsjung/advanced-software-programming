@@ -2,6 +2,10 @@ import React from 'react';
 import EmojiPicker from './EmojiPicker';
 import Translator from './Translator';
 
+/**
+ *  This Renders a Bootstrap Input Group containing a button and an input field.
+ *
+ */
 class InputWithButton extends React.Component {
     constructor(props) {
         super(props);

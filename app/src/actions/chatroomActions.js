@@ -14,10 +14,22 @@ export const UPDATE_CHATROOMS = 'update-chatrooms';
 export const DELETE_CHATROOM = 'delete-chatroom';
 export const CREATE_USERCHAT = 'create-userchat';
 
+/**
+ * This unzips the error message from the current response error
+ * TODO: remove this function. it is also defined in `actions/helper/responseHelper.js`
+ *
+ * @param {Object} err The http response error
+ * @returns the error message string recieved from the server
+ */
 const getResponseError = (err) => {
     return err.message || err.response.body.message;
 };
 
+/**
+ * Recieves the chatrooms stored on the server
+ *
+ * @param {Object} param0 containing the token
+ */
 export function getChatrooms({ token }) {
     return (dispatch) => {
         request
@@ -34,6 +46,10 @@ export function getChatrooms({ token }) {
     };
 }
 
+/**
+ * recieves the chatroom information for one chatroom by the given chatroom-name
+ * @param {Object} param0 containing the chatroom to recieve and the json web token
+ */
 export function getChatroom({ chatroom, token }) {
     return (dispatch) => {
         request
@@ -48,6 +64,12 @@ export function getChatroom({ chatroom, token }) {
     };
 }
 
+/**
+ * delete the given chatroom on the server.
+ * dispatches the result array of chatrooms to the store
+ *
+ * @param {Object} param0
+ */
 export function deleteChatroom({ chatroom, token }) {
     return (dispatch) => {
         request
@@ -65,6 +87,11 @@ export function deleteChatroom({ chatroom, token }) {
     };
 }
 
+/**
+ * adds a user to a chatroom as member
+ *
+ * @param {Object} param0 object containing the chatroom, token and userid
+ */
 export function addUserToChatroom({ chatroom, token, userid }) {
     return (dispatch) => {
         request
@@ -82,6 +109,11 @@ export function addUserToChatroom({ chatroom, token, userid }) {
     };
 }
 
+/**
+ * creates a chatroom and dispatches the result chatroom to the store.
+ *
+ * @param {*} param0 object containing the chatroom, user and token
+ */
 export function createChatroom({ chatroom, user, token }) {
     const users = [];
     users.push(user);
@@ -102,6 +134,13 @@ export function createChatroom({ chatroom, user, token }) {
     };
 }
 
+/**
+ * creates a user chat on the server and dispatches the result to the sotre.
+ *
+ * TODO extract userchats
+ *
+ * @param {*} param0 object containing users and the token
+ */
 export function createUserChat({ users, token }) {
     const chatId = createChatId(users);
     return (dispatch) => {
@@ -121,6 +160,13 @@ export function createUserChat({ users, token }) {
     };
 }
 
+/**
+ * Changes the messages of the chatroom to display
+ *
+ * // TODO make consistent parameter with other actions
+ * @param {Object} room
+ * @param {string} token
+ */
 export function changeChatroom(room, token) {
     return (dispatch) => {
         request
@@ -138,6 +184,12 @@ export function changeChatroom(room, token) {
     };
 }
 
+/**
+ * Loads the history for the userchat to display.
+ *
+ * @param {string} id the user id
+ * @param {string} token jwt
+ */
 export function openUserChat(id, token) {
     return (dispatch) => {
         request

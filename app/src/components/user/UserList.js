@@ -5,6 +5,12 @@ import { selectUsers, getUsers } from '../../actions/userActions';
 import { createChatId } from '../../helper/chat';
 import { openUserChat, addUserToChatroom } from '../../actions/chatroomActions';
 
+/**
+ * Represents the **UserList Component**
+ *
+ * Renders the user that are registered in the list.
+ * handles the chatroom selection and also enables that users can be added to a chatroom.
+ */
 class UserList extends React.Component {
     constructor(props) {
         super(props);

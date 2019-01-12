@@ -1,7 +1,12 @@
 let mongoose = require('mongoose');
 
 /**
- * A Message
+ * A Message to store in a chat
+ *
+ * **Message**
+ * * user _Object_
+ * * text _String_
+ * * timestamp _date_
  */
 const MessageSchema = new mongoose.Schema({
     user: {

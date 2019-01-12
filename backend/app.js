@@ -1,3 +1,9 @@
+/**
+ * The main application file.
+ * It provides the server, connects to the database and initializes the socket.io connection.
+ * For testing reasons it also exports the app.
+ */
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -13,6 +19,7 @@ const app = express();
 
 process.env['NODE_CONFIG_DIR'] = './config';
 
+//
 mongoose.connect(
     config.dbHost,
     {
@@ -27,10 +34,6 @@ db.once('open', function() {
 db.on('error', function(err) {
     debug('DB connection error: ' + err);
 });
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 //don't show the log when it is in test mode
 if (config.util.getEnv('NODE_ENV') !== 'test') {
@@ -48,7 +51,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Disable CORS
+/* middleware to set the response headers.
+ * Used to enable cors and allow the custom authorization-token header.
+ */
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,HEAD,DELETE,POST,PUT');
@@ -60,7 +65,7 @@ app.use(function(req, res, next) {
 });
 
 /**
- * define your endpoints
+ * define the endpoints
  */
 app.use('/api', apiRouter);
 
@@ -81,14 +86,18 @@ app.use(function(err, req, res) {
 });
 
 /**
- * Get port from environment and store in Express.
+ * Get port from environment and store in express.
  */
 const port = process.env.PORT || '3000';
 
+/**
+ * initialize socket io
+ */
 const http = require('http').Server(app);
 const socket = require('./socket/socket');
 socket(http);
 
+// run the server
 http.listen(port, () => {
     console.log('server is listening on port: ', port);
 });

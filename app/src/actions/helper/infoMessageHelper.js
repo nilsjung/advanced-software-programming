@@ -10,6 +10,14 @@ export const isLoading = (bool) => {
     };
 };
 
+/**
+ * Shows the popup for a given timeout.
+ * calculates the timeout in seconds if a small value is given.
+ * if no message is given, the info-message from the store is used.
+ *
+ * @param {string} message the message to display
+ * @param {integer} time the timeout to display the popup (default to 3000)
+ */
 export const showPopup = (message, time = 3000) => {
     let waitTime = time;
 

@@ -5,9 +5,9 @@ import { initSocket, socket } from './socket';
 
 /**
  * Creates a connection to the server via ws.
+ * Registers the 'start' and 'message' event
  *
- *
- * @param {Object} store the current store
+ * @param {Object} store the initial store
  */
 export default function(store) {
     initSocket();

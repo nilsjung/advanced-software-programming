@@ -1,5 +1,14 @@
 import React from 'react';
 
+/**
+ * Renders the **InfoField Componnent**
+ *
+ * This is the Popup with the current stored information messages recieved from the server.
+ * It also represents the success status by the bootstrap colors
+ * * Failed: red (bootstrap Variable $danger),
+ * * Neutral: blue (bootstrap variable $info),
+ * * success: green (bootstrap variable $success).
+ */
 class InfoField extends React.Component {
     render() {
         let { message, isSuccess } = this.props;

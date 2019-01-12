@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Dump bootstrap navbar toggler used for responsive behaviour
+ */
 const NavbarToggler = () => {
     return (
         <button

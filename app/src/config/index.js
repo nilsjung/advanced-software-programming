@@ -1,7 +1,12 @@
 const domain = 'localhost';
 const port = 5001;
 
-//This is my privat key don't use to many translation or it wont work after a while ..or i get a bill! #Marc Engelmann
+/**
+ * This is a privat api key for the yandex.
+ * There are just limited free translations.
+ * Don't use to many translation or it wont work after a while.
+ * @author Marc Engelmann
+ */
 export const YANDEX = {
     url: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
     apiKey:
