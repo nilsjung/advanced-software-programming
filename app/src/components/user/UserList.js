@@ -82,7 +82,6 @@ class UserList extends React.Component {
                 );
             });
         }
-        console.log(list);
         return list;
     };
 

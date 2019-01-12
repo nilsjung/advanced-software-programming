@@ -13,6 +13,14 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
+/** set all the environment variables to pipe into the app */
+const ENVIRONMENT = {
+    PORT: JSON.stringify(process.env.PORT),
+    SERVER_HOST: JSON.stringify(process.env.SERVER_HOST),
+    YANDEX_API_KEY: JSON.stringify(process.env.YANDEX_API_KEY),
+    DISPLAY_TIME_FORMAT: JSON.stringify(process.env.DISPLAY_TIME_FORMAT),
+};
+
 module.exports = {
     mode: 'development',
     entry: {
@@ -92,10 +100,15 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({ template: __dirname + '/public/index.html' }),
         new CleanWebpackPlugin(['www']),
+        new webpack.DefinePlugin({
+            process: {
+                env: ENVIRONMENT,
+            },
+        }),
     ],
 
     devServer: {
-        port: '3000',
+        port: process.env.APP_PORT || '3000',
         historyApiFallback: true,
         hot: true,
     },
