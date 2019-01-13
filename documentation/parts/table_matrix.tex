@@ -1,0 +1,26 @@
+\documentclass[]{scrartcl}
+\usepackage{tabularx}
+
+\begin{document}
+
+\noindent
+\renewcommand{\arraystretch}{1.5}
+\renewcommand{\check}{x}
+\begin{table}
+\begin{tabularx}{\textwidth}{p{.3\textwidth}XXXX}
+
+    & \textbf{Jung} & \textbf{Martensen} & \textbf{Engelmann} & \textbf{Steeg} \\\hline\hline
+Registration & \check & & &  \\ \hline
+Login & \check & \check & \check & \\\hline
+Chatroom creation & & \check & & \\\hline
+Change user settings &  \check & & & \\\hline
+Set online status & \check & \check & & \check\\\hline
+Text translation via yandex & & & \check & \\\hline
+Send/recieve messages & \check & \check & \check & \\\hline
+Initialize/optimize development workflow (docker etc) & \check & & & \\\hline
+Retrieve Chat History & & \check & & \\\hline
+User list & \check & \check & & \check \\\hline
+\end{tabularx}
+\caption{Task assignment for the project}\label{table:task-assignment}
+\end{table}
+\end{document}
