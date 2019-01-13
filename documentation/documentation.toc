@@ -25,3 +25,5 @@
 \contentsline {section}{\numberline {3}Results}{7}{section.3}
 \contentsline {section}{\numberline {4}Discussion}{8}{section.4}
 \contentsline {section}{\numberline {5}Conclusion \& Outlook}{8}{section.5}
+\contentsline {section}{\numberline {A}Figures}{9}{appendix.A}
+\contentsline {section}{\numberline {B}Tables}{14}{appendix.B}
