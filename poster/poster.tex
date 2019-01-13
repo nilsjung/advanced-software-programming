@@ -1,8 +1,8 @@
-\documentclass[25pt, a1paper]{tikzposter}
+\documentclass[20pt, a1paper]{tikzposter}
 \usepackage[utf8]{inputenc}
 
 \usepackage{pgfpages}
-\pgfpagesuselayout{resize to}[a2paper]
+%\pgfpagesuselayout{resize to}[a2paper]
 
 \usepackage{graphicx}
 \usepackage{wrapfig}
@@ -36,18 +36,31 @@
 	
 	\begin{columns}
 		\column{0.5}
-	\block{Idea}
+	\block{Requirements}
 	{
+		As part of the mandatory course \textbf{Advanced Software Programming} the task of a accompanying JavaScript-based project has been given with the goal to reach abilities of full stack-development, where requirements were:
 		\begin{itemize}
-			\item \blindtext
+			\item Git as version control service
+			\item User sign-up and authentication
+			\item Database access
+			\item Websockets
+			
 		\end{itemize}
 	}
 
 			\column{0.5}
-	\block{Requierments}
+	\block{Idea \& Goal}
 	{
+		
 		\begin{itemize}
-			\item some stuff
+			\item Basic chat functionality
+			\item Translation functionality within a message
+			\item Usage of emojis
+			\item Markdown support
+			\item Users can join chat rooms
+			\item modifiable user settings
+			\item online status
+			
 		\end{itemize}
 	}
 
@@ -55,32 +68,47 @@
 	
 	\begin{columns}
 		\column{0.5}
-		\block{More Stuff}
+		\block{Technologies}
 		{
-			blablabla
+			\begin{itemize}
+				\item React
+				\item Redux
+				\item MongoDB
+				\item Bootstrap
+				\item Docker, Docker-Compose
+			\end{itemize}
+			\begin{tikzfigure}
+				\includegraphics[width=0.2\textwidth]{burns.jpg}
+			\end{tikzfigure}
 		}
+	
 		
 		\column{0.5}
-		\block{Stuff}
+		\block{Features}
 		{
-			\blindtext
+			The following features based on user stories had been implemented during the semester:
+			\begin{itemize}
+				\item Fundamental chat functionality
+				\item Creation of user chat rooms
+				\item User preferences
+				\item Emoji's 
+			\end{itemize}
 		}
-		\block{Sub tuff}
-		{
-			
-			
-		}
-	\end{columns}
 
+	\end{columns}
 	
 	\begin{columns}	
 		\column{0.5}
-		\block{Pictures}
+		\block{Conclusion / Lessons learned}
 		{
-			
+			\begin{itemize}
+				\item Importance of Code Review
+				\item Experiments and training with new and often unknown technologies and frameworks
+				\item Docker as deployment technologie
+			\end{itemize}
 		}
 		\column{0.5}
-		\block{}
+		\block{References}
 		{
 			
 			
