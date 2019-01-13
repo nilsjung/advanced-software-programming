@@ -26,8 +26,7 @@ MongoDB is a non-relational database, which stores data as self-describing docum
 Since many big organizations are using MongoDB and the development is supposed to be flexible and simplified, the team decided to integrate it into the application.
 
 The modelling of the application data is done with the javascript library Mongoose.
-Mongoose provides the possibility to create schemas, which define the format of a document in MongoDB, as for example a user.
-\footnote{\url{https://www.mongodb.com/de, https://mongoosejs.com/}}
+Mongoose provides the possibility to create schemas, which define the format of a document in MongoDB, as for example a user.\footnote{\url{https://www.mongodb.com/de, https://mongoosejs.com/}}
 
 \subsubsection{Express}
 One of the most essential and popular frameworks for NodeJS-based web and mobile applications is Express (further information express) which provides a diverse amount of methods to implement the fundamentals of a web server as backend such as:
@@ -41,7 +40,7 @@ The team chose to try the concept of TDD, to develop the API as it is hardly pos
 
 \subsection{Frontend}
 \subsubsection{Reactjs}
-Reactjs is an open source tool developed and mainly maintained by Facebook, over the last couple of years it has drawn much attention as a fast and relatively lightweight frontend framework which is the reason why the authors wanted to explore this technology. The main benefit of reactjs  is the fast render times without much cost. It does so by re-rendering only those elements which have changed. React has two core components the React.Elements and the React.Components. React.Elements only exist in the virtual dom which is then rendered as a usal dom object when needed\footnote{\url{https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-and-dom/}}. React.Elements are written in javascript syntax extention (JSX) which look and feel similar to HTML and XML and it allows developers to write HTML and javascript within a single React.Element \footnote{\url{https://facebook.github.io/jsx/}}. They are however stateless, therefore react uses components which are state full and do not exist inside the virtual dom. React.Components are converted into React.Elements and when a state change occurs the element will be inserted into the actual dom. React.Components can refer to other React.Components which allow the development of complex user interfaces by reuse of React.Components in a composite manner instead of inheritance. 
+Reactjs is an open source tool developed and mainly maintained by Facebook, over the last couple of years it has drawn much attention as a fast and relatively lightweight frontend framework which is the reason why the authors wanted to explore this technology. The main benefit of reactjs  is the fast render times without much cost. It does so by re-rendering only those elements which have changed. React has two core components the React.Elements and the React.Components. React.Elements only exist in the virtual dom which is then rendered as a usal dom object when needed\footnote{\url{https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-and-dom/}}. React.Elements are written in javascript syntax extention (JSX) which look and feel similar to HTML and XML and it allows developers to write HTML and javascript within a single React.Element\footnote{\url{https://facebook.github.io/jsx/}}. They are however stateless, therefore react uses components which are state full and do not exist inside the virtual dom. React.Components are converted into React.Elements and when a state change occurs the element will be inserted into the actual dom. React.Components can refer to other React.Components which allow the development of complex user interfaces by reuse of React.Components in a composite manner instead of inheritance. 
 
 \subsubsection{Redux}
 In addition to reactjs the team chose the redux approach to manage the state in a centralized way, so components don’t need to pass their state around. Apart from that redux provides the following benefits:\footnote{\url{https://blog.logrocket.com/why-use-redux-reasons-with-clear-examples-d21bffd5835}}
@@ -84,7 +83,7 @@ Bootstrap was used to deal with the frontend styling and have the ability to use
 
 \setcounter{footnote}{0}
 \subsubsection{Translation API}
-Translating text of any language into another language is a difficult task on its own. The knowledge and computational power to do so is beyond most developers and companies since it would not be financially feasible to do. But many APIs and tools have been developed over the years and are available \footnote{\url{https://www.programmableweb.com/category/translation/api} lists over 150 of them}. The Authors have looked into four Apis and tested three Apis to translate text
+Translating text of any language into another language is a difficult task on its own. The knowledge and computational power to do so is beyond most developers and companies since it would not be financially feasible to do. But many APIs and tools have been developed over the years and are available\footnote{\url{https://www.programmableweb.com/category/translation/api} lists over 150 of them}. The Authors have looked into four Apis and tested three Apis to translate text
 \begin{itemize}
 	\item Google Translate API 
 	\item Microsoft Translate API
@@ -127,7 +126,7 @@ The websocket on the backend side also emits a broadcast message event to all ot
 \subsection{Security}
 Security was not the primary focus on this project two features had to be implemented. The encryption of passwords and the ability to limit user actions to validated users. 
 \subsubsection{JWT}
-To identify that a user is logged in with valid credentials, jsonwebtoken \footnote{\url{https://www.rfc-editor.org/rfc/pdfrfc/rfc7519.txt.pdf}} are used. They are generated on successful login and stored in the redux state and are furthermore required for any action. If a call to the backend is received the token is verified, if the validation fails a 403 will be sent. For a full workflow see figure \ref{authflow}
+To identify that a user is logged in with valid credentials, jsonwebtoken\footnote{\url{https://www.rfc-editor.org/rfc/pdfrfc/rfc7519.txt.pdf}} are used. They are generated on successful login and stored in the redux state and are furthermore required for any action. If a call to the backend is received the token is verified, if the validation fails a 403 will be sent. For a full workflow see figure \ref{authflow}
 
 \subsubsection{Bcrypt}
 To secure the users password the password is encrypted with bcrypt\footnote{A  Future-Adaptable  Password  Scheme,”in USENIX Annual Technical Conferenc}. Bcrypt is a hashing function based on the blowfish cypher\footnote{\url{https://www.schneier.com/academic/archives/1994/09/description\_of\_a\_new.html}} with an adaptive cost. If an attack is likely the calculation rounds can be increased. Bcryptjs serves as the library that implements the bcrypt algorithms, the standard round cost of 10 and salt length of 10 were used.
@@ -143,6 +142,6 @@ The whole communication (beside the two-weekly mandatory lab session) was based 
 	\item Done
 \end{itemize}
 The basic stages “To Do”, “In Progress” and “Done” got expanded to realize a stronger splitting between short- and mid-/long-term ticket (two backlogs) and an independent structure for code reviews.
-By convention of the git-flow workflow \footnote{\url{https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow}}, after a team member assigned a ticket to himself and moving it into the stage “In Progress”, the member created a branch with a name linked to the ticket (e.g. “task-42-describing-text-about-ticket”). After realization of the ticket requirements, the member creates a pull-request to open the changes for code reviews.
+By convention of the git-flow workflow\footnote{\url{https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow}}, after a team member assigned a ticket to himself and moving it into the stage “In Progress”, the member created a branch with a name linked to the ticket (e.g. “task-42-describing-text-about-ticket”). After realization of the ticket requirements, the member creates a pull-request to open the changes for code reviews.
 Code reviews were an intensively used progress, as at least one additional team member had to test and discuss the changes of the ticket on code level with the developing team member. No feature/bugfix was merged into the master branch without such an additional external approval. The team matrix can be found in table \ref{table:task-assignment}
 
