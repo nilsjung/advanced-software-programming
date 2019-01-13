@@ -40,8 +40,6 @@
 	{
 		This accompanying JavaScript-based project has been realized as part of the mandatory course \textbf{Advanced Software Programming}.\\
 		General requirements were:\\
-		
-
 	
 		\begin{minipage}{0.55\linewidth}
 			\begin{itemize}
@@ -60,47 +58,56 @@
 		
 		The goal behind these requirements is to reach abilities of \textbf{full stack}-development across modern web technologies throughout frontend and backend.\\
 	}
+	\block{Technologies}
+	{
+		\begin{itemize}
+			\item \textbf{Frontend} (ReactJS, Redux, Bootstrap)
+			\item \textbf{Backend} (NodeJS, Express, MongoDB)
+			\item \textbf{Websockets} (Socket.IO)
+			\item \textbf{Deployment} (Docker and Docker-Compose)
+		\end{itemize}
+		
+		\begin{tikzfigure}
+			\includegraphics[width=0.35\textwidth]{../techs.png}
+		\end{tikzfigure}
+	}
+	\block{References}
+	{
+		\url{https://github.com/nilsjung/chat-application}\\
+		\url{https://reactjs.org/}\\
+		\url{https://redux.js.org/}\\
+
+		\url{https://socket.io/}\\
+		\url{https://getbootstrap.com/}\\
+		\url{https://nodejs.org/}\\
+		\url{https://expressjs.com/}\\
+		\url{https://www.mongodb.com/}\\
+	}
 
 	\column{0.5}
 	\block{Project idea}
 	{
-		
-		
-
+		The general idea was to develop a Chat Application on modern web technologies and frameworks with iterative integration (sprints) of new features such as:
+		\begin{itemize}
+			\item \textbf{in-chat-translation}
+			\item \textbf{Emoji's}
+			\item \textbf{Markdown} support
+			\item \textbf{Recommendation of chatrooms} specific to user preferences
+		\end{itemize}
+	
 	}
-
-	\end{columns}
-	
-	\begin{columns}
-		\column{0.5}
-		\block{Technologies}
-		{
+	\block{Features}
+	{
+		The following features based on user stories had been implemented during the semester:
+		\begin{itemize}
+			\item Fundamental chat functionality
 			\begin{itemize}
-				\item \textbf{Frontend} (ReactJS, Redux, Bootstrap)
-				\item \textbf{Backend} (NodeJS, Express, MongoDB)
-				\item \textbf{Websockets} (Socket.IO)
-				\item \textbf{Deployment} (Docker and Docker-Compose)
+				\item user registration \& authentication
+				\item chat room communication
 			\end{itemize}
-		
-			\begin{tikzfigure}
-			\includegraphics[width=0.35\textwidth]{../techs.png}
-			\end{tikzfigure}
-		}
-	
-		
-		\column{0.5}
-		\block{Features}
-		{
-			The following features based on user stories had been implemented during the semester:
-			\begin{itemize}
-				\item Fundamental chat functionality
-				\begin{itemize}
-					\item user registration \& authentication
-					\item chat room communication
-				\end{itemize}
-				\item Translation of messages
-				\item Emoji's 
-			\end{itemize}
+			\item Translation of messages
+			\item Emoji's 
+		\end{itemize}
 		
 		\begin{minipage}[t][6cm]{0.5\linewidth}
 			\begin{tikzfigure}
@@ -111,30 +118,24 @@
 			\begin{tikzfigure}
 				\includegraphics[scale=0.9]{chat-translation.png}
 			\end{tikzfigure}
+		
 		\end{minipage}
+		\vspace{3cm}
+	}
 
-		}
+	\block{Learnings}
+	{
+		\begin{itemize}
+			\item Modern web development with focus on ReactJS and Redux
+			\item Real-time communcation with Socket.IO
+			\item Importance of Code Review
+			\item Estimation of time for training of new technologies and development setup
+			\item Experiments and training with new and unknown technologies / frameworks
+			\item Docker as deployment technology
+			\item Cooperation with gitflow workflow
+		\end{itemize}
+	}
 
-	\end{columns}
-	
-	\begin{columns}	
-		\column{0.5}
-		\block{Learnings}
-		{
-			\begin{itemize}
-				\item Modern web development workflow
-				\item Importance of Code Review
-				\item Underestimation of time for training of new technologies and development setup
-				\item Experiments and training with new and unknown technologies / frameworks
-				\item Docker as deployment technology
-			\end{itemize}
-		}
-		\column{0.5}
-		\block{References}
-		{
-			\url{https://github.com/nilsjung/chat-application}	
-			
-		}
 	\end{columns}
 
 	
