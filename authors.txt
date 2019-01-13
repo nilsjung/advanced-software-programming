@@ -1,0 +1,7 @@
+Authors:
+    Jan Steeg{924589}
+    Nils Jung{924577}
+    Jule Martensen{924607}
+    Marc Engelmann{934089}
+Git-repository:
+    https://github.com/nilsjung/chat-application
