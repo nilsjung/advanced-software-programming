@@ -92,7 +92,7 @@ class UserList extends React.Component {
                     className="form-control"
                     type="text"
                     onChange={this.handleChange}
-                    placeholder="Search for user.."
+                    placeholder="Search for user email..."
                 />
                 <ul className="list-group">{this.renderUsers()}</ul>
             </div>
