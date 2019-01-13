@@ -1,14 +1,24 @@
-\documentclass[a4paper]{spie}
+\documentclass[article]{spie}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[perpage]{footmisc}
+\usepackage[hidelinks]{hyperref}
+\definecolor{light-gray}{gray}{0.95}
+\graphicspath{{./img/}}
 \renewcommand{\baselinestretch}{1.25}   %>>> 1.65 for double spacing, 1.25 for 1.5 spacing
 \newcommand{\mtr}[1]{\textit{#1}}
 
-\title{Enter Your ProjectTitle}
+\title{Implementation of a chat application}
+
 \author{
-    Jan Steeg\supit{a}, \mtr{924589}
+    Jan Steeg, \mtr{924589}
     \and
-    Nils Jung\supit{b}, \mtr{924577}
+    Nils Jung, \mtr{924577}
     \and
-    Jule Martensen\supit{c}, \mtr{1}
+    Jule Martensen, \mtr{924607}
+    \and
+    Marc Engelmann, \mtr{934089}
 }
 
 \authorinfo{All authors are members of the University of Applied Science in Kiel.}
@@ -17,10 +27,15 @@
 
 \begin{document}
 \maketitle
+\tableofcontents 
 \input{parts/abstract}
+\clearpage
+\pagestyle{plain}
+\setcounter{page}{1}
 \input{parts/introduction}
 \input{parts/methods}
 \input{parts/results}
 \input{parts/discussion}
 \input{parts/conclusion}
+\input{parts/appendix}
 \end{document}
