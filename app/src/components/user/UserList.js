@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { selectUsers, getUsers } from '../../actions/userActions';
 import { createChatId } from '../../helper/chat';
 import { openUserChat, addUserToChatroom } from '../../actions/chatroomActions';
+import { User } from './User';
 
 /**
  * Represents the **UserList Component**
@@ -21,19 +22,13 @@ class UserList extends React.Component {
     }
 
     handleClick = (user) => {
-        const currentUser = {
-            name: this.props.user.firstname + ' ' + this.props.user.lastname,
-            email: this.props.user.email,
-            role: 'ADMIN',
-        };
+        const currentUser = { ...this.props.user, role: 'ADMIN' };
+
         const otherUser = this.props.users.filter(
-            (item) => item.email === user
+            (item) => item.email === user.email
         );
-        const chatPartner = {
-            name: otherUser[0].firstname + ' ' + otherUser[0].lastname,
-            email: otherUser[0].email,
-            role: 'USER',
-        };
+
+        const chatPartner = { ...otherUser[0], role: 'USER' };
 
         const id = createChatId([currentUser, chatPartner]);
         const chatExists = this.props.userchats.reduce(
@@ -57,12 +52,20 @@ class UserList extends React.Component {
     handleChange = (event) => {
         this.setState({ query: event.target.value });
         const query = event.target.value.toLowerCase();
-        let users = this.props.users
-            .filter((user) => {
-                return user.email.indexOf(query) !== -1;
-            })
-            .map((user) => user.email);
+        let users = this.props.users.filter((user) => {
+            return user.email.indexOf(query) !== -1;
+        });
+
         this.props.selectUsers(users);
+    };
+
+    addUserToChatroomButton = (user) => {
+        return () =>
+            this.props.addUserToChatroom({
+                userid: user.email,
+                chatroom: this.props.currentChatroom,
+                token: this.props.accessToken,
+            });
     };
 
     renderUsers = () => {
@@ -70,33 +73,12 @@ class UserList extends React.Component {
         if (this.props.selectedUsers !== undefined) {
             this.props.selectedUsers.forEach((user) => {
                 list.push(
-                    <li
-                        key={user}
-                        className="list-group-item  clearfix"
-                        onClick={() => this.handleClick(user)}
-                    >
-                        {user}{' '}
-                        <span className="pull-right badge badge-success badge-pill">
-                            online
-                        </span>
-                        {this.props.currentChatroom !== '' ? (
-                            <button
-                                onClick={() =>
-                                    this.props.addUserToChatroom({
-                                        userid: user,
-                                        chatroom: this.props.currentChatroom,
-                                        token: this.props.accessToken,
-                                    })
-                                }
-                                className="btn btn-sm btn-secondary-outline"
-                            >
-                                <i className="fa fa-plus" />
-                                <span>add</span>
-                            </button>
-                        ) : (
-                            ''
-                        )}
-                    </li>
+                    <User
+                        key={user._id}
+                        user={user}
+                        handleClick={this.handleClick}
+                        addUserToChatroomButton={this.addUserToChatroomButton}
+                    />
                 );
             });
         }

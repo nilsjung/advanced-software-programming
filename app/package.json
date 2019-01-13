@@ -24,7 +24,7 @@
         "css-loader": "2.1.0"
     },
     "scripts": {
-        "start": "./node_modules/.bin/webpack-dev-server --host 0.0.0.0 --hot --config ./webpack.config.js",
+        "start": "./node_modules/.bin/webpack-dev-server --host $APP_HOST --hot --config ./webpack.config.js",
         "build": "react-scripts build",
         "test": "react-scripts test --env=jsdom",
         "eject": "react-scripts eject"

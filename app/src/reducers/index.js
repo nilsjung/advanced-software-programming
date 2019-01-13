@@ -122,8 +122,7 @@ export default function(state = initialState, action) {
             const users = action.users.filter(
                 (user) => user.email !== state.user.email
             );
-            const selectedUsers = users.map((user) => user.email);
-            return { ...state, users: users, selectedUsers: selectedUsers };
+            return { ...state, users: users, selectedUsers: users };
 
         case UPDATE_USER:
             return updateUserReducer(state, action);

@@ -19,9 +19,12 @@ const app = express();
 
 process.env['NODE_CONFIG_DIR'] = './config';
 
-//
+const mongodbDatabase = process.env['MONGODB_DATABASE'] || 'chat';
+const mongodbPort = process.env['MONGODB_PORT'] || 27017;
+const mongodbHost = process.env['MONGODB_HOST'] || config.dbHost;
+
 mongoose.connect(
-    config.dbHost,
+    'mongodb://' + mongodbHost + ':' + mongodbPort + '/' + mongodbDatabase,
     {
         useNewUrlParser: true,
     }

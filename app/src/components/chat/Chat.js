@@ -97,7 +97,10 @@ class Chat extends React.Component {
                     </div>
                     <div className="row">
                         <div className="col-4">
-                            <UserList handleItemClick={createUserChat} />
+                            <UserList
+                                users={this.props.user}
+                                handleItemClick={createUserChat}
+                            />
                         </div>
                         <div className="col-8">
                             {this.renderInputAndMessages()}
