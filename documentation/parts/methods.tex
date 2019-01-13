@@ -60,7 +60,6 @@ In addition to React the team chose the redux approach to manage the state in a 
 	\end{itemize}
 \end{itemize}
 
-The core concept of Redux is depicted in the Picture blabla
 As soon as a component intercepts an event, as for example a mouse click, it creates an action, which is basically a function. The action gets dispatched to the store, which triggers the corresponding reducer function. As already mentioned, reducer functions are pure. They only take the previous state and the action and returns a new state to the store, so the state is never altered directly. As soon as the state has changed, the component is triggered to rerender and thus gets updated.\footnote{Figure \ref{redux} shows a basic redux architecture.}
 
 \subsubsection{Thunks}
@@ -93,7 +92,7 @@ Translating text of any language into another language is a difficult task on it
 	\item Watson Translation API (The Authors were unable to get a working API key for testing)
 \end{itemize}
 
-All three tested API’s work on the same base, a http request contains the source language (all tested API also have an auto detect function to detect the source language, either as seperate request or build in the same request), the target language and the text to be translated. The response contains a json object with the translated text. The Microsoft Translate API was able to translate text into multiple languages. The others require multiple requests. At the end the team decided on using yandex\footnote{\url{https://translate.yandex.com/}} since it was the most lightweight solution and the API key was easy to obtain(Fußnote,It allows to send more data , microsoft and google allow 5.000 characters yandex allows 10.000 ).
+All three tested API’s work on the same base, a http request contains the source language (all tested API also have an auto detect function to detect the source language, either as seperate request or build in the same request), the target language and the text to be translated. The response contains a json object with the translated text. The Microsoft Translate API was able to translate text into multiple languages. The others require multiple requests. At the end the team decided on using yandex\footnote{\url{https://translate.yandex.com/}} since it was the most lightweight solution and the API key was easy to obtain\footnote{It allows to send more data , microsoft and google allow 5.000 characters yandex allows 10.000}.
 As a result, messages prior to sending can be translated into a set of given languages, and prior received or sent messages can be translated for view.
 \subsubsection{Emojis}
 To use emojis the authors used the emoji-mart library, a leightweight and easy-to-use library. The library contains an emoji-picker so that the user does not have to type the emoji or its corresponding codepoint into the text directly. Emojis picked will be appended to the already written text. The picker was wrapped in an extra component so that it can be used anywhere in the application.
@@ -113,8 +112,7 @@ The  \texttt{User} model stores users of the application in general. Thus it als
 A  \texttt{Message} consists of a user, who wrote the message, the actual text and a timestamp defining the time when the message was sent.
 
 \subsection{Chat Communication}
-Figure [bla] depicts the communication between frontend, REST API, database and Websocket, when the user performs chatroom actions.
-FUßNOTE Although the routes of the REST API are protected and only accessible with a valid access token, the  does not include the validation step in order to keep it clearer. 
+Figure \ref{chatCommunication} depicts the communication between frontend, REST API, database and Websocket, when the user performs chatroom actions.\footnote{Although the routes of the REST API are protected and only accessible with a valid access token, the  does not include the validation step in order to keep it clearer.}
 
 When the user navigates  to the route “Chat” on the frontend side, the client sends a request to the REST API to retrieve all chat rooms available. In the backend the chat rooms are fetched from the database and subsequently returned to the client.
 The chat rooms are rendered inside a list, so the user can select one.
@@ -128,8 +126,6 @@ The websocket on the backend side also emits a broadcast message event to all ot
 
 \subsection{Security}
 Security was not the primary focus on this project two features had to be implemented. The encryption of passwords and the ability to limit user actions to validated users. 
-\subsubsection{JWT}
-Security was not the primary focus on this project, therefore only two features were implemented regarding this topic: The encryption of passwords and the ability to limit user actions to validated users.
 \subsubsection{JWT}
 To identify that a user is logged in with valid credentials, jsonwebtoken \footnote{\url{https://www.rfc-editor.org/rfc/pdfrfc/rfc7519.txt.pdf}} are used. They are generated on successful login and stored in the redux state and are furthermore required for any action. If a call to the backend is received the token is verified, if the validation fails a 403 will be sent. For a full workflow see figure \ref{authflow}
 
@@ -149,5 +145,5 @@ The whole communication (beside the two-weekly mandatory lab session) was based 
 
 The basic stages “To Do”, “In Progress” and “Done” got expanded to realize a stronger splitting between short- and mid-/long-term ticket (two backlogs) and an independent structure for code reviews.
 By convention of the git-flow workflow \footnote{\url{https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow}}, after a team member assigned a ticket to himself and moving it into the stage “In Progress”, the member created a branch with a name linked to the ticket (e.g. “task-42-describing-text-about-ticket”). After realization of the ticket requirements, the member creates a pull-request to open the changes for code reviews.
-Code reviews were an intensively used progress, as at least one additional team member had to test and discuss the changes of the ticket on code level with the developing team member. No feature/bugfix was merged into the master branch without such an additional external approval.
+Code reviews were an intensively used progress, as at least one additional team member had to test and discuss the changes of the ticket on code level with the developing team member. No feature/bugfix was merged into the master branch without such an additional external approval. The team matrix can be found in table \ref{table:task-assignment}
 
