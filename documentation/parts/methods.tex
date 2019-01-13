@@ -1,2 +1,147 @@
-\section{Methods}
-\label{sec:methods}
+\section{Technologies}
+The mainly used technologies are depicted in figure \ref{technologies}.
+The team decided to work with MongoDB combined with a Node.js server in the backend. The frontend is built with the javascript Framework reactjs and the CSS-Framework Bootstrap since these two frameworks are widely used.
+The real-time communication is realized with the javascript library Socket.io, which needed to be implemented on both sides.
+
+\subsection{Backend}
+\subsubsection{Sockets}
+The real-time communication between frontend and backend is established via websockets provided by the javascript library Socket.io.
+In a chat application it is necessary to handle real-time events between clients and server (bidirectional communication).
+The server listens for incoming connections (sockets) and handles the following events:
+
+\begin{itemize}
+	\item connect/disconnect
+	\item send message
+	\item change onlineStatus
+	\item join/leave chatroom
+\end{itemize}
+
+The connected clients can emit events to the server and receive events, that are emitted by the server. When emitting an event, it is possible to append a JSON object to transmit data.
+Socket.io also provides the functionality to emit events to a specific room, that the sockets can join or leave. Events emitted to a room can only be received by clients, that have joined it.
+
+\subsubsection{Rest API}
+To store data to the database and establish a connection between server and client there are several concepts like for example REST, GraphQl or SOAP. The focus was to build a communication layer as fast as possible to enable the data transfer. Furthermore the data structure and client-side requests are not that much nested as GraphQl would come to advantage\footnote{\url{https://www.robinwieruch.de/why-graphql-advantages-disadvantages-alternatives/}}. So the team developed a REST API for the endpoints \texttt{/user} and \texttt{/chatroom}\footnote{For a full API Reference take a look at API Documentation:\url{https://github.com/nilsjung/chat-application/wiki}}. 
+\subsubsection{Mongo DB}
+MongoDB is a non-relational database, which stores data as self-describing documents represented by binary JSON Objects (BSON). 
+Since many big organizations are using MongoDB and the development is supposed to be flexible and simplified, the team decided to integrate it into the application.
+
+The modelling of the application data is done with the javascript library Mongoose.
+Mongoose provides the possibility to create schemas, which define the format of a document in MongoDB, as for example a user.\footnote{\url{https://www.mongodb.com/de, https://mongoosejs.com/}}
+
+\subsubsection{Express}
+One of the most essential and popular frameworks for NodeJS-based web and mobile applications is Express (further information express) which provides a diverse amount of methods to implement the fundamentals of a web server as backend such as:
+simpler HTTP request handling than plain NodeJS
+routing
+One key functionality is the implementation of middlewares which processes incoming requests by a queue of functions for evaluating and executing. The main use of those middlewares is the routing from legit URL requests to the corresponding component endpoints and otherwise returning a describing error message.
+\footnote{Further information about the endpoint API can be found on the Wiki \url{https://github.com/nilsjung/chat-application/wiki}}
+\subsubsection{Unit Tests}
+As the authors learned about test driven development (TDD) during the course of study, they now had the possibilities to test these concept as it is often recommended to write code of high quality. As in the javascript area there are many testing libraries, it was decided to test one of them. The final decision was to use the testing framework mocha with the library chai.
+The team chose to try the concept of TDD, to develop the API as it is hardly possible to implement the wanted behaviour without testing. The time, that was needed to implement the testing structure and refactor the first concepts was definitive well spended as the tests helped a lot to check for the right outcome for the requests.
+
+\subsection{Frontend}
+\subsubsection{Reactjs}
+Reactjs is an open source tool developed and mainly maintained by Facebook, over the last couple of years it has drawn much attention as a fast and relatively lightweight frontend framework which is the reason why the authors wanted to explore this technology. The main benefit of reactjs  is the fast render times without much cost. It does so by re-rendering only those elements which have changed. React has two core components the React.Elements and the React.Components. React.Elements only exist in the virtual dom which is then rendered as a usal dom object when needed\footnote{\url{https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-and-dom/}}. React.Elements are written in javascript syntax extention (JSX) which look and feel similar to HTML and XML and it allows developers to write HTML and javascript within a single React.Element\footnote{\url{https://facebook.github.io/jsx/}}. They are however stateless, therefore react uses components which are state full and do not exist inside the virtual dom. React.Components are converted into React.Elements and when a state change occurs the element will be inserted into the actual dom. React.Components can refer to other React.Components which allow the development of complex user interfaces by reuse of React.Components in a composite manner instead of inheritance. 
+
+\subsubsection{Redux}
+In addition to reactjs the team chose the redux approach to manage the state in a centralized way, so components don’t need to pass their state around. Apart from that redux provides the following benefits:\footnote{\url{https://blog.logrocket.com/why-use-redux-reasons-with-clear-examples-d21bffd5835}}
+\begin{itemize}
+	\item Easy debugging
+	\begin{itemize}
+		\item There are debugging tools, that allow to track the state transitions during the runtime.
+	\end{itemize}		
+	\item Testability
+	\begin{itemize}
+		\item Redux works with pure functions altering the state, so they are easy to test.
+	\end{itemize}
+	\item Consistent behaviour
+		\begin{itemize}
+		\item Due to the usage of pure functions, the state is always predictable since the same actions produce the same output.
+	\end{itemize}
+\end{itemize}
+
+As soon as a component intercepts an event, as for example a mouse click, it creates an action, which is basically a function. The action gets dispatched to the store, which triggers the corresponding reducer function. As already mentioned, reducer functions are pure. They only take the previous state and the action and returns a new state to the store, so the state is never altered directly. As soon as the state has changed, the component is triggered to rerender and thus gets updated.\footnote{Figure \ref{redux} shows a basic redux architecture.}
+
+\subsubsection{Thunks}
+
+The redux dispatch function expects an action, which consists of an action-type and an object. Usually the dispatch function receives a so called action-creator, which is just a function returning the action. 
+However when executing asynchronous code, as for example a HTTP-Request or a timeout, there is a problem with these action creators since they do not return an action anymore, but a promise.
+Redux Thunks is a middleware which handles such side effects in redux. Basically the action creator being dispatched, returns a function in which the asynchronous task can be executed. This function is called a thunk. The actual action object is dispatched inside the thunk after the async task has been terminated.
+The way the middleware works is visualised in the following code snippet. When the dispatch function is called, the middleware considers the type of the action.
+
+\begin{lstlisting}[frame=single, backgroundcolor=\color{light-gray}]
+actionOrThunk =>
+	typeof actionOrThunk === 'function'
+	? actionOrThunk(dispatch, getState)
+	: passAlong(actionOrThunk);
+\end{lstlisting}
+
+If the action is of the type function, the dispatch- and the getState-function are passed into it, so that the action can be dispatched later (after the termination of asynchronous code).
+Otherwise the action is just passed to the reducer as usually.\footnote{\url{https://github.com/reduxjs/redux-thunk},\url{https://medium.com/fullstack-academy/thunks-in-redux-the-basics-85e538a3fe60}}
+
+\subsubsection{Bootstrap}
+Bootstrap was used to deal with the frontend styling and have the ability to use the responsive behaviour given by this styling framework. Doing this manually results in a higher effort. With Bootstrap, or any other styling framework, the developer gets also a predefined layout  system he can use to structure the website. Furthermore there are some basic components with a default style as well as a basic behaviour. It is possible to customize the layout by override the default styling in the sass-files. To do so it is necessary to include the required bootstrap files in the custom sass-files and load the own styling definitions.
+
+\setcounter{footnote}{0}
+\subsubsection{Translation API}
+Translating text of any language into another language is a difficult task on its own. The knowledge and computational power to do so is beyond most developers and companies since it would not be financially feasible to do. But many APIs and tools have been developed over the years and are available\footnote{\url{https://www.programmableweb.com/category/translation/api} lists over 150 of them}. The Authors have looked into four Apis and tested three Apis to translate text
+\begin{itemize}
+	\item Google Translate API 
+	\item Microsoft Translate API
+	\item Yandex Translate API
+	\item Watson Translation API (The Authors were unable to get a working API key for testing)
+\end{itemize}
+
+All three tested API’s work on the same base, a http request contains the source language (all tested API also have an auto detect function to detect the source language, either as seperate request or build in the same request), the target language and the text to be translated. The response contains a json object with the translated text. The Microsoft Translate API was able to translate text into multiple languages. The others require multiple requests. At the end the team decided on using yandex\footnote{\url{https://translate.yandex.com/}} since it was the most lightweight solution and the API key was easy to obtain\footnote{It allows to send more data , microsoft and google allow 5.000 characters yandex allows 10.000}.
+As a result, messages prior to sending can be translated into a set of given languages, and prior received or sent messages can be translated for view.
+\subsubsection{Emojis}
+To use emojis the authors used the emoji-mart library, a leightweight and easy-to-use library. The library contains an emoji-picker so that the user does not have to type the emoji or its corresponding codepoint into the text directly. Emojis picked will be appended to the already written text. The picker was wrapped in an extra component so that it can be used anywhere in the application.
+
+\subsection{Architecture}
+As an example the \texttt{Chat} component is composed of a \texttt{MessageList}, a \texttt{TextInput}, a \texttt{UserList} and a \texttt{Chatroom} component.
+The \texttt{TextInput} and the \texttt{Chatroom} component both use a component called \texttt{InputWithButton} which is just a custom input field with a button attached to it. Also a simple \texttt{Input} and a \texttt{Button} component was created. both are used by the \texttt{RegistrationForm} and the \texttt{LoginForm}.
+The usage of reusable components avoids duplicated code and results in a consistent appearance of the user interface.
+To keep the code organization clean, the redux actions which are dispatched inside a component are kept inside files that refer to the component. For example the actions dispatched in the chatroom component are defined in a file called chatroomActions.\footnote{In figure \ref{components} one can see an extract of the  created react components.}
+
+\subsection{Database Model}
+A \texttt{Chatroom} is created by a user and can be joined by multiple users. It consists of a name, which is its identifier, an array of messages and an array of users being member of the chat room. 
+However a \texttt{UserChat} is similar to a \texttt{Chatroom} but only handles the communication between two users. It is identifiable by an ID since it doesn’t need to have a name.\footnote{As depicted in figure \ref{dataModel} the database model consists of five different schemas.}
+The  \texttt{ChatUser} model stores the members of a  \texttt{Chatroom}. It includes a name, the mail address and a role. A user can either be the admin of the chat room or just a user.
+The  \texttt{User} model stores users of the application in general. Thus it also contains information like nickname and password.
+
+A  \texttt{Message} consists of a user, who wrote the message, the actual text and a timestamp defining the time when the message was sent.
+
+\subsection{Chat Communication}
+Figure \ref{chatCommunication} depicts the communication between frontend, REST API, database and Websocket, when the user performs chatroom actions.\footnote{Although the routes of the REST API are protected and only accessible with a valid access token, the  does not include the validation step in order to keep it clearer.}
+
+When the user navigates  to the route “Chat” on the frontend side, the client sends a request to the REST API to retrieve all chat rooms available. In the backend the chat rooms are fetched from the database and subsequently returned to the client.
+The chat rooms are rendered inside a list, so the user can select one.
+When the user opens a chat, a corresponding request is sent to the backend. The chat is identifiable by its name and can be fetched from the database.
+The REST API returns the chats inside the chat room, so that they can be rendered in the frontend.
+In order to receive messages in the selected chat room, the socket emits a “joinChatroom”-event, which makes the client leave the old room and join the new one.
+If the user sends a message inside a chat room, the websocket emits a “message”-event, containing information about the user, the chat room and the message. 
+The message is stored to the related chat room inside the database, so it can be retrieved later.
+The websocket on the backend side also emits a broadcast message event to all other connected clients, that are members of the room. For a full workflow see figure \ref{chatCommunication}.
+
+
+\subsection{Security}
+Security was not the primary focus on this project two features had to be implemented. The encryption of passwords and the ability to limit user actions to validated users. 
+\subsubsection{JWT}
+To identify that a user is logged in with valid credentials, jsonwebtoken\footnote{\url{https://www.rfc-editor.org/rfc/pdfrfc/rfc7519.txt.pdf}} are used. They are generated on successful login and stored in the redux state and are furthermore required for any action. If a call to the backend is received the token is verified, if the validation fails a 403 will be sent. For a full workflow see figure \ref{authflow}
+
+\subsubsection{Bcrypt}
+To secure the users password the password is encrypted with bcrypt\footnote{A  Future-Adaptable  Password  Scheme,”in USENIX Annual Technical Conferenc}. Bcrypt is a hashing function based on the blowfish cypher\footnote{\url{https://www.schneier.com/academic/archives/1994/09/description\_of\_a\_new.html}} with an adaptive cost. If an attack is likely the calculation rounds can be increased. Bcryptjs serves as the library that implements the bcrypt algorithms, the standard round cost of 10 and salt length of 10 were used.
+
+\subsection{Organization and Communication}
+The whole communication (beside the two-weekly mandatory lab session) was based on the services Slack and GitHub. Slack, a well-known cloud-based chat service, served as channel for any non-code related information or discussion. GitHub on the other hand served as hosting service for the project and organization of tickets. Every feature progress was handled by the GitHub-integrated Kanban board with the following stages:
+\begin{itemize}
+	\item Backlog
+	\item To Do (Sprint Backlog)
+	\item In Progress
+	\item To Review
+	\item In Review
+	\item Done
+\end{itemize}
+The basic stages “To Do”, “In Progress” and “Done” got expanded to realize a stronger splitting between short- and mid-/long-term ticket (two backlogs) and an independent structure for code reviews.
+By convention of the git-flow workflow\footnote{\url{https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow}}, after a team member assigned a ticket to himself and moving it into the stage “In Progress”, the member created a branch with a name linked to the ticket (e.g. “task-42-describing-text-about-ticket”). After realization of the ticket requirements, the member creates a pull-request to open the changes for code reviews.
+Code reviews were an intensively used progress, as at least one additional team member had to test and discuss the changes of the ticket on code level with the developing team member. No feature/bugfix was merged into the master branch without such an additional external approval. The team matrix can be found in table \ref{table:task-assignment}
+
