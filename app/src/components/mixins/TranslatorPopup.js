@@ -58,7 +58,11 @@ class TranslatorPopup extends React.Component {
         if (this.state.showTranslator) {
             return (
                 <div
-                    style={{ right: '-200px' }}
+                    style={{
+                        right: '300px',
+                        position: 'fixed',
+                        bottom: '200px',
+                    }}
                     className="c-translator popup-box"
                 >
                     <form>
