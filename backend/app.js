@@ -22,9 +22,11 @@ process.env['NODE_CONFIG_DIR'] = './config';
 const mongodbDatabase = process.env['MONGODB_DATABASE'] || 'chat';
 const mongodbPort = process.env['MONGODB_PORT'] || 27017;
 const mongodbHost = process.env['MONGODB_HOST'] || config.dbHost;
+const database =
+    'mongodb://' + mongodbHost + ':' + mongodbPort + '/' + mongodbDatabase;
 
 mongoose.connect(
-    'mongodb://' + mongodbHost + ':' + mongodbPort + '/' + mongodbDatabase,
+    database,
     {
         useNewUrlParser: true,
     }
